@@ -1,19 +1,19 @@
-# MissionRoom Lead-gen
+# Mission Room
 
-MissionRoom Lead-gen.
+A short web app for building an Immersive Project Controls session brief. Visitors choose a sector, a decision we have already run in a Mission Room, what sits on the three walls, and one pen action. They then copy a one-page brief.
+
+There is no ROI calculation in this app.
 
 ## Stack
 
 - React 19 + Vite
-- Vitest for model tests (`src/model/`)
-- Plain CSS (no framework) — terminal/HUD aesthetic
+- Plain CSS
 
 ## Development
 
 ```bash
 npm install
 npm run dev
-npm test
 ```
 
 ## Build
@@ -23,17 +23,3 @@ npm run build
 ```
 
 Outputs a static site to `dist/`.
-
-## Structure
-
-- `src/model/` — ROI calc engine, persistence, share encoding, assumptions copy
-- `src/components/` — Landing, QuickEstimate, AssumptionsPanel
-- `src/App.jsx` — boot sequence, guided input, reveal, explorer UI
-- `src/index.css` — styling
-- `src/main.jsx` — mount point
-
-## Session & sharing
-
-- Workspace auto-saves to `localStorage` (`fo-session-v1`)
-- **LINK** in the explorer header copies a URL with encoded inputs and scenarios
-- Optional “Skip this screen next time” on the landing page (`fo-skip-landing`)
