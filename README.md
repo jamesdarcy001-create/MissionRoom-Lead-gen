@@ -1,6 +1,6 @@
-# Field Ops — ROI Analysis Engine
+# MissionRoom Lead-gen
 
-A construction-sector ROI calculator: landing (quick / guided / resume) → optional animated reveal → interactive explorer with scenarios, assumptions, and share links.
+MissionRoom Lead-gen.
 
 ## Stack
 

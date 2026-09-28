@@ -24,7 +24,7 @@ export const PRESETS = {
 export const DEFAULTS = { projectValue: 150, duration: 24, state: "NSW" };
 
 export const DEFAULT_SCENARIO_NAMES = ["BASELINE", "OPTION A", "OPTION B"];
-/** Future Oracle P6 fork: add preset slots e.g. P6_ONLY vs P6_NOVADE without changing Novade defaults. */
+/** Add preset slots without changing MissionRoom Lead-gen defaults. */
 
 export const TIPS = {
   projectValue: "Total contract value in AUD millions",

@@ -728,8 +728,8 @@ function Boot({ onComplete }) {
   return (
     <div className="boot"><div className="boot-grid" /><div className="boot-glow" /><div className="boot-c">
       <img src={prescienceMark} alt="Prescience" className="boot-mark" />
-      <div className="boot-logo"><Scramble text="NOVADE" duration={800} trigger={1} /></div>
-      <div className="boot-sub"><Scramble text="FIELD MANAGEMENT · ROI" duration={600} trigger={1} /></div>
+      <div className="boot-logo"><Scramble text="MISSIONROOM" duration={800} trigger={1} /></div>
+      <div className="boot-sub"><Scramble text="LEAD-GEN" duration={600} trigger={1} /></div>
       <div className="boot-term">{lines.map(l => (<div key={l.idx} className={`boot-ln ${l.text.includes("OPERATIONAL") ? "boot-ok" : ""}`}><span className="boot-gt">›</span> <Scramble text={l.text} duration={l.text.includes("OPERATIONAL") ? 800 : 550} trigger={l.idx + 10} /></div>))}{!ready && lines.length > 0 && <span className="boot-cur">_</span>}</div>
       <div className="boot-bar-w"><div className="boot-bar-t"><div className="boot-bar-f" style={{ width: `${progress}%` }} /></div><span className="boot-pct">{progress}%</span></div>
       {ready && <div className="boot-rdy">▸ LAUNCHING</div>}
@@ -1540,7 +1540,7 @@ function Explorer({ initialData, restoreState, onRestart, theme, toggleTheme }) 
             x.fillText(`Prepared by: ${exportName || "n/a"}`, L, H - 90);
             x.fillText(`Date: ${new Date().toLocaleDateString("en-AU")}`, L, H - 58);
             x.textAlign = "right"; x.fillStyle = "rgba(255,255,255,0.2)"; x.font = `500 16px ${sans}`;
-            x.fillText("POWERED BY PRESCIENCE + NOVADE", R, H - 90);
+            x.fillText("MISSIONROOM LEAD-GEN", R, H - 90);
             x.fillText("INDICATIVE ANALYSIS · ALL FIGURES IN AUD", R, H - 58);
             x.fillText(`Model v${MODEL_VERSION}`, R, H - 32);
 
@@ -1584,7 +1584,7 @@ function Explorer({ initialData, restoreState, onRestart, theme, toggleTheme }) 
         <div className="hdr-l">
           <img src={prescienceMark} alt="Prescience Technology" title="Prescience Technology" className="hdr-mark" />
           <span className="hdr-div" />
-          <div className="hdr-title" title="Novade Field Management · ROI">Novade Field Management · ROI</div>
+          <div className="hdr-title" title="MissionRoom Lead-gen">MissionRoom Lead-gen</div>
         </div>
         <div className="hdr-tabs desk-show">
           <button className={`htab ${tab === "analysis" ? "htab-ac" : ""}`} onClick={e => { setTab("analysis"); e.target.blur(); }}>ANALYSIS</button>
@@ -1854,7 +1854,7 @@ function Explorer({ initialData, restoreState, onRestart, theme, toggleTheme }) 
       </div>
       {inactionToast && <InactionToast startTime={inactionToast} dailyLoss={r.dailyLoss} onDismiss={() => setInactionToast(null)} />}
       <AssumptionsPanel open={showAssumptions} onClose={() => setShowAssumptions(false)} inputs={{ ...inputs, state: selectedState }} results={r} />
-      <footer className="ftr"><span>Indicative analysis · Novade field benchmarks · AUD</span><span>Prescience Technology · Model v{MODEL_VERSION}</span></footer>
+      <footer className="ftr"><span>MissionRoom Lead-gen</span><span>MissionRoom Lead-gen · Model v{MODEL_VERSION}</span></footer>
     </div>
   );
 }

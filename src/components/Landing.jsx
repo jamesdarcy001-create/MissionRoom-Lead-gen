@@ -25,9 +25,9 @@ export default function Landing({ onQuick, onGuided, onResume, skipIntro, onSkip
       <div className="land-inner">
         <img src={prescienceMark} alt="Prescience Technology" className="boot-mark land-mark land-in land-i0" />
         <div className="land-kicker land-in land-i1">Prescience Technology</div>
-        <h1 className="land-title land-in land-i2">Novade Field Management</h1>
+        <h1 className="land-title land-in land-i2">MissionRoom Lead-gen</h1>
         <p className="land-lead land-in land-i3">
-          ROI calculator for Prescience clients evaluating Novade on site. Rough numbers are fine; refine in the dashboard.
+          MissionRoom Lead-gen
         </p>
 
         <div className="land-cards">
@@ -68,7 +68,7 @@ export default function Landing({ onQuick, onGuided, onResume, skipIntro, onSkip
           <span>Skip this screen next time and open straight to the dashboard</span>
         </label>
       </div>
-      <div className="gi-footer land-foot">Novade · Prescience Technology · AUD</div>
+      <div className="gi-footer land-foot">MissionRoom Lead-gen</div>
     </div>
   );
 }
