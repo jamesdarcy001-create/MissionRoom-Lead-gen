@@ -1,0 +1,2483 @@
+{
+  "meta": {
+    "system_name": "Calm Technical Showcase Motion",
+    "summary": "A dark, restrained B2B landing experience where motion does two jobs: it eases content in with long, low-travel expo-out fades, and it demonstrates the product through a scripted, looping illustration that shows cause and effect step by step. Interactive chrome is deliberately quiet: hovers swap colour or border on a gently damped spring, nothing lifts or scales, and every scroll reveal fires once and stays put. Choreography is container-driven: one trigger per section, children staggered by index, numbers counting up only after their frame has grown in. The UX is a single long page with a persistent booking call to action and anchor navigation, with conversion handed off to external tools.",
+    "inputs_used": {
+      "live_url": true,
+      "recordings": 0,
+      "screenshots": 0
+    },
+    "platform": "web",
+    "product_type": "marketing site (single-page B2B SaaS landing page)",
+    "confidence_overall": "high"
+  },
+  "principles": [
+    {
+      "principle": "Opacity leads, distance whispers",
+      "description": "Reveals travel 4 to 24px at most and rely on long expo-out tails (0.8 to 2s) so content appears to settle rather than arrive.",
+      "how_to_apply": "Use ease-out-expo with reveal offsets of 4px for display text, 16px for dense grids and 24px for cards. Never exceed 24px of vertical travel on a scroll reveal.",
+      "applies_to": [
+        "motion"
+      ]
+    },
+    {
+      "principle": "Demonstrate, do not decorate",
+      "description": "The biggest motion budget goes into a scripted product illustration that shows an input being parsed, items extracted, carried to their destination and confirmed.",
+      "how_to_apply": "Build explanatory animations as timelines of discrete states with a clear source, travel and confirmation beat, then hold the end state for about 3.2s before looping.",
+      "applies_to": [
+        "motion",
+        "ux"
+      ]
+    },
+    {
+      "principle": "Quiet chrome",
+      "description": "Buttons and links respond with colour, border or fill changes only, on a soft spring (0.4s, bounce 0.2) or a 200ms tween.",
+      "how_to_apply": "No hover lift, scale or shadow growth on buttons. The only transform on hover is a single 360 degree icon rotation on media buttons.",
+      "applies_to": [
+        "motion",
+        "ux"
+      ]
+    },
+    {
+      "principle": "One trigger per section",
+      "description": "Each section observes its container once and staggers children by index, so a whole block reads as one gesture.",
+      "how_to_apply": "Attach a single IntersectionObserver (threshold 0.15, or 0.3 for stat blocks) to the section wrapper and delay children by index times 90ms.",
+      "applies_to": [
+        "motion"
+      ]
+    },
+    {
+      "principle": "Reveal once, then get out of the way",
+      "description": "Scroll reveals never replay or reverse, so scrolling back up is calm. The single exception is a decorative separator that slides in and out.",
+      "how_to_apply": "Disconnect observers after the first intersection. Reserve repeatable enter and exit for purely decorative elements.",
+      "applies_to": [
+        "motion",
+        "ux"
+      ]
+    },
+    {
+      "principle": "Conversion is always one tap away",
+      "description": "The primary booking action sits in the fixed header and repeats after most major sections, usually paired with a secondary sign-in action.",
+      "how_to_apply": "Keep a compact primary CTA in the persistent nav and repeat a full-size primary plus secondary pair at the hero and final section, with single full-width CTA bands between.",
+      "applies_to": [
+        "ux"
+      ]
+    },
+    {
+      "principle": "Load settles fast and never blocks reading",
+      "description": "The hero sequence finishes in about 2.3s and starts from opacity 0.001 before hydration, so text is readable almost immediately.",
+      "how_to_apply": "Start hero motion within 30 to 400ms of first paint, use opacity-first reveals, and keep secondary actions on a short 400ms fade that lands last.",
+      "applies_to": [
+        "motion",
+        "ux"
+      ]
+    }
+  ],
+  "behaviour_keywords": [
+    "restrained",
+    "technical",
+    "deliberate",
+    "demonstrative",
+    "calm",
+    "precise",
+    "one-shot",
+    "editorial"
+  ],
+  "motion_system": {
+    "tech": {
+      "libraries": [
+        {
+          "name": "Framer (site builder runtime)",
+          "version": "generator build c81289c",
+          "evidence": "meta generator tag, framer runtime chunk, framer/appear inline JSON and inline appear-animator script",
+          "source": "code"
+        },
+        {
+          "name": "Framer Motion (bundled inside the Framer runtime as a motion chunk)",
+          "version": "unknown (minified bundle)",
+          "evidence": "motion chunk loaded; variants, whileHover-style gesture maps and duration-based springs in component code",
+          "source": "code"
+        },
+        {
+          "name": "lottie-web",
+          "version": "5.12.2",
+          "evidence": "script tag from a public CDN (included twice); window.lottie and window.bodymovin globals; svg renderer with xMidYMid slice",
+          "source": "code"
+        },
+        {
+          "name": "Custom React code components (CSS transitions, IntersectionObserver, requestAnimationFrame, setTimeout timelines)",
+          "version": "n/a",
+          "evidence": "heading reveal, grid reveal, stat block, type-on text and product-demo components read from page chunks",
+          "source": "code"
+        }
+      ],
+      "smooth_scroll": {
+        "enabled": false,
+        "library": "none (native scrolling); in-page anchors use a JS-animated scroll from the site runtime",
+        "settings": {
+          "anchor_scroll_duration_ms": 850,
+          "anchor_scroll_curve": "ease-in-out with a long settle tail (observed)",
+          "scroll_behavior_css": "auto"
+        }
+      },
+      "rendering": "mixed",
+      "page_transition_method": "none"
+    },
+    "personality": "restrained and editorial, with one richly choreographed explanatory illustration",
+    "tokens": {
+      "durations_ms": {
+        "instant": 0,
+        "fast": 200,
+        "base": 400,
+        "slow": 800,
+        "cinematic": 1200
+      },
+      "easings": [
+        {
+          "token": "ease-out-expo",
+          "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+          "usage": "All custom scroll reveals, hero character rise, stat block grow",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "ease-soft",
+          "value": "cubic-bezier(0.44, 0, 0.56, 1)",
+          "usage": "Load-appear fades, compact button and link colour transitions, separator slide, icon spin",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "ease-snap",
+          "value": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "usage": "Demo items appearing at their source and markers sliding to a new position",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "ease-travel",
+          "value": "cubic-bezier(0.55, 0, 0.25, 1)",
+          "usage": "Demo items travelling from source to destination",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "ease-out-cubic-js",
+          "value": "1 - (1 - t)^3 (JS, requestAnimationFrame)",
+          "usage": "Number count-up",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "css-ease-out",
+          "value": "ease-out",
+          "usage": "Demo micro-feedback keyframes (pop, flash, word-in, rise-in) and colour settles",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "linear",
+          "value": "linear",
+          "usage": "Ambient shine sweep and mobile logo ticker",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "ease-in-out-scroll",
+          "value": "approximately easeInOutCubic",
+          "usage": "In-page anchor scrolling",
+          "source": "observed",
+          "confidence": "medium"
+        }
+      ],
+      "springs": [
+        {
+          "token": "spring-soft",
+          "stiffness": 470,
+          "damping": 35,
+          "mass": 1,
+          "usage": "Default button hover, mobile menu open and close, hamburger-to-cross morph, widest-breakpoint pop-in. Exact source form is a duration-based spring { duration: 0.4s, bounce: 0.2 }; the stiffness and damping here are an approximate conversion, so prefer the duration and bounce form in Framer Motion."
+        }
+      ],
+      "stagger_ms": {
+        "tight": 30,
+        "base": 90,
+        "loose": 190
+      },
+      "distances": {
+        "reveal_offset": "24px for cards, 16px for dense grids, 4px for display characters, 3 to 4px for demo micro-entrances",
+        "hover_lift": "0px (no lift; hover is colour, border or fill only)",
+        "parallax_range": "none",
+        "slide_distance": "300px (decorative separator slides in from the left)"
+      },
+      "entrance_exit_ratio": "1:1 wherever an exit exists (hover out mirrors hover in; the separator slides out on the same 1s curve). Scroll reveals are one-shot with no exit."
+    },
+    "patterns": [
+      {
+        "name": "hero-heading-char-rise",
+        "category": "text",
+        "trigger": {
+          "type": "load",
+          "start": "30ms after mount",
+          "end": "last character settles about 2.3s later",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": true,
+          "by": "chars",
+          "mask": true,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "opacity": 0,
+              "transform": "translateY(4px)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "opacity": 1,
+              "transform": "translateY(0px)"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.hero_text",
+        "easing_token": "ease-out-expo",
+        "stagger_token": "stagger_ms.tight",
+        "delay_ms": 30,
+        "repeat": 0,
+        "exit_behaviour": "None. Characters stay visible.",
+        "interruptible": "Not re-triggerable; state flips once on mount.",
+        "applies_to": "Primary display heading on landing templates, including an inline logo glyph treated as one character.",
+        "responsive_differences": "Same timing at all breakpoints; only size changes.",
+        "reduced_motion_fallback": "Source has no reduced-motion branch here (only a 30ms mount timer). Recommended: render final state with no transition.",
+        "ux_purpose": "Signals craft and draws the eye to the value proposition first without delaying legibility, because travel is only 4px and opacity leads.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { useEffect, useState } from 'react';\n\n// Hero heading: per-character rise behind an overflow mask.\nexport function CharRise({ text, delay = 0, stagger = 30, distance = 4, duration = 2 }) {\n  const [on, setOn] = useState(false);\n  useEffect(() => {\n    const t = setTimeout(() => setOn(true), 30);\n    return () => clearTimeout(t);\n  }, []);\n  const words = text.split(' ');\n  let i = 0;\n  return (\n    <h1 aria-label={text} style={{ overflow: 'hidden', paddingBottom: '0.12em' }}>\n      {words.map((word, w) => (\n        <span key={w} aria-hidden=\"true\" style={{ display: 'inline-block', whiteSpace: 'pre' }}>\n          {[...(w < words.length - 1 ? word + '\\u00a0' : word)].map((ch) => {\n            const idx = i++;\n            return (\n              <span\n                key={idx}\n                style={{\n                  display: 'inline-block',\n                  opacity: on ? 1 : 0,\n                  transform: on ? 'translateY(0px)' : 'translateY(' + distance + 'px)',\n                  transition: 'opacity ' + duration + 's var(--ease-out-expo), transform ' + duration + 's var(--ease-out-expo)',\n                  transitionDelay: delay + idx * stagger + 'ms',\n                  willChange: 'opacity, transform'\n                }}\n              >\n                {ch}\n              </span>\n            );\n          })}\n        </span>\n      ))}\n    </h1>\n  );\n}"
+      },
+      {
+        "name": "hero-sequenced-fade",
+        "category": "load",
+        "trigger": {
+          "type": "load",
+          "start": "first paint (pre-hydration appear script)",
+          "end": "about 2.0s",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "opacity": 0.001
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "opacity": 1
+            }
+          }
+        ],
+        "duration_token": "durations_ms.cinematic",
+        "easing_token": "ease-soft",
+        "stagger_token": "extensions.motion_tokens_extra.load_offsets_ms",
+        "delay_ms": 400,
+        "repeat": 0,
+        "exit_behaviour": "None.",
+        "interruptible": "Not re-triggerable.",
+        "applies_to": "Hero subline (400ms delay, 1200ms), hero action group (600ms delay, 1200ms), and one action inside the group on a short late fade (1000ms delay, 400ms).",
+        "responsive_differences": "Identical values across all four breakpoints.",
+        "reduced_motion_fallback": "Framer appear effects can be configured to respect reduced motion but this could not be verified live. Recommended: show immediately.",
+        "ux_purpose": "Establishes reading order: headline, then supporting line, then actions, so the call to action lands once the promise is understood.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { motion } from 'motion/react';\n\nconst soft = [0.44, 0, 0.56, 1];\n\n// Opacity-only load sequence under the hero heading. 0.001 (not 0) keeps nodes paint-eligible.\nexport function HeroSequence({ subline, primaryAction, secondaryAction }) {\n  return (\n    <div>\n      <motion.p initial={{ opacity: 0.001 }} animate={{ opacity: 1 }} transition={{ delay: 0.4, duration: 1.2, ease: soft }}>\n        {subline}\n      </motion.p>\n      <motion.div initial={{ opacity: 0.001 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 1.2, ease: soft }}>\n        {primaryAction}\n        <motion.span style={{ display: 'inline-block' }} initial={{ opacity: 0.001 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 0.4, ease: soft }}>\n          {secondaryAction}\n        </motion.span>\n      </motion.div>\n    </div>\n  );\n}"
+      },
+      {
+        "name": "card-grid-rise",
+        "category": "scroll-reveal",
+        "trigger": {
+          "type": "in-view",
+          "start": "15% of the grid container visible",
+          "end": "n/a",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "opacity": 0,
+              "transform": "translateY(24px)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "opacity": 1,
+              "transform": "translateY(0px)"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.slower",
+        "easing_token": "ease-out-expo",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "None; observer disconnects after first reveal.",
+        "interruptible": "No. Scrolling away mid-reveal lets the transition finish.",
+        "applies_to": "Numbered step grids (16px offset, 1500ms), two-column feature cards (24px, 1000ms), role or use-case lists (24px, 1000ms). Component default is 24px and 800ms.",
+        "responsive_differences": "Column count comes from container width (1 column under 600px, 2 under 960px, 4 above), so stagger order follows DOM order and reads top to bottom on phones.",
+        "reduced_motion_fallback": "The grid component short-circuits the reveal through a runtime hook (likely reduced-motion or static render, not verified). Recommended: render shown state.",
+        "ux_purpose": "Groups a section into one readable gesture and walks the eye across items in reading order.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { useRevealOnce } from './motion-presets';\n\n// One observer on the container; children stagger by index.\nexport function RevealGrid({ items, distance = 24, duration = 1, stagger = 90, threshold = 0.15 }) {\n  const [ref, shown] = useRevealOnce(threshold);\n  return (\n    <div ref={ref} className=\"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4\">\n      {items.map((item, i) => (\n        <div\n          key={i}\n          style={{\n            opacity: shown ? 1 : 0,\n            transform: shown ? 'translateY(0px)' : 'translateY(' + distance + 'px)',\n            transition: 'opacity ' + duration + 's var(--ease-out-expo), transform ' + duration + 's var(--ease-out-expo)',\n            transitionDelay: i * stagger + 'ms'\n          }}\n        >\n          {item}\n        </div>\n      ))}\n    </div>\n  );\n}"
+      },
+      {
+        "name": "lottie-in-view-play",
+        "category": "scroll-reveal",
+        "trigger": {
+          "type": "in-view",
+          "start": "15% visible (feature cards) or on load with loop (step grid)",
+          "end": "animation end",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "frame": "first"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "frame": "last"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.lottie_native",
+        "easing_token": "linear",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 120,
+        "repeat": 0,
+        "exit_behaviour": "Holds last frame (play-once cards) or keeps looping (step grid illustrations).",
+        "interruptible": "Plays once per page view; not restarted by re-entry.",
+        "applies_to": "Illustration slot inside numbered feature cards and step cards.",
+        "responsive_differences": "Illustration width drops to 90% on narrow cards.",
+        "reduced_motion_fallback": "Not handled in source. Recommended: jump to final frame.",
+        "ux_purpose": "Each card illustrates its idea at the moment it is read; the delay equals the card stagger so the illustration starts as its card finishes arriving.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { useEffect, useRef, useState } from 'react';\nimport lottie from 'lottie-web';\nimport { useRevealOnce } from './motion-presets';\n\n// Plays once when its card reveals, offset by the card's stagger slot.\nexport function InViewLottie({ src, index = 0, stagger = 90, loop = false }) {\n  const box = useRef(null);\n  const anim = useRef(null);\n  const [ready, setReady] = useState(false);\n  const [ref, shown] = useRevealOnce(0.15);\n  useEffect(() => {\n    const a = lottie.loadAnimation({ container: box.current, renderer: 'svg', loop: loop, autoplay: false, path: src, rendererSettings: { preserveAspectRatio: 'xMidYMid slice' } });\n    anim.current = a;\n    a.addEventListener('DOMLoaded', () => setReady(true));\n    return () => a.destroy();\n  }, [src, loop]);\n  useEffect(() => {\n    if (!shown || !ready) return;\n    const a = anim.current;\n    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {\n      a.goToAndStop(a.getDuration(true) - 1, true);\n      return;\n    }\n    const t = setTimeout(() => a.goToAndPlay(0, true), Math.max(index * stagger, 120));\n    return () => clearTimeout(t);\n  }, [shown, ready, index, stagger]);\n  return (\n    <div ref={ref} style={{ position: 'relative', aspectRatio: '1 / 1' }}>\n      <div ref={box} style={{ position: 'absolute', inset: 0 }} />\n      {!ready && <div aria-hidden=\"true\" style={{ position: 'absolute', inset: 0, background: 'var(--color-placeholder)' }} />}\n    </div>\n  );\n}"
+      },
+      {
+        "name": "stat-block-grow-count",
+        "category": "number",
+        "trigger": {
+          "type": "in-view",
+          "start": "30% of block visible",
+          "end": "count completes about 1.5s after trigger",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "chars",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "scale(0.0001)",
+              "transformOrigin": "bottom left",
+              "markers_opacity": 0,
+              "label_opacity": 0,
+              "value": 0
+            }
+          },
+          {
+            "offset": 0.5,
+            "properties": {
+              "label_opacity": "fading in"
+            }
+          },
+          {
+            "offset": 0.6,
+            "properties": {
+              "markers_opacity": "fading in"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "scale(1)",
+              "markers_opacity": 1,
+              "label_opacity": 1,
+              "value": "target"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.grow",
+        "easing_token": "ease-out-expo",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 20,
+        "repeat": 0,
+        "exit_behaviour": "None.",
+        "interruptible": "No.",
+        "applies_to": "Headline metric blocks. Grow 600ms (1000ms at one breakpoint); corner markers fade over 300ms after 60% of grow; label fades over 400ms after 50% of grow; number counts over 1200ms with ease-out-cubic after a 300ms hold.",
+        "responsive_differences": "Grow duration lengthens to 1000ms at the 1440px-and-up layout where the block is largest.",
+        "reduced_motion_fallback": "Not handled in source. Recommended: show final value and full-size block.",
+        "ux_purpose": "Makes a single proof point feel earned: the frame claims space first, then the number climbs, which holds attention for about 1.5s on the key metric.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { useEffect, useState } from 'react';\nimport { useRevealOnce } from './motion-presets';\n\nconst easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);\n\n// Block grows from its bottom-left corner, markers and label fade in, then the number counts up.\nexport function StatBlock({ value = 100, suffix = '%', label, grow = 0.6, count = 1.2, countDelay = 0.3 }) {\n  const [ref, shown] = useRevealOnce(0.3);\n  const [n, setN] = useState(0);\n  useEffect(() => {\n    if (!shown) return;\n    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setN(value); return; }\n    let raf;\n    let start = null;\n    const tick = (now) => {\n      if (start === null) start = now;\n      const t = now - start - countDelay * 1000;\n      if (t < 0) { raf = requestAnimationFrame(tick); return; }\n      const p = Math.min(t / (count * 1000), 1);\n      setN(value * easeOutCubic(p));\n      if (p < 1) raf = requestAnimationFrame(tick);\n    };\n    raf = requestAnimationFrame(tick);\n    return () => cancelAnimationFrame(raf);\n  }, [shown, value, count, countDelay]);\n  return (\n    <div ref={ref} style={{ overflow: 'hidden' }}>\n      <div style={{ position: 'relative', display: 'flex', transformOrigin: 'bottom left', transform: shown ? 'scale(1)' : 'scale(0.0001)', transition: 'transform ' + grow + 's var(--ease-out-expo)' }}>\n        {['tl', 'tr', 'bl', 'br'].map((c) => (\n          <span key={c} aria-hidden=\"true\" className={'stat-marker stat-marker-' + c} style={{ opacity: shown ? 1 : 0, transition: 'opacity 0.3s ease ' + grow * 0.6 + 's' }} />\n        ))}\n        <span aria-hidden=\"true\" style={{ fontVariantNumeric: 'tabular-nums' }}>{Math.round(n)}{suffix}</span>\n        <span className=\"sr-only\">{value}{suffix}</span>\n        <span style={{ opacity: shown ? 1 : 0, transition: 'opacity 0.4s ease ' + grow * 0.5 + 's' }}>{label}</span>\n      </div>\n    </div>\n  );\n}"
+      },
+      {
+        "name": "scramble-type-on",
+        "category": "text",
+        "trigger": {
+          "type": "in-view",
+          "start": "any pixel visible",
+          "end": "about 744ms later",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": true,
+          "by": "chars",
+          "mask": false,
+          "order": "end"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "content": "random glyphs of the same length"
+            }
+          },
+          {
+            "offset": 0.01,
+            "properties": {
+              "content": "empty (type-on mode drops unresolved characters)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "content": "final string"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.type_on",
+        "easing_token": "linear",
+        "stagger_token": "stagger_ms.tight",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "None.",
+        "interruptible": "No; runs once.",
+        "applies_to": "Monospaced captions under stat blocks, right aligned, resolving from the right edge.",
+        "responsive_differences": "None found.",
+        "reduced_motion_fallback": "Not handled in source. Recommended: show final text.",
+        "ux_purpose": "Adds a machine-readout flavour that ties supporting claims to the product character while keeping the key number static and legible.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { useEffect, useRef, useState } from 'react';\nimport { useRevealOnce } from './motion-presets';\n\nconst GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';\nconst rand = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)];\nconst scramble = (s) => [...s].map((c) => (c === ' ' ? ' ' : rand())).join('');\n// speed 1..100 maps to 2500ms..300ms; the source uses 80 (about 744ms).\nconst durationFor = (speed) => 2500 - ((Math.min(100, Math.max(1, speed)) - 1) / 99) * 2200;\n\nexport function TypeOnText({ text, speed = 80, from = 'right', mode = 'typeOn', align = 'right' }) {\n  const [ref, shown] = useRevealOnce(0.01);\n  const [out, setOut] = useState(() => scramble(text));\n  const raf = useRef(0);\n  useEffect(() => {\n    if (!shown) return;\n    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setOut(text); return; }\n    let order = Array.from({ length: text.length }, (_, i) => i);\n    if (from === 'right') order.reverse();\n    if (from === 'center') {\n      const mid = (text.length - 1) / 2;\n      order.sort((a, b) => Math.abs(a - mid) - Math.abs(b - mid));\n    }\n    const dur = durationFor(speed);\n    const t0 = performance.now();\n    const step = (now) => {\n      const p = Math.min(1, (now - t0) / dur);\n      const done = new Set(order.slice(0, Math.floor(p * order.length)));\n      let s = '';\n      for (let i = 0; i < text.length; i++) {\n        if (text[i] === ' ') s += ' ';\n        else if (done.has(i)) s += text[i];\n        else if (mode === 'scramble') s += rand();\n      }\n      setOut(s);\n      if (p < 1) raf.current = requestAnimationFrame(step);\n      else setOut(text);\n    };\n    raf.current = requestAnimationFrame(step);\n    return () => cancelAnimationFrame(raf.current);\n  }, [shown, text, speed, from, mode]);\n  return (\n    <p ref={ref} style={{ whiteSpace: 'pre-wrap', textAlign: align }}>\n      <span className=\"sr-only\">{text}</span>\n      <span aria-hidden=\"true\">{out}</span>\n    </p>\n  );\n}"
+      },
+      {
+        "name": "separator-slide",
+        "category": "scroll-reveal",
+        "trigger": {
+          "type": "in-view",
+          "start": "50% visible",
+          "end": "n/a",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "translateX(-300px)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "translateX(0px)"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.slower",
+        "easing_token": "ease-soft",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": -1,
+        "exit_behaviour": "Slides back to -300px on the same 1s curve when it leaves the viewport; replays on re-entry. One breakpoint override sets it to play once.",
+        "interruptible": "Yes; reverses from its current position.",
+        "applies_to": "Decorative dashed or patterned divider between sections (element is twice the viewport width so the offset never exposes an edge).",
+        "responsive_differences": "Appear effect disabled at the phone breakpoint; once-only at the widest breakpoint.",
+        "reduced_motion_fallback": "Not handled in source. Recommended: static divider.",
+        "ux_purpose": "Marks a chapter break with a sense of forward movement without competing with content.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { motion } from 'motion/react';\n\n// Slides in from the left each time it is half visible; slides back out when it leaves.\nexport function SeparatorSlide({ children }) {\n  return (\n    <motion.div\n      initial={{ x: -300 }}\n      whileInView={{ x: 0 }}\n      viewport={{ amount: 0.5, once: false }}\n      transition={{ duration: 1, ease: [0.44, 0, 0.56, 1] }}\n    >\n      {children}\n    </motion.div>\n  );\n}"
+      },
+      {
+        "name": "spring-pop-in",
+        "category": "scroll-reveal",
+        "trigger": {
+          "type": "in-view",
+          "start": "element enters viewport",
+          "end": "about 400ms",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "opacity": 0.001,
+              "transform": "translateY(50px) scale(0.5)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "opacity": 1,
+              "transform": "translateY(0) scale(1)"
+            }
+          }
+        ],
+        "duration_token": "durations_ms.base",
+        "easing_token": "spring-soft",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "None.",
+        "interruptible": "No.",
+        "applies_to": "A single emphasis card in the metrics section, widest breakpoint only.",
+        "responsive_differences": "Only defined at 1440px and up; other breakpoints render it statically.",
+        "reduced_motion_fallback": "Recommended: static.",
+        "ux_purpose": "One deliberate moment of physicality to spotlight a metric; rarity is what makes it work.",
+        "source": "code",
+        "confidence": "medium",
+        "snippet": "import { motion } from 'motion/react';\n\nexport function SpringPop({ children }) {\n  return (\n    <motion.div\n      initial={{ opacity: 0.001, scale: 0.5, y: 50 }}\n      whileInView={{ opacity: 1, scale: 1, y: 0 }}\n      viewport={{ once: true }}\n      transition={{ type: 'spring', duration: 0.4, bounce: 0.2 }}\n    >\n      {children}\n    </motion.div>\n  );\n}"
+      },
+      {
+        "name": "button-hover-spring-fill",
+        "category": "hover",
+        "trigger": {
+          "type": "hover",
+          "start": "pointerenter",
+          "end": "pointerleave",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "backgroundColor": "{color.brand}"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "backgroundColor": "{color.brand-hover}"
+            }
+          }
+        ],
+        "duration_token": "durations_ms.base",
+        "easing_token": "spring-soft",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Returns to rest on the same spring (1:1).",
+        "interruptible": "Yes; spring retargets from current value.",
+        "applies_to": "Full-size primary (fill deepens, border removed), secondary and hollow buttons (border and label shift to {color.brand}).",
+        "responsive_differences": "Hover only on pointer devices; touch gets no pressed state.",
+        "reduced_motion_fallback": "Colour change can stay; it is not motion.",
+        "ux_purpose": "Confirms the element is actionable with a calm, non-bouncy acknowledgement that fits the technical tone.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { motion } from 'motion/react';\n\nconst spring = { type: 'spring', duration: 0.4, bounce: 0.2 };\n\nexport function PrimaryButton({ href, children }) {\n  return (\n    <motion.a\n      href={href}\n      className=\"inline-flex items-center justify-center\"\n      style={{ backgroundColor: 'var(--color-brand)' }}\n      whileHover={{ backgroundColor: 'var(--color-brand-hover)' }}\n      transition={spring}\n    >\n      {children}\n    </motion.a>\n  );\n}\n\nexport function SecondaryButton({ href, children }) {\n  return (\n    <motion.a\n      href={href}\n      className=\"inline-flex items-center justify-center border\"\n      style={{ borderColor: 'var(--color-border)', color: 'var(--color-fg)' }}\n      whileHover={{ borderColor: 'var(--color-brand)', color: 'var(--color-brand)' }}\n      transition={spring}\n    >\n      {children}\n    </motion.a>\n  );\n}"
+      },
+      {
+        "name": "compact-button-hover",
+        "category": "hover",
+        "trigger": {
+          "type": "hover",
+          "start": "pointerenter",
+          "end": "pointerleave",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "backgroundColor": "transparent"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "backgroundColor": "{color.brand}"
+            }
+          }
+        ],
+        "duration_token": "durations_ms.fast",
+        "easing_token": "ease-soft",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Mirrors entrance.",
+        "interruptible": "Yes.",
+        "applies_to": "Header outline CTA (fills on hover), small brand buttons, plain-text header link. One small secondary variant changes instantly (0ms).",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Unchanged (colour only).",
+        "ux_purpose": "Snappier feedback where the target is small and frequently used, so the header feels responsive.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "/* Compact buttons (header CTA, small brand buttons): short tween, no spring. */\n.btn-compact {\n  transition: background-color 200ms var(--ease-soft), color 200ms var(--ease-soft), border-color 200ms var(--ease-soft);\n}\n.btn-compact:hover {\n  background-color: var(--color-brand);\n}\n.btn-compact:focus-visible {\n  outline: 2px solid var(--color-focus);\n  outline-offset: 2px;\n}"
+      },
+      {
+        "name": "icon-button-spin",
+        "category": "hover",
+        "trigger": {
+          "type": "hover",
+          "start": "pointerenter",
+          "end": "pointerleave",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "rotate": "0deg"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "rotate": "360deg"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.slower",
+        "easing_token": "ease-soft",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Rotates back to 0 on leave over 1s.",
+        "interruptible": "Yes; reverses from current angle.",
+        "applies_to": "Media or play-style buttons with a leading circular icon.",
+        "responsive_differences": "Pointer only.",
+        "reduced_motion_fallback": "Recommended: drop rotation, keep colour.",
+        "ux_purpose": "Hints that this action starts playback, distinct from navigation buttons.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { motion } from 'motion/react';\n\nconst soft = [0.44, 0, 0.56, 1];\n\nexport function IconButton({ href, icon, children }) {\n  return (\n    <motion.a href={href} initial=\"rest\" animate=\"rest\" whileHover=\"hover\" className=\"inline-flex items-center\">\n      <motion.span\n        aria-hidden=\"true\"\n        style={{ display: 'inline-flex' }}\n        variants={{ rest: { rotate: 0 }, hover: { rotate: 360 } }}\n        transition={{ duration: 1, ease: soft }}\n      >\n        {icon}\n      </motion.span>\n      <motion.span variants={{ rest: { color: 'var(--color-fg)' }, hover: { color: 'var(--color-brand)' } }} transition={{ duration: 1, ease: soft }}>\n        {children}\n      </motion.span>\n    </motion.a>\n  );\n}"
+      },
+      {
+        "name": "text-link-colour",
+        "category": "hover",
+        "trigger": {
+          "type": "hover",
+          "start": "pointerenter",
+          "end": "pointerleave",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "color": "{color.link}"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "color": "{color.link-hover}"
+            }
+          }
+        ],
+        "duration_token": "durations_ms.fast",
+        "easing_token": "ease-soft",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Mirrors entrance.",
+        "interruptible": "Yes.",
+        "applies_to": "Nav links, footer links, inline rich-text links (150ms in denser link styles).",
+        "responsive_differences": "On touch the hover colour sticks after tap until focus moves (observed in the mobile menu).",
+        "reduced_motion_fallback": "Unchanged.",
+        "ux_purpose": "Minimal affordance that keeps navigation quiet.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "a.text-link {\n  transition: color 200ms var(--ease-soft);\n}\na.text-link:hover {\n  color: var(--color-link-hover);\n}\na.text-link--dense {\n  transition-duration: 150ms;\n}"
+      },
+      {
+        "name": "anchor-smooth-scroll",
+        "category": "page-transition",
+        "trigger": {
+          "type": "click",
+          "start": "anchor click",
+          "end": "target reached",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "scrollY": "current"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "scrollY": "section top minus header clearance"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.anchor_scroll",
+        "easing_token": "ease-in-out-scroll",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "n/a",
+        "interruptible": "User scrolling takes over (standard behaviour; not explicitly tested).",
+        "applies_to": "Header and mobile-menu links to in-page sections; URL hash updates.",
+        "responsive_differences": "Same on mobile; the mobile menu does not close first, so it covers the arrival point.",
+        "reduced_motion_fallback": "Not verified in source. Recommended: jump instantly.",
+        "ux_purpose": "Preserves spatial context: the user sees they moved down the same page rather than to a new one.",
+        "source": "observed",
+        "confidence": "medium",
+        "snippet": "// Eased JS scroll for in-page anchors. Curve and duration match the observed profile (slow start, long settle).\nexport function smoothScrollTo(selector, offset = 0, duration = 850) {\n  const el = document.querySelector(selector);\n  if (!el) return;\n  const startY = window.scrollY;\n  const endY = el.getBoundingClientRect().top + startY - offset;\n  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {\n    window.scrollTo(0, endY);\n    return;\n  }\n  const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);\n  const t0 = performance.now();\n  const step = (now) => {\n    const p = Math.min(1, (now - t0) / duration);\n    window.scrollTo(0, startY + (endY - startY) * ease(p));\n    if (p < 1) requestAnimationFrame(step);\n  };\n  requestAnimationFrame(step);\n}\n\ndocument.addEventListener('click', (e) => {\n  const a = e.target.closest('a[href^=\"#\"]');\n  if (!a) return;\n  e.preventDefault();\n  history.pushState(null, '', a.getAttribute('href'));\n  smoothScrollTo(a.getAttribute('href'), 96);\n});"
+      },
+      {
+        "name": "mobile-menu-expand",
+        "category": "overlay",
+        "trigger": {
+          "type": "click",
+          "start": "toggle tap",
+          "end": "panel settled",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "height": "bar height",
+              "bar1_rotate": "0deg",
+              "bar2_rotate": "0deg"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "height": "auto (panel with stacked links and full-width CTA)",
+              "bar1_rotate": "45deg",
+              "bar2_rotate": "-45deg",
+              "bar_colour": "{color.fg}"
+            }
+          }
+        ],
+        "duration_token": "durations_ms.base",
+        "easing_token": "spring-soft",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Collapses on the same spring when the toggle is tapped again.",
+        "interruptible": "Yes; variant change retargets the spring.",
+        "applies_to": "Header below 810px wide.",
+        "responsive_differences": "Desktop shows inline links instead.",
+        "reduced_motion_fallback": "Recommended: instant open and close.",
+        "ux_purpose": "Keeps the user anchored to the header they tapped (the bar grows rather than a new layer sliding over), with the booking CTA prominent inside the menu.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { useEffect, useState } from 'react';\nimport { motion, AnimatePresence } from 'motion/react';\n\nconst spring = { type: 'spring', duration: 0.4, bounce: 0.2 };\n\n// In-place expanding nav panel. Bars rotate into a cross; the panel grows from the bar downwards.\nexport function MobileNav({ links, cta }) {\n  const [open, setOpen] = useState(false);\n  useEffect(() => {\n    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };\n    document.addEventListener('keydown', onKey);\n    return () => document.removeEventListener('keydown', onKey);\n  }, []);\n  return (\n    <header style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 10 }}>\n      <div className=\"flex items-center justify-between\">\n        <a href=\"/\" aria-label=\"Home\" />\n        <button\n          type=\"button\"\n          aria-expanded={open}\n          aria-controls=\"mobile-menu\"\n          aria-label={open ? 'Close menu' : 'Open menu'}\n          onClick={() => setOpen(!open)}\n          style={{ position: 'relative', width: 44, height: 44 }}\n        >\n          <motion.span className=\"menu-bar\" animate={{ rotate: open ? 45 : 0, y: open ? 0 : -4 }} transition={spring} />\n          <motion.span className=\"menu-bar\" animate={{ rotate: open ? -45 : 0, y: open ? 0 : 4 }} transition={spring} />\n        </button>\n      </div>\n      <AnimatePresence initial={false}>\n        {open && (\n          <motion.nav\n            id=\"mobile-menu\"\n            aria-label=\"Main\"\n            style={{ overflow: 'hidden' }}\n            initial={{ height: 0 }}\n            animate={{ height: 'auto' }}\n            exit={{ height: 0 }}\n            transition={spring}\n          >\n            <ul>\n              {links.map((l) => (\n                <li key={l.href}>\n                  <a href={l.href} onClick={() => setOpen(false)}>{l.label}</a>\n                </li>\n              ))}\n            </ul>\n            {cta}\n          </motion.nav>\n        )}\n      </AnimatePresence>\n    </header>\n  );\n}"
+      },
+      {
+        "name": "logo-ticker",
+        "category": "background",
+        "trigger": {
+          "type": "load",
+          "start": "mount",
+          "end": "never",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "translateX(0)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "translateX(-50%)"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.velocity.ticker_px_per_s",
+        "easing_token": "linear",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": -1,
+        "exit_behaviour": "n/a",
+        "interruptible": "No hover slow-down (hover modifier 100%), not draggable.",
+        "applies_to": "Social-proof logo row, phone breakpoint only; static centred row on wider screens.",
+        "responsive_differences": "Only active under 810px where the row would overflow.",
+        "reduced_motion_fallback": "Not verified in source. Recommended: static scrollable row.",
+        "ux_purpose": "Fits a long proof row into a narrow screen without wrapping or shrinking logos.",
+        "source": "code",
+        "confidence": "medium",
+        "snippet": "/* Mobile-only logo ticker: constant 20px/s, linear, no hover slow-down, not draggable. */\n.ticker { overflow: hidden; }\n.ticker__track { display: flex; width: max-content; animation: ticker var(--ticker-duration, 40s) linear infinite; }\n@keyframes ticker { to { transform: translateX(-50%); } }\n@media (min-width: 810px) { .ticker__track { animation: none; } .ticker__clone { display: none; } }\n@media (prefers-reduced-motion: reduce) { .ticker__track { animation: none; } }\n\n/* JS: duplicate the item set once (clones get aria-hidden=\"true\" and class ticker__clone), then derive duration from velocity.\nconst track = document.querySelector('.ticker__track');\ntrack.style.setProperty('--ticker-duration', track.scrollWidth / 2 / 20 + 's');\n*/"
+      },
+      {
+        "name": "product-demo-scripted-loop",
+        "category": "loader",
+        "trigger": {
+          "type": "timer",
+          "start": "mount (not gated by visibility)",
+          "end": "last step plus 3200ms hold, then restarts",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "words",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "state": "idle placeholder"
+            }
+          },
+          {
+            "offset": 0.2,
+            "properties": {
+              "state": "source rows populate: first at 500ms, then every 2100ms, sub-beats at 0/550/1050/1450/2250ms"
+            }
+          },
+          {
+            "offset": 0.5,
+            "properties": {
+              "state": "query phase: listening indicator, words stream at 190ms each"
+            }
+          },
+          {
+            "offset": 0.8,
+            "properties": {
+              "state": "results reveal one by one every 850ms"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "state": "hold 3200ms, reset, loop"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.demo_hold",
+        "easing_token": "ease-snap",
+        "stagger_token": "stagger_ms.loose",
+        "delay_ms": 500,
+        "repeat": -1,
+        "exit_behaviour": "Resets to the initial state and replays (keyed by cycle count so CSS animations restart).",
+        "interruptible": "No user interaction; decorative overlays have pointer-events none.",
+        "applies_to": "Hero product illustration and similar explainer panels (exposed to assistive tech as a single image with a descriptive label).",
+        "responsive_differences": "Canvas is a fixed-size design scaled to container width via ResizeObserver (scale = width / design width), so timing and layout are identical at every size.",
+        "reduced_motion_fallback": "Implemented in source: listens to prefers-reduced-motion and jumps every counter to its final state with animations set to none.",
+        "ux_purpose": "Explains an abstract product in seconds by showing input becoming structured output, reducing the need to read.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { useEffect, useState } from 'react';\n\n// Declare STEPS outside the component so the array identity is stable.\nexport const STEPS = [500, 1050, 1550, 1950, 2750];\n\nexport function useScriptedLoop(steps, hold = 3200) {\n  const [cycle, setCycle] = useState(0);\n  const [step, setStep] = useState(0);\n  const [reduced, setReduced] = useState(false);\n  useEffect(() => {\n    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');\n    setReduced(mq.matches);\n    const onChange = () => setReduced(mq.matches);\n    mq.addEventListener('change', onChange);\n    return () => mq.removeEventListener('change', onChange);\n  }, []);\n  useEffect(() => {\n    if (reduced) { setStep(steps.length); return; }\n    setStep(0);\n    const timers = steps.map((at, i) => setTimeout(() => setStep(i + 1), at));\n    timers.push(setTimeout(() => setCycle((c) => c + 1), steps[steps.length - 1] + hold));\n    return () => timers.forEach(clearTimeout);\n  }, [cycle, reduced, steps, hold]);\n  return { step, cycle, reduced };\n}"
+      },
+      {
+        "name": "demo-word-stream",
+        "category": "text",
+        "trigger": {
+          "type": "state-change",
+          "start": "query phase begins",
+          "end": "last word",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": true,
+          "by": "words",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "opacity": 0,
+              "transform": "translateY(3px)",
+              "filter": "blur(2px)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "opacity": 1,
+              "transform": "none",
+              "filter": "none"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.micro",
+        "easing_token": "css-ease-out",
+        "stagger_token": "stagger_ms.loose",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Cleared at loop reset.",
+        "interruptible": "Timeline-driven; not interruptible.",
+        "applies_to": "Simulated voice or chat input inside the demo; the newest word stays in the muted tone until the next arrives.",
+        "responsive_differences": "None (scaled canvas).",
+        "reduced_motion_fallback": "Full sentence shown statically (source).",
+        "ux_purpose": "Mimics live transcription so the viewer reads the query at speaking pace.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "@keyframes word-in {\n  from { opacity: 0; transform: translateY(3px); filter: blur(2px); }\n  to { opacity: 1; transform: none; filter: none; }\n}\n.stream-word { display: inline-block; animation: word-in 250ms ease-out; transition: color 300ms; }\n.stream-word[data-pending='true'] { color: var(--color-muted); }\n\n/* React: reveal one word every 190ms\nconst [count, setCount] = useState(0);\nuseEffect(() => { const id = setInterval(() => setCount((c) => Math.min(c + 1, words.length)), 190); return () => clearInterval(id); }, [words.length]);\nwords.slice(0, count).map((w, i) => <span key={i} className=\"stream-word\" data-pending={i === count - 1}>{w}</span>)\n*/"
+      },
+      {
+        "name": "demo-highlight-sweep",
+        "category": "feedback",
+        "trigger": {
+          "type": "state-change",
+          "start": "item extraction begins",
+          "end": "last word highlighted",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": true,
+          "by": "words",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "backgroundColor": "transparent"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "backgroundColor": "{color.highlight}"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.micro_300",
+        "easing_token": "css-ease-out",
+        "stagger_token": "extensions.motion_tokens_extra.stagger_ms.highlight",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Text dims to the muted tone once processed.",
+        "interruptible": "No.",
+        "applies_to": "Source text lines in the demo that produce an extracted item.",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Highlight shown without transition (source sets transition none).",
+        "ux_purpose": "Shows exactly which input produced which output, building trust in the automation.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "/* Source-text highlight sweeps word by word before the extracted item leaves it. */\n.sweep-word { background-color: transparent; transition: background-color 300ms ease-out; }\n.is-highlighted .sweep-word { background-color: var(--color-highlight); }\n\n/* JSX: words.map((w, i) => <span key={i} className=\"sweep-word\" style={{ transitionDelay: i * 60 + 'ms' }}>{w} </span>) */"
+      },
+      {
+        "name": "demo-chip-travel",
+        "category": "feedback",
+        "trigger": {
+          "type": "state-change",
+          "start": "item extracted",
+          "end": "item settles at destination row",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "opacity": 0,
+              "transform": "translate(source + 4px per item) scale(0.92)"
+            }
+          },
+          {
+            "offset": 0.3,
+            "properties": {
+              "opacity": 1,
+              "transform": "translate(source) scale(1)"
+            }
+          },
+          {
+            "offset": 0.9,
+            "properties": {
+              "opacity": 1,
+              "transform": "translate(destination) scale(1)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "opacity": 0,
+              "transform": "translate(destination) scale(0.94)"
+            }
+          }
+        ],
+        "duration_token": "durations_ms.slow",
+        "easing_token": "ease-travel",
+        "stagger_token": "extensions.motion_tokens_extra.stagger_ms.travel",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Fades (300ms ease-out after 100ms) as the destination confirms receipt.",
+        "interruptible": "No.",
+        "applies_to": "Extracted typed tags moving from the source panel to their target row.",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Items shown at destination only (source).",
+        "ux_purpose": "Preserves spatial continuity between input and output so the viewer tracks where information went.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { motion } from 'motion/react';\n\n// phase: 'appear' at source, 'travel' to destination, 'settled' at destination.\nexport function TravellingChip({ phase, from, to, order = 0, children }) {\n  const at = phase === 'appear' ? from : to;\n  const transition =\n    phase === 'appear'\n      ? { opacity: { duration: 0.25, ease: 'easeOut' }, default: { duration: 0.3, ease: [0.2, 0.8, 0.2, 1] } }\n      : phase === 'travel'\n      ? { opacity: { duration: 0.2 }, default: { duration: 0.8, ease: [0.55, 0, 0.25, 1], delay: order * 0.08 } }\n      : { opacity: { duration: 0.3, ease: 'easeOut', delay: 0.1 }, default: { duration: 0.3 } };\n  return (\n    <motion.div\n      aria-hidden=\"true\"\n      style={{ position: 'absolute', left: 0, top: 0 }}\n      initial={{ opacity: 0, x: from.x, y: from.y, scale: 0.92 }}\n      animate={{ opacity: phase === 'settled' ? 0 : 1, x: at.x + (phase === 'appear' ? order * 4 : 0), y: at.y + (phase === 'appear' ? order * 4 : 0), scale: phase === 'settled' ? 0.94 : 1 }}\n      transition={transition}\n    >\n      {children}\n    </motion.div>\n  );\n}"
+      },
+      {
+        "name": "demo-pop-confirm",
+        "category": "feedback",
+        "trigger": {
+          "type": "state-change",
+          "start": "destination value changes",
+          "end": "450ms (1800ms for tint)",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "scale(0.7)",
+              "opacity": 0
+            }
+          },
+          {
+            "offset": 0.6,
+            "properties": {
+              "transform": "scale(1.08)",
+              "opacity": 1
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "scale(1)"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.pop",
+        "easing_token": "css-ease-out",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "None; the new value stays. Optional colour tint settles from {color.accent} to resting over 1800ms.",
+        "interruptible": "Replays when re-keyed.",
+        "applies_to": "Counters, badges, date labels and risk chips inside the demo when they update.",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Animation none (source).",
+        "ux_purpose": "Confirms that the change landed; the 8% overshoot is the only bounce in the system and is confined to tiny elements.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "@keyframes pop-confirm {\n  0% { transform: scale(0.7); opacity: 0; }\n  60% { transform: scale(1.08); opacity: 1; }\n  100% { transform: scale(1); }\n}\n@keyframes tint-settle { from { color: var(--color-accent); } }\n.pop-confirm { animation: pop-confirm 450ms ease-out; }\n.pop-confirm--tinted { animation: pop-confirm 450ms ease-out, tint-settle 1800ms ease-out; }\n/* Re-key the element (React key) on every value change so the animation replays. */"
+      },
+      {
+        "name": "demo-row-flash",
+        "category": "feedback",
+        "trigger": {
+          "type": "state-change",
+          "start": "row receives an update or mention",
+          "end": "1400 to 1600ms",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "overlay_opacity": 1
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "overlay_opacity": 0
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.flash",
+        "easing_token": "css-ease-out",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Fades out and stays hidden (fill forwards). A thin accent bar rises in (300ms, 4px) on mentioned rows and remains.",
+        "interruptible": "Re-keyed per cycle.",
+        "applies_to": "Table or timeline rows in the demo.",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Overlay hidden (source).",
+        "ux_purpose": "Draws the eye to where the change happened without a persistent highlight.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "@keyframes flash-fade { from { opacity: 1; } to { opacity: 0; } }\n@keyframes rise-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }\n.row-flash { position: absolute; inset: 0; background: var(--color-highlight-soft); pointer-events: none; animation: flash-fade 1400ms ease-out forwards; }\n.row-flash--mention { animation-duration: 1600ms; }\n.row-accent { position: absolute; left: 0; top: 10px; bottom: 10px; width: 2.5px; background: var(--color-accent); animation: rise-in 300ms ease-out; }"
+      },
+      {
+        "name": "demo-status-pulse",
+        "category": "loader",
+        "trigger": {
+          "type": "load",
+          "start": "mount",
+          "end": "never",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "boxShadow": "0 0 0 0 {color.status-ring}"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "boxShadow": "0 0 0 7px transparent"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.pulse",
+        "easing_token": "css-ease-out",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": -1,
+        "exit_behaviour": "n/a",
+        "interruptible": "n/a",
+        "applies_to": "Live or connected status dots in the demo (a 9px accent variant marks the active agent).",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Recommended: static dot.",
+        "ux_purpose": "Signals that the system is live and working in the background.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "@keyframes pulse-ring {\n  0% { box-shadow: 0 0 0 0 var(--color-status-ring); }\n  100% { box-shadow: 0 0 0 7px transparent; }\n}\n@keyframes pulse-ring-wide {\n  0% { box-shadow: 0 0 0 0 var(--color-accent-ring); }\n  100% { box-shadow: 0 0 0 9px transparent; }\n}\n.status-dot { border-radius: 9999px; animation: pulse-ring 1600ms ease-out infinite; }\n.status-dot--active { animation-name: pulse-ring-wide; }\n@media (prefers-reduced-motion: reduce) { .status-dot { animation: none; } }"
+      },
+      {
+        "name": "demo-listening-indicators",
+        "category": "loader",
+        "trigger": {
+          "type": "state-change",
+          "start": "listening or processing state",
+          "end": "state exits",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "opacity": 0.3,
+              "transform": "translateY(0)"
+            }
+          },
+          {
+            "offset": 0.5,
+            "properties": {
+              "opacity": 1,
+              "transform": "translateY(-2px)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "opacity": 0.3,
+              "transform": "translateY(0)"
+            }
+          }
+        ],
+        "duration_token": "durations_ms.base",
+        "easing_token": "css-ease-out",
+        "stagger_token": "extensions.motion_tokens_extra.stagger_ms.dots",
+        "delay_ms": 0,
+        "repeat": -1,
+        "exit_behaviour": "Removed when the state changes.",
+        "interruptible": "n/a",
+        "applies_to": "Thinking dots, audio level bars (scaleY 0.35 to 1), caret blink and spinner inside the demo input.",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Recommended: static icons.",
+        "ux_purpose": "Reduces perceived wait inside the simulated interaction and makes the state legible at a glance.",
+        "source": "code",
+        "confidence": "medium",
+        "snippet": "@keyframes dot-bounce { 0%, 100% { opacity: 0.3; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-2px); } }\n@keyframes bar-level { from { transform: scaleY(0.35); } to { transform: scaleY(1); } }\n@keyframes caret-blink { 50% { opacity: 0; } }\n@keyframes spin { to { transform: rotate(360deg); } }\n.thinking-dot { animation: dot-bounce 1s ease-in-out infinite; }\n.thinking-dot:nth-child(2) { animation-delay: 150ms; }\n.thinking-dot:nth-child(3) { animation-delay: 300ms; }\n.level-bar { transform-origin: bottom; animation: bar-level 500ms ease-in-out infinite alternate; }\n.caret { animation: caret-blink 1s step-end infinite; }\n.spinner { animation: spin 800ms linear infinite; }"
+      },
+      {
+        "name": "demo-marker-shift",
+        "category": "feedback",
+        "trigger": {
+          "type": "state-change",
+          "start": "marker value changes",
+          "end": "800ms",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "position": "old value"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "position": "new value"
+            }
+          }
+        ],
+        "duration_token": "durations_ms.slow",
+        "easing_token": "ease-snap",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Snaps back with no transition at loop reset.",
+        "interruptible": "Yes.",
+        "applies_to": "Date or milestone markers on a timeline that move when a plan changes.",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Transition none (source).",
+        "ux_purpose": "Shows consequence: a schedule change visibly moves the dependent marker.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "/* Timeline marker slides to a new position when its value changes. Source animates 'left'; transform is the safer equivalent. */\n.timeline-marker { transform: translateX(var(--marker-x)); transition: transform 800ms var(--ease-snap); }\n.timeline-marker[data-instant='true'] { transition: none; }"
+      },
+      {
+        "name": "badge-shine-sweep",
+        "category": "background",
+        "trigger": {
+          "type": "load",
+          "start": "mount",
+          "end": "never",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "translateX(-220px)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "translateX(260px)"
+            }
+          }
+        ],
+        "duration_token": "extensions.motion_tokens_extra.durations_ms.ambient",
+        "easing_token": "linear",
+        "stagger_token": "stagger_ms.base",
+        "delay_ms": 0,
+        "repeat": -1,
+        "exit_behaviour": "n/a",
+        "interruptible": "Hover shortens the loop to 1300ms; because the duration changes mid-run the sweep jumps position (source behaviour).",
+        "applies_to": "Small third-party badges in the footer area.",
+        "responsive_differences": "None found.",
+        "reduced_motion_fallback": "Not handled in source. Recommended: hide the sweep.",
+        "ux_purpose": "Low-key attention for trust badges; hover acceleration rewards curiosity.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": ".shine-wrap { position: relative; overflow: hidden; }\n.shine {\n  position: absolute; top: 0; bottom: 0; left: 0; width: 40%;\n  background: linear-gradient(90deg, transparent, var(--color-shine), transparent);\n  animation: shine 3000ms linear infinite;\n}\n.shine-wrap:hover .shine { animation-duration: 1300ms; }\n@keyframes shine { from { transform: translateX(-220px); } to { transform: translateX(260px); } }\n@media (prefers-reduced-motion: reduce) { .shine { animation: none; opacity: 0; } }"
+      }
+    ],
+    "choreography_rules": [
+      "Hero: heading characters start 30ms after mount (30ms stagger, 2s each); subline fades at 400ms; the action group fades at 600ms; the second action lands last at 1000ms with a short 400ms fade. Everything settles by about 2.3s.",
+      "Load-time elements start from opacity 0.001, not 0, and are animated by a pre-hydration script so first paint is never blank.",
+      "One IntersectionObserver per section container; children stagger by DOM index at 90ms, so grids read left to right, then top to bottom.",
+      "Illustrations inside cards start after their card’s stagger slot (index x stagger, minimum 120ms), never before their card is visible.",
+      "Metric blocks: frame grows first (600ms), label fades at 50% of grow, corner markers at 60%, the number starts counting only after a 300ms hold and runs 1200ms.",
+      "Explainer timelines follow source, then travel, then confirm: highlight the input (60ms per word), spawn the item at the source (300ms), travel to destination (800ms, 80ms stagger between items), confirm with a flash (1400ms) and pop (450ms), then hold 3200ms before looping.",
+      "Only one continuously looping illustration per viewport; ambient loops elsewhere are limited to tiny status dots and badge shine.",
+      "Hover feedback never moves layout: colour, border and fill only; the only hover transform is a 360 degree icon spin on media buttons.",
+      "Scroll reveals are one-shot; the only repeatable enter and exit is a decorative separator.",
+      "Nothing is scroll-scrubbed, pinned or parallaxed."
+    ],
+    "reduced_motion": {
+      "supported": "partial",
+      "strategy": "Only the scripted product demo explicitly honours prefers-reduced-motion (jumps to the final state, animations none). The site runtime disables view-transition animations under reduced motion. The grid reveal is gated by a runtime hook that could not be confirmed as reduced-motion. Hero character rise, stat grow and count, type-on text, separator slide, badge shine and the mobile ticker have no reduced-motion handling in code. Replicas should render final states for all of these."
+    },
+    "performance_notes": "Mostly transform and opacity, with will-change on hero characters. Exceptions: the demo animates left (timeline markers), box-shadow (status pulses), filter blur (word stream) and background-color (highlight sweep), which are paint-heavy but confined to small elements. The demo timeline keeps running when scrolled off screen (running CSS animations were observed while the footer was in view), so replicas should pause it with an IntersectionObserver. Lottie uses the SVG renderer at medium quality and the player script is included twice. Fixed-size demo canvases are scaled with a CSS transform from a ResizeObserver, avoiding reflow."
+  },
+  "ux_system": {
+    "information_architecture": {
+      "structure": "hub-and-spoke",
+      "depth": "1 click to book a demo or sign in from anywhere (fixed header); 1 click to any in-page section via anchors; resources open in a new tab.",
+      "page_templates": [
+        {
+          "name": "landing",
+          "purpose": "Explain the product and convert to a booked demo or sign-in",
+          "section_order": [
+            "fixed header with inline anchor links and compact primary CTA",
+            "hero: display heading, subline, primary plus secondary action pair",
+            "looping product illustration in a framed panel",
+            "social-proof logo row (ticker on phones)",
+            "problem statement with eyebrow label",
+            "decorative sliding separator",
+            "how-it-works heading plus four-step numbered grid with illustrations",
+            "systems section: two-column numbered feature cards with play-once illustrations, secondary hollow CTA",
+            "metrics section: grow-and-count stat blocks with type-on captions",
+            "system overview heading and grid",
+            "role or use-case list with oversized side callout and full-width CTA band",
+            "integration section",
+            "final CTA with primary plus secondary pair",
+            "third-party badges",
+            "footer"
+          ]
+        }
+      ]
+    },
+    "navigation": {
+      "primary": "Fixed top bar, always visible, solid background, no hide-on-scroll, no condensing and no style change on scroll (checked at several scroll depths on desktop). Left: logo link home. Centre: in-page anchor links separated by small dividers. Right: plain-text sign-in and an outline compact primary CTA.",
+      "mobile": "Below 810px the inline links collapse into a two-bar toggle. Tapping expands the header in place (height grows on spring-soft) to show large stacked anchor links, a smaller secondary link and a full-width primary CTA; the bars rotate +/-45 degrees into a cross. No scrim, no body scroll lock, no Escape handling, and the panel stays open after tapping an anchor link (observed).",
+      "secondary": "Repeated in-content CTAs, footer navigation, and an external resources link that opens in a new tab.",
+      "wayfinding": "None: no active-section highlighting, no scroll progress, no section indicators. Numbered labels (01/, 02/ ...) give sequence within sections.",
+      "motion_patterns": [
+        "anchor-smooth-scroll",
+        "mobile-menu-expand",
+        "text-link-colour",
+        "compact-button-hover"
+      ]
+    },
+    "component_behaviour": [
+      {
+        "name": "heading (display)",
+        "purpose": "Primary value statement at the top of a landing template.",
+        "states": {
+          "default": "Characters hidden 4px low at opacity 0, then rise into place on mount.",
+          "hover": "n/a",
+          "focus_visible": "n/a",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "Server-rendered spans are present but transparent until the 30ms mount timer fires.",
+          "error": "n/a",
+          "success": "All characters settled.",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "Per-character opacity 0 to 1 and 4px to 0 rise, clipped by the heading overflow mask.",
+        "motion_patterns": [
+          "hero-heading-char-rise"
+        ],
+        "keyboard": "Not focusable.",
+        "pointer_vs_touch": "Identical.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "Source adds no aria-label to the split heading; the recipe adds one and hides the character spans.",
+        "rules": [
+          "Only the first display heading on a page uses the character split",
+          "An inline logo glyph counts as one character in the stagger"
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "button (primary, full size)",
+        "purpose": "Main conversion action (book a demo).",
+        "states": {
+          "default": "Filled {color.brand}, centred label, fixed width in hero pairs, full width in CTA bands and on phones.",
+          "hover": "Fill deepens to {color.brand-hover} and the border is removed, on spring-soft.",
+          "focus_visible": "Browser default focus ring only (outline auto); no custom style.",
+          "active": "No distinct pressed variant found.",
+          "disabled": "Not present on the page.",
+          "loading": "Not present; navigates to an external scheduler.",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "Background shifts from {color.brand} to {color.brand-hover}; no size, position or elevation change.",
+        "motion_patterns": [
+          "button-hover-spring-fill",
+          "hero-sequenced-fade"
+        ],
+        "keyboard": "Native link: Tab to focus, Enter to activate.",
+        "pointer_vs_touch": "Hover only on pointer; touch has no pressed feedback.",
+        "dismissal": "n/a",
+        "focus_management": "Navigates away in the same tab; no focus handling needed.",
+        "aria": "Plain anchor with visible text; no extra aria.",
+        "rules": [
+          "Always paired with a secondary action in the hero and final section",
+          "Repeated after most major sections",
+          "Never animates size or position on hover"
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "button (secondary and hollow)",
+        "purpose": "Alternative action (sign in) or lower-priority booking entry mid-page.",
+        "states": {
+          "default": "Transparent or dark fill with a thin {color.border} outline.",
+          "hover": "Border and label shift to {color.brand} on spring-soft.",
+          "focus_visible": "Browser default ring.",
+          "active": "None found.",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "Border colour {color.border} to {color.brand}; label colour {color.fg} to {color.brand}.",
+        "motion_patterns": [
+          "button-hover-spring-fill",
+          "hero-sequenced-fade"
+        ],
+        "keyboard": "Native link.",
+        "pointer_vs_touch": "Hover only on pointer.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "Plain anchor.",
+        "rules": [
+          "Sits to the right of (desktop) or below (phone) the primary",
+          "Lands last in the hero load sequence"
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "button (compact header CTA and plain-text link)",
+        "purpose": "Persistent conversion and sign-in in the header.",
+        "states": {
+          "default": "Outline compact button; plain text link beside it.",
+          "hover": "Outline button fills with {color.brand}; text link colour shifts; 200ms ease-soft.",
+          "focus_visible": "Browser default ring.",
+          "active": "None found.",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "Transparent to {color.brand} fill.",
+        "motion_patterns": [
+          "compact-button-hover"
+        ],
+        "keyboard": "Native link.",
+        "pointer_vs_touch": "On phones the compact CTA stays visible next to the menu toggle.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "Plain anchors.",
+        "rules": [
+          "Compact CTA never leaves the header at any breakpoint"
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "button (icon or media)",
+        "purpose": "Starts video or media playback.",
+        "states": {
+          "default": "Circular icon plus label.",
+          "hover": "Icon rotates 360 degrees and label colour shifts over 1s ease-soft.",
+          "focus_visible": "Browser default ring.",
+          "active": "None found.",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "Icon rotation 0 to 360 degrees; label {color.fg} to {color.brand}.",
+        "motion_patterns": [
+          "icon-button-spin"
+        ],
+        "keyboard": "Native link.",
+        "pointer_vs_touch": "Pointer only effect.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "Plain anchor.",
+        "rules": [
+          "The only hover transform allowed in the system"
+        ],
+        "source": "code",
+        "confidence": "medium"
+      },
+      {
+        "name": "link (text)",
+        "purpose": "Navigation and inline references.",
+        "states": {
+          "default": "{color.link}.",
+          "hover": "Colour shifts to {color.link-hover} over 150 to 200ms.",
+          "focus_visible": "Browser default ring; some footer badge links set outline none, so focus is invisible there.",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "Tapped mobile-menu link keeps the hover colour until focus moves.",
+          "expanded": "n/a"
+        },
+        "state_changes": "Colour only.",
+        "motion_patterns": [
+          "text-link-colour",
+          "anchor-smooth-scroll"
+        ],
+        "keyboard": "Native link.",
+        "pointer_vs_touch": "Sticky hover colour after tap on touch.",
+        "dismissal": "n/a",
+        "focus_management": "Anchor links scroll but do not move focus to the target section.",
+        "aria": "None added.",
+        "rules": [
+          "External resources link opens a new tab without an indicator"
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "nav (fixed header)",
+        "purpose": "Persistent brand, anchors and conversion.",
+        "states": {
+          "default": "Fixed at top, solid {color.nav-bg}, always visible.",
+          "hover": "Per child link or button.",
+          "focus_visible": "Per child.",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "No active-section state.",
+          "expanded": "Phone: see mobile menu."
+        },
+        "state_changes": "None on scroll.",
+        "motion_patterns": [
+          "anchor-smooth-scroll",
+          "text-link-colour",
+          "compact-button-hover"
+        ],
+        "keyboard": "Tab order: logo, anchors, resources, sign in, CTA.",
+        "pointer_vs_touch": "Inline links on pointer widths; toggle below 810px.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "Rendered as generic divs; no nav or header landmark.",
+        "rules": [
+          "Never hides or condenses",
+          "Always shows the compact primary CTA"
+        ],
+        "source": "observed",
+        "confidence": "high"
+      },
+      {
+        "name": "drawer (mobile menu panel and toggle)",
+        "purpose": "Access anchors and CTAs on phones.",
+        "states": {
+          "default": "Collapsed; two horizontal bars.",
+          "hover": "n/a (touch).",
+          "focus_visible": "Toggle is a focusable div (tabindex 0) with the default ring.",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "Header grows downward to reveal large stacked links and a full-width primary CTA; bars rotate into a cross and switch to {color.fg}."
+        },
+        "state_changes": "Container height auto-animates; bars rotate +/-45 degrees; page content below remains visible and scrollable.",
+        "motion_patterns": [
+          "mobile-menu-expand"
+        ],
+        "keyboard": "Toggle reachable by Tab; Enter or Space activation not verified. Escape does nothing.",
+        "pointer_vs_touch": "Touch-first; appears below 810px regardless of input type.",
+        "dismissal": "Toggle tap only. No Escape, no outside tap, no auto-close on link tap (observed).",
+        "focus_management": "Focus stays on the toggle; no trap; no return handling needed because focus never moves.",
+        "aria": "None: toggle has no role, accessible name or aria-expanded; menu links are wrapped in heading elements.",
+        "rules": [
+          "Recommended replication: use a real button with aria-expanded and aria-controls, close on Escape and on link tap, and lock or dim the page behind while open"
+        ],
+        "source": "observed",
+        "confidence": "high"
+      },
+      {
+        "name": "card (numbered step or feature card)",
+        "purpose": "Explain one capability with number, illustration, title and body.",
+        "states": {
+          "default": "Revealed in place after section trigger; thin dividers between cells.",
+          "hover": "None (no hover state).",
+          "focus_visible": "n/a (not interactive).",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "Illustration slot shows a flat placeholder or poster image until the animation DOM loads.",
+          "error": "Console error only if the illustration file fails; slot stays on placeholder.",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "Hidden (opacity 0, offset 16 to 24px) to shown; placeholder swaps to animation.",
+        "motion_patterns": [
+          "card-grid-rise",
+          "lottie-in-view-play"
+        ],
+        "keyboard": "Not focusable.",
+        "pointer_vs_touch": "Identical.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "Plain text; illustrations are decorative.",
+        "rules": [
+          "Number label moves to the top-right corner on narrow cards",
+          "Cards never respond to hover"
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "stat block",
+        "purpose": "Present a headline metric with a caption.",
+        "states": {
+          "default": "Collapsed to its bottom-left corner until 30% visible.",
+          "hover": "None.",
+          "focus_visible": "n/a",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "Final value shown with tabular figures.",
+          "selected": "n/a",
+          "expanded": "Grown to full size."
+        },
+        "state_changes": "Scale 0.0001 to 1 from bottom-left; markers and label fade; number counts from 0.",
+        "motion_patterns": [
+          "stat-block-grow-count",
+          "scramble-type-on",
+          "spring-pop-in"
+        ],
+        "keyboard": "Not focusable.",
+        "pointer_vs_touch": "Identical.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "None; screen readers may read intermediate count values during animation.",
+        "rules": [
+          "Count only once",
+          "Numbers use tabular figures so width does not jitter"
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "carousel (logo ticker)",
+        "purpose": "Social proof row.",
+        "states": {
+          "default": "Static centred row on wide screens; continuous leftward ticker under 810px.",
+          "hover": "No slow-down.",
+          "focus_visible": "n/a",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "n/a",
+        "motion_patterns": [
+          "logo-ticker"
+        ],
+        "keyboard": "Not focusable.",
+        "pointer_vs_touch": "Not draggable.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "Duplicated items are not aria-hidden (duplicates may be announced).",
+        "rules": [
+          "Ticker only where the row would overflow"
+        ],
+        "source": "code",
+        "confidence": "medium"
+      },
+      {
+        "name": "animated product illustration",
+        "purpose": "Demonstrate how the product turns inputs into structured outcomes.",
+        "states": {
+          "default": "Autoplaying scripted loop.",
+          "hover": "None; overlays ignore pointer events.",
+          "focus_visible": "n/a",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "Starts from an idle placeholder state.",
+          "error": "n/a",
+          "success": "End state held 3200ms.",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "Timeline-driven; see demo patterns.",
+        "motion_patterns": [
+          "product-demo-scripted-loop",
+          "demo-word-stream",
+          "demo-highlight-sweep",
+          "demo-chip-travel",
+          "demo-pop-confirm",
+          "demo-row-flash",
+          "demo-status-pulse",
+          "demo-listening-indicators",
+          "demo-marker-shift"
+        ],
+        "keyboard": "Not focusable; no pause control.",
+        "pointer_vs_touch": "Identical.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "role img with a descriptive aria-label summarising what the animation shows.",
+        "rules": [
+          "Loops indefinitely with no pause control (WCAG 2.2.2 risk for motion over 5s)",
+          "Renders final state under reduced motion"
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "badge",
+        "purpose": "Third-party trust or listing badges.",
+        "states": {
+          "default": "Continuous shine sweep every 3s.",
+          "hover": "Sweep speeds up to 1.3s.",
+          "focus_visible": "Outline removed on several badge links (invisible focus).",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "Animation speed only.",
+        "motion_patterns": [
+          "badge-shine-sweep"
+        ],
+        "keyboard": "Links are tabbable, including several zero-size ones.",
+        "pointer_vs_touch": "Hover acceleration only on pointer.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "None.",
+        "rules": [
+          "Most open in a new tab"
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "section divider",
+        "purpose": "Chapter break between content blocks.",
+        "states": {
+          "default": "Offset 300px left until half visible.",
+          "hover": "n/a",
+          "focus_visible": "n/a",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "translateX -300px to 0 and back.",
+        "motion_patterns": [
+          "separator-slide"
+        ],
+        "keyboard": "n/a",
+        "pointer_vs_touch": "n/a",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "Decorative.",
+        "rules": [
+          "Element is wider than the viewport so the offset never reveals an edge"
+        ],
+        "source": "code",
+        "confidence": "high"
+      }
+    ],
+    "interaction_patterns": [
+      {
+        "pattern": "persistent CTA",
+        "where_used": "Fixed header on every breakpoint",
+        "behaviour": "Compact primary booking action is always visible, including next to the phone menu toggle.",
+        "ux_purpose": "Captures intent at any scroll depth.",
+        "source": "observed"
+      },
+      {
+        "pattern": "repeated CTA bands",
+        "where_used": "Hero, mid-page hollow button, full-width band after the use-case list, final section",
+        "behaviour": "Primary booking action repeats roughly every one to two sections; full-width variants on phones.",
+        "ux_purpose": "Reduces the distance between persuasion and action.",
+        "source": "observed"
+      },
+      {
+        "pattern": "primary plus secondary pairing",
+        "where_used": "Hero and final section",
+        "behaviour": "Filled primary beside an outline secondary (sign in) of equal size.",
+        "ux_purpose": "Serves both new prospects and returning users without competing hierarchy.",
+        "source": "observed"
+      },
+      {
+        "pattern": "autoplaying explainer",
+        "where_used": "Directly under the hero",
+        "behaviour": "Scripted loop with source, travel and confirm beats; holds end state 3.2s; resets.",
+        "ux_purpose": "Shows value before asking for attention to text.",
+        "source": "code"
+      },
+      {
+        "pattern": "numbered sequencing",
+        "where_used": "Step grid, feature cards, role list",
+        "behaviour": "Items carry 01/ style labels and reveal in the same order they are numbered.",
+        "ux_purpose": "Implies a process and makes scanning predictable.",
+        "source": "observed"
+      },
+      {
+        "pattern": "anchor jump with eased scroll",
+        "where_used": "Header and mobile menu",
+        "behaviour": "In-page links animate the scroll over about 850ms and update the URL hash.",
+        "ux_purpose": "Keeps orientation on a long single page.",
+        "source": "observed"
+      },
+      {
+        "pattern": "external hand-off for conversion",
+        "where_used": "All booking CTAs, sign-in",
+        "behaviour": "Booking opens an external scheduling tool in the same tab; sign-in goes to the app.",
+        "ux_purpose": "Offloads scheduling friction to a dedicated tool.",
+        "source": "observed"
+      }
+    ],
+    "user_flows": [
+      {
+        "flow": "book a demo",
+        "steps": [
+          "Land on hero",
+          "Optionally watch explainer or scroll",
+          "Tap any primary booking CTA",
+          "Complete booking on external scheduler"
+        ],
+        "entry_points": [
+          "header compact CTA",
+          "hero primary",
+          "mid-page hollow CTA",
+          "full-width CTA band",
+          "final section primary",
+          "mobile menu CTA"
+        ],
+        "friction_reducers": [
+          "CTA always visible",
+          "No on-site form",
+          "Explainer answers what it does before asking"
+        ],
+        "exit_and_recovery": "Leaves the site in the same tab; recovery is the browser back button.",
+        "source": "observed"
+      },
+      {
+        "flow": "sign in",
+        "steps": [
+          "Tap sign-in in header, hero or final section",
+          "Arrive at app sign-in page"
+        ],
+        "entry_points": [
+          "header text link",
+          "hero secondary",
+          "final section secondary"
+        ],
+        "friction_reducers": [
+          "Secondary action sits beside the primary everywhere it matters"
+        ],
+        "exit_and_recovery": "Same-tab navigation; back button returns.",
+        "source": "observed"
+      },
+      {
+        "flow": "explore by section",
+        "steps": [
+          "Tap an anchor link",
+          "Eased scroll to section",
+          "Section reveals as it enters"
+        ],
+        "entry_points": [
+          "header anchors",
+          "mobile menu anchors"
+        ],
+        "friction_reducers": [
+          "Hash updates so sections are shareable"
+        ],
+        "exit_and_recovery": "On phones the menu stays open over the section and must be closed manually.",
+        "source": "observed"
+      }
+    ],
+    "forms": {
+      "layout": "single column",
+      "label_style": "top",
+      "validation_timing": "on submit",
+      "error_presentation": "Not applicable: the page has no forms; all data capture happens on external pages.",
+      "success_presentation": "Not applicable.",
+      "required_indicator": "Not applicable.",
+      "input_assistance": "Not applicable.",
+      "motion_patterns": []
+    },
+    "feedback_and_states": {
+      "loading": "none",
+      "perceived_performance": "Load-appear effects are driven by an inline pre-hydration animator starting from opacity 0.001, so the hero is animating before the app hydrates. Illustrations show a flat placeholder or poster until loaded. The explainer starts from a calm idle state rather than a spinner.",
+      "empty_states": "Not applicable.",
+      "errors": "Not applicable on page; illustration load failures only log to console.",
+      "success": "Within the explainer, successful actions are confirmed by row flashes, overshoot pops and colour settles.",
+      "toasts_and_notifications": "None.",
+      "confirmations": "None (no destructive actions).",
+      "undo": "Not applicable."
+    },
+    "attention_and_hierarchy": {
+      "cta_strategy": "Primary booking CTA in the fixed header plus repeated in-content instances (hero pair, mid-page hollow, full-width band, final pair). Secondary is always sign-in. Primary is filled; secondary and hollow are outlined.",
+      "scanning_pattern": "single column",
+      "attention_direction": "Load motion walks headline, subline, actions in order. The explainer then pulls focus with cause-and-effect beats. Scroll sections reveal as units with left-to-right stagger. Numbers and illustrations only animate after their frame arrives, so the eye lands on the frame first.",
+      "progressive_disclosure": "Minimal. Only the phone menu hides content. Everything else is visible on scroll; no accordions, tabs or modals."
+    },
+    "responsive_behaviour": {
+      "strategy": "desktop-first",
+      "breakpoint_behaviour": [
+        {
+          "range": "1440px and up",
+          "changes": "Widest layout; stat blocks larger with 1000ms grow; spring pop-in active on one metric card; separator plays once."
+        },
+        {
+          "range": "1200px to 1439px",
+          "changes": "Same interaction model as widest; spacing and sizes step down."
+        },
+        {
+          "range": "810px to 1199px",
+          "changes": "Inline nav retained (tablet header variant); grids drop to two columns by container width. Not visually tested."
+        },
+        {
+          "range": "under 810px",
+          "changes": "Menu toggle replaces inline links; hero actions stack full width; logo row becomes a ticker; feature cards go single column; card numbers move to the top-right; separator appear effect disabled."
+        }
+      ],
+      "touch_adaptations": "Hover affordances simply disappear on touch (no pressed states). Large stacked menu links (about 38px tall) and full-width CTAs. No gestures (ticker not draggable, no swipe)."
+    },
+    "accessibility": {
+      "focus_visibility": "Browser default outline on all nav and CTA links; no custom focus-visible styling. Several badge links remove the outline entirely.",
+      "keyboard_support": "partial",
+      "tab_order": "issues found",
+      "semantics": "No header, nav, main or footer landmarks. Heading levels skip (an h3 precedes the first h2; h5 used late). Mobile menu links are wrapped in heading elements. All actions are anchors (correct for navigation). The explainer is a single role img with a descriptive label. html lang is set; all images carry alt attributes.",
+      "touch_target_min_px": 19,
+      "screen_reader_notes": "Hero heading splits into per-character spans with no aria-label on the heading, so some screen readers may read it letter by letter. Animated counters expose intermediate values. Ticker duplicates are not hidden. Not tested with a real screen reader.",
+      "issues_found": [
+        "Menu toggle is a focusable div with no role, accessible name or aria-expanded",
+        "Mobile menu: no Escape, no outside-tap close, does not close after anchor navigation, no focus management",
+        "No landmark regions",
+        "Heading hierarchy skips levels",
+        "Several zero-size links in the badge area stay in the tab order, creating invisible focus stops",
+        "Badge links suppress the focus outline",
+        "Desktop nav text links are about 19px tall, below the 24px WCAG 2.2 minimum target size",
+        "Autoplaying looping explainer has no pause control",
+        "Most scroll and text animations ignore prefers-reduced-motion",
+        "Anchor navigation does not move focus to the target section",
+        "External links opening a new tab give no warning"
+      ]
+    }
+  },
+  "dos_and_donts": {
+    "do": [
+      "Use ease-out-expo for every scroll reveal with 16 to 24px travel and 0.8 to 1.5s duration",
+      "Trigger each section once from its container and stagger children by index at 90ms",
+      "Start load-time elements at opacity 0.001 and finish the hero sequence within about 2.3s",
+      "Keep button hovers to colour, border or fill on spring-soft (0.4s, bounce 0.2) or 200ms ease-soft for compact controls",
+      "Grow metric frames before counting, and count with ease-out-cubic after a 300ms hold using tabular figures",
+      "Build explainers as discrete-state timelines: highlight source, spawn item, travel with ease-travel, confirm with flash and pop, hold 3.2s, loop",
+      "Delay card illustrations until their card stagger slot has passed",
+      "Keep the compact primary CTA in the fixed header at every breakpoint",
+      "Render final states under prefers-reduced-motion for every pattern (the source only does this for the explainer)",
+      "Pause off-screen loops with an IntersectionObserver"
+    ],
+    "dont": [
+      "Do not add hover lift, scale or shadow growth to buttons or cards",
+      "Do not use bouncy springs outside tiny confirmation pops (the only overshoot is 8% on small badges)",
+      "Do not replay scroll reveals on scroll-up or add direction-aware exits",
+      "Do not add parallax, pinning or scroll-scrubbed sequences; the system has none",
+      "Do not travel more than 24px on reveals or animate large blocks from off-screen",
+      "Do not hide or condense the header on scroll",
+      "Do not animate layout properties such as left, width or height for anything larger than a small marker; use transform",
+      "Do not rely on hover-only affordances for anything essential on touch",
+      "Do not copy the source mobile-menu gaps (div toggle, no Escape, stays open after navigation)"
+    ]
+  },
+  "implementation": {
+    "target_stack": "React 18 + Framer Motion (motion/react) + Tailwind CSS, with plain CSS transitions for IntersectionObserver reveals. This mirrors the source, which mixes Framer Motion variants with hand-written CSS transitions in custom React components. The prompt left the target stack unspecified, so this choice is based on the evidence.",
+    "motion_tokens_code": ":root {\n  /* durations */\n  --dur-instant: 0ms;\n  --dur-link: 150ms;\n  --dur-fast: 200ms;\n  --dur-micro: 250ms;\n  --dur-base: 400ms;\n  --dur-pop: 450ms;\n  --dur-grow: 600ms;\n  --dur-slow: 800ms;\n  --dur-anchor: 850ms;\n  --dur-slower: 1000ms;\n  --dur-cinematic: 1200ms;\n  --dur-flash: 1400ms;\n  --dur-reveal-long: 1500ms;\n  --dur-hero-text: 2000ms;\n  --dur-ambient: 3000ms;\n  --dur-demo-hold: 3200ms;\n  /* easings */\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\n  --ease-soft: cubic-bezier(0.44, 0, 0.56, 1);\n  --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1);\n  --ease-travel: cubic-bezier(0.55, 0, 0.25, 1);\n  /* staggers */\n  --stagger-char: 30ms;\n  --stagger-highlight: 60ms;\n  --stagger-travel: 80ms;\n  --stagger-card: 90ms;\n  --stagger-stream: 190ms;\n  --stagger-result: 850ms;\n  /* distances */\n  --offset-char: 4px;\n  --offset-micro: 3px;\n  --offset-grid: 16px;\n  --offset-card: 24px;\n  --offset-slide: 300px;\n}\n\n// motion-tokens.js\nexport const DUR = { instant: 0, link: 0.15, fast: 0.2, micro: 0.25, base: 0.4, pop: 0.45, grow: 0.6, slow: 0.8, anchor: 0.85, slower: 1, cinematic: 1.2, flash: 1.4, revealLong: 1.5, heroText: 2, ambient: 3, demoHold: 3.2 };\nexport const EASE = { outExpo: [0.16, 1, 0.3, 1], soft: [0.44, 0, 0.56, 1], snap: [0.2, 0.8, 0.2, 1], travel: [0.55, 0, 0.25, 1], outCubic: (t) => 1 - Math.pow(1 - t, 3) };\nexport const SPRING = { soft: { type: 'spring', duration: 0.4, bounce: 0.2 } };\nexport const STAGGER = { char: 0.03, highlight: 0.06, travel: 0.08, card: 0.09, stream: 0.19, result: 0.85 };\nexport const DIST = { char: 4, micro: 3, grid: 16, card: 24, slide: 300, popY: 50, popScale: 0.5 };\nexport const THRESHOLD = { grid: 0.15, stat: 0.3, separator: 0.5 };",
+    "motion_presets": "// motion-presets.jsx\nimport { useEffect, useRef, useState } from 'react';\n\nexport const soft = [0.44, 0, 0.56, 1];\nexport const outExpo = [0.16, 1, 0.3, 1];\nexport const springSoft = { type: 'spring', duration: 0.4, bounce: 0.2 };\n\nexport function prefersReducedMotion() {\n  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;\n}\n\n// One-shot reveal trigger shared by every scroll pattern.\nexport function useRevealOnce(threshold = 0.15) {\n  const ref = useRef(null);\n  const [shown, setShown] = useState(false);\n  useEffect(() => {\n    const el = ref.current;\n    if (!el) return;\n    if (prefersReducedMotion()) { setShown(true); return; }\n    const io = new IntersectionObserver(([entry]) => {\n      if (entry.isIntersecting) { setShown(true); io.disconnect(); }\n    }, { threshold: threshold });\n    io.observe(el);\n    return () => io.disconnect();\n  }, [threshold]);\n  return [ref, shown];\n}\n\n// Framer Motion variants\nexport const fadeSoft = {\n  hidden: { opacity: 0.001 },\n  shown: (delay = 0) => ({ opacity: 1, transition: { delay: delay, duration: 1.2, ease: soft } })\n};\n\nexport const riseExpo = {\n  hidden: { opacity: 0, y: 24 },\n  shown: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 1, ease: outExpo, delay: i * 0.09 } })\n};\n\nexport const riseGrid = {\n  hidden: { opacity: 0, y: 16 },\n  shown: (i = 0) => ({ opacity: 1, y: 0, transition: { duration: 1.5, ease: outExpo, delay: i * 0.09 } })\n};\n\nexport const springPop = {\n  hidden: { opacity: 0.001, scale: 0.5, y: 50 },\n  shown: { opacity: 1, scale: 1, y: 0, transition: springSoft }\n};\n\nexport const separatorSlide = {\n  hidden: { x: -300 },\n  shown: { x: 0, transition: { duration: 1, ease: soft } }\n};\n\nexport const buttonHover = { transition: springSoft };\nexport const compactHover = { transition: { duration: 0.2, ease: soft } };\nexport const iconSpin = { rest: { rotate: 0 }, hover: { rotate: 360, transition: { duration: 1, ease: soft } } };\n\n/* CSS utility classes (import once)\n.reveal { opacity: 0; transform: translateY(var(--offset-card)); transition: opacity var(--dur-slower) var(--ease-out-expo), transform var(--dur-slower) var(--ease-out-expo); }\n.reveal.is-shown { opacity: 1; transform: none; }\n.reveal--grid { transform: translateY(var(--offset-grid)); transition-duration: var(--dur-reveal-long); }\n.reveal--char { transform: translateY(var(--offset-char)); transition-duration: var(--dur-hero-text); }\n@media (prefers-reduced-motion: reduce) { .reveal, .reveal--grid, .reveal--char { opacity: 1; transform: none; transition: none; } }\n*/",
+    "interaction_recipes": [
+      {
+        "component": "button pair (primary + secondary)",
+        "structure": "<div class=\"actions\" data-appear=\"sequenced\">\n  <a class=\"btn btn--primary\" href=\"#\" data-variant=\"primary\"><span class=\"btn__label\"></span></a>\n  <a class=\"btn btn--secondary\" href=\"#\" data-variant=\"secondary\"><span class=\"btn__label\"></span></a>\n</div>",
+        "behaviour_code": "import { motion } from 'motion/react';\n\nconst spring = { type: 'spring', duration: 0.4, bounce: 0.2 };\n\nexport function PrimaryButton({ href, children }) {\n  return (\n    <motion.a\n      href={href}\n      className=\"inline-flex items-center justify-center\"\n      style={{ backgroundColor: 'var(--color-brand)' }}\n      whileHover={{ backgroundColor: 'var(--color-brand-hover)' }}\n      transition={spring}\n    >\n      {children}\n    </motion.a>\n  );\n}\n\nexport function SecondaryButton({ href, children }) {\n  return (\n    <motion.a\n      href={href}\n      className=\"inline-flex items-center justify-center border\"\n      style={{ borderColor: 'var(--color-border)', color: 'var(--color-fg)' }}\n      whileHover={{ borderColor: 'var(--color-brand)', color: 'var(--color-brand)' }}\n      transition={spring}\n    >\n      {children}\n    </motion.a>\n  );\n}"
+      },
+      {
+        "component": "reveal grid (numbered cards)",
+        "structure": "<section class=\"section\" data-reveal=\"grid\">\n  <div class=\"grid\" role=\"list\">\n    <article class=\"card\" role=\"listitem\" data-index=\"0\">\n      <span class=\"card__number\"></span>\n      <div class=\"card__media\" data-lottie></div>\n      <h3 class=\"card__title\"></h3>\n      <p class=\"card__body\"></p>\n    </article>\n  </div>\n</section>",
+        "behaviour_code": "import { useRevealOnce } from './motion-presets';\n\n// One observer on the container; children stagger by index.\nexport function RevealGrid({ items, distance = 24, duration = 1, stagger = 90, threshold = 0.15 }) {\n  const [ref, shown] = useRevealOnce(threshold);\n  return (\n    <div ref={ref} className=\"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4\">\n      {items.map((item, i) => (\n        <div\n          key={i}\n          style={{\n            opacity: shown ? 1 : 0,\n            transform: shown ? 'translateY(0px)' : 'translateY(' + distance + 'px)',\n            transition: 'opacity ' + duration + 's var(--ease-out-expo), transform ' + duration + 's var(--ease-out-expo)',\n            transitionDelay: i * stagger + 'ms'\n          }}\n        >\n          {item}\n        </div>\n      ))}\n    </div>\n  );\n}"
+      },
+      {
+        "component": "stat block",
+        "structure": "<div class=\"stat\" data-state=\"collapsed\">\n  <div class=\"stat__frame\">\n    <span class=\"stat-marker stat-marker-tl\" aria-hidden=\"true\"></span>\n    <span class=\"stat__value\" aria-hidden=\"true\"></span>\n    <span class=\"sr-only\"></span>\n    <span class=\"stat__label\"></span>\n  </div>\n  <p class=\"stat__caption\" data-effect=\"type-on\"></p>\n</div>",
+        "behaviour_code": "import { useEffect, useState } from 'react';\nimport { useRevealOnce } from './motion-presets';\n\nconst easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);\n\n// Block grows from its bottom-left corner, markers and label fade in, then the number counts up.\nexport function StatBlock({ value = 100, suffix = '%', label, grow = 0.6, count = 1.2, countDelay = 0.3 }) {\n  const [ref, shown] = useRevealOnce(0.3);\n  const [n, setN] = useState(0);\n  useEffect(() => {\n    if (!shown) return;\n    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setN(value); return; }\n    let raf;\n    let start = null;\n    const tick = (now) => {\n      if (start === null) start = now;\n      const t = now - start - countDelay * 1000;\n      if (t < 0) { raf = requestAnimationFrame(tick); return; }\n      const p = Math.min(t / (count * 1000), 1);\n      setN(value * easeOutCubic(p));\n      if (p < 1) raf = requestAnimationFrame(tick);\n    };\n    raf = requestAnimationFrame(tick);\n    return () => cancelAnimationFrame(raf);\n  }, [shown, value, count, countDelay]);\n  return (\n    <div ref={ref} style={{ overflow: 'hidden' }}>\n      <div style={{ position: 'relative', display: 'flex', transformOrigin: 'bottom left', transform: shown ? 'scale(1)' : 'scale(0.0001)', transition: 'transform ' + grow + 's var(--ease-out-expo)' }}>\n        {['tl', 'tr', 'bl', 'br'].map((c) => (\n          <span key={c} aria-hidden=\"true\" className={'stat-marker stat-marker-' + c} style={{ opacity: shown ? 1 : 0, transition: 'opacity 0.3s ease ' + grow * 0.6 + 's' }} />\n        ))}\n        <span aria-hidden=\"true\" style={{ fontVariantNumeric: 'tabular-nums' }}>{Math.round(n)}{suffix}</span>\n        <span className=\"sr-only\">{value}{suffix}</span>\n        <span style={{ opacity: shown ? 1 : 0, transition: 'opacity 0.4s ease ' + grow * 0.5 + 's' }}>{label}</span>\n      </div>\n    </div>\n  );\n}"
+      },
+      {
+        "component": "mobile nav",
+        "structure": "<header class=\"site-header\" data-open=\"false\">\n  <a href=\"/\" aria-label=\"Home\"></a>\n  <a class=\"btn btn--compact\" href=\"#\"></a>\n  <button type=\"button\" aria-expanded=\"false\" aria-controls=\"mobile-menu\" aria-label=\"Open menu\">\n    <span class=\"menu-bar\"></span><span class=\"menu-bar\"></span>\n  </button>\n  <nav id=\"mobile-menu\" aria-label=\"Main\" hidden>\n    <ul><li><a href=\"#section\"></a></li></ul>\n    <a class=\"btn btn--primary btn--block\" href=\"#\"></a>\n  </nav>\n</header>",
+        "behaviour_code": "import { useEffect, useState } from 'react';\nimport { motion, AnimatePresence } from 'motion/react';\n\nconst spring = { type: 'spring', duration: 0.4, bounce: 0.2 };\n\n// In-place expanding nav panel. Bars rotate into a cross; the panel grows from the bar downwards.\nexport function MobileNav({ links, cta }) {\n  const [open, setOpen] = useState(false);\n  useEffect(() => {\n    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };\n    document.addEventListener('keydown', onKey);\n    return () => document.removeEventListener('keydown', onKey);\n  }, []);\n  return (\n    <header style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 10 }}>\n      <div className=\"flex items-center justify-between\">\n        <a href=\"/\" aria-label=\"Home\" />\n        <button\n          type=\"button\"\n          aria-expanded={open}\n          aria-controls=\"mobile-menu\"\n          aria-label={open ? 'Close menu' : 'Open menu'}\n          onClick={() => setOpen(!open)}\n          style={{ position: 'relative', width: 44, height: 44 }}\n        >\n          <motion.span className=\"menu-bar\" animate={{ rotate: open ? 45 : 0, y: open ? 0 : -4 }} transition={spring} />\n          <motion.span className=\"menu-bar\" animate={{ rotate: open ? -45 : 0, y: open ? 0 : 4 }} transition={spring} />\n        </button>\n      </div>\n      <AnimatePresence initial={false}>\n        {open && (\n          <motion.nav\n            id=\"mobile-menu\"\n            aria-label=\"Main\"\n            style={{ overflow: 'hidden' }}\n            initial={{ height: 0 }}\n            animate={{ height: 'auto' }}\n            exit={{ height: 0 }}\n            transition={spring}\n          >\n            <ul>\n              {links.map((l) => (\n                <li key={l.href}>\n                  <a href={l.href} onClick={() => setOpen(false)}>{l.label}</a>\n                </li>\n              ))}\n            </ul>\n            {cta}\n          </motion.nav>\n        )}\n      </AnimatePresence>\n    </header>\n  );\n}"
+      },
+      {
+        "component": "type-on caption",
+        "structure": "<p class=\"type-on\" data-from=\"right\"><span class=\"sr-only\"></span><span aria-hidden=\"true\"></span></p>",
+        "behaviour_code": "import { useEffect, useRef, useState } from 'react';\nimport { useRevealOnce } from './motion-presets';\n\nconst GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';\nconst rand = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)];\nconst scramble = (s) => [...s].map((c) => (c === ' ' ? ' ' : rand())).join('');\n// speed 1..100 maps to 2500ms..300ms; the source uses 80 (about 744ms).\nconst durationFor = (speed) => 2500 - ((Math.min(100, Math.max(1, speed)) - 1) / 99) * 2200;\n\nexport function TypeOnText({ text, speed = 80, from = 'right', mode = 'typeOn', align = 'right' }) {\n  const [ref, shown] = useRevealOnce(0.01);\n  const [out, setOut] = useState(() => scramble(text));\n  const raf = useRef(0);\n  useEffect(() => {\n    if (!shown) return;\n    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setOut(text); return; }\n    let order = Array.from({ length: text.length }, (_, i) => i);\n    if (from === 'right') order.reverse();\n    if (from === 'center') {\n      const mid = (text.length - 1) / 2;\n      order.sort((a, b) => Math.abs(a - mid) - Math.abs(b - mid));\n    }\n    const dur = durationFor(speed);\n    const t0 = performance.now();\n    const step = (now) => {\n      const p = Math.min(1, (now - t0) / dur);\n      const done = new Set(order.slice(0, Math.floor(p * order.length)));\n      let s = '';\n      for (let i = 0; i < text.length; i++) {\n        if (text[i] === ' ') s += ' ';\n        else if (done.has(i)) s += text[i];\n        else if (mode === 'scramble') s += rand();\n      }\n      setOut(s);\n      if (p < 1) raf.current = requestAnimationFrame(step);\n      else setOut(text);\n    };\n    raf.current = requestAnimationFrame(step);\n    return () => cancelAnimationFrame(raf.current);\n  }, [shown, text, speed, from, mode]);\n  return (\n    <p ref={ref} style={{ whiteSpace: 'pre-wrap', textAlign: align }}>\n      <span className=\"sr-only\">{text}</span>\n      <span aria-hidden=\"true\">{out}</span>\n    </p>\n  );\n}"
+      },
+      {
+        "component": "scripted explainer panel",
+        "structure": "<figure class=\"explainer\" role=\"img\" aria-label=\"\">\n  <div class=\"explainer__canvas\" style=\"transform: scale(var(--fit))\">\n    <div class=\"explainer__source\"></div>\n    <div class=\"explainer__rows\"></div>\n    <div class=\"explainer__input\" data-state=\"idle\"></div>\n  </div>\n</figure>",
+        "behaviour_code": "import { useEffect, useState } from 'react';\n\n// Declare STEPS outside the component so the array identity is stable.\nexport const STEPS = [500, 1050, 1550, 1950, 2750];\n\nexport function useScriptedLoop(steps, hold = 3200) {\n  const [cycle, setCycle] = useState(0);\n  const [step, setStep] = useState(0);\n  const [reduced, setReduced] = useState(false);\n  useEffect(() => {\n    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');\n    setReduced(mq.matches);\n    const onChange = () => setReduced(mq.matches);\n    mq.addEventListener('change', onChange);\n    return () => mq.removeEventListener('change', onChange);\n  }, []);\n  useEffect(() => {\n    if (reduced) { setStep(steps.length); return; }\n    setStep(0);\n    const timers = steps.map((at, i) => setTimeout(() => setStep(i + 1), at));\n    timers.push(setTimeout(() => setCycle((c) => c + 1), steps[steps.length - 1] + hold));\n    return () => timers.forEach(clearTimeout);\n  }, [cycle, reduced, steps, hold]);\n  return { step, cycle, reduced };\n}"
+      }
+    ],
+    "tailwind_theme_extend": {
+      "transitionDuration": {
+        "link": "150ms",
+        "fast": "200ms",
+        "micro": "250ms",
+        "base": "400ms",
+        "pop": "450ms",
+        "grow": "600ms",
+        "slow": "800ms",
+        "slower": "1000ms",
+        "cinematic": "1200ms",
+        "reveal-long": "1500ms",
+        "hero-text": "2000ms"
+      },
+      "transitionTimingFunction": {
+        "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "soft": "cubic-bezier(0.44, 0, 0.56, 1)",
+        "snap": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "travel": "cubic-bezier(0.55, 0, 0.25, 1)"
+      },
+      "keyframes": {
+        "pop-confirm": {
+          "0%": {
+            "transform": "scale(0.7)",
+            "opacity": "0"
+          },
+          "60%": {
+            "transform": "scale(1.08)",
+            "opacity": "1"
+          },
+          "100%": {
+            "transform": "scale(1)"
+          }
+        },
+        "rise-in": {
+          "0%": {
+            "opacity": "0",
+            "transform": "translateY(4px)"
+          },
+          "100%": {
+            "opacity": "1",
+            "transform": "none"
+          }
+        },
+        "word-in": {
+          "0%": {
+            "opacity": "0",
+            "transform": "translateY(3px)",
+            "filter": "blur(2px)"
+          },
+          "100%": {
+            "opacity": "1",
+            "transform": "none",
+            "filter": "none"
+          }
+        },
+        "flash-fade": {
+          "0%": {
+            "opacity": "1"
+          },
+          "100%": {
+            "opacity": "0"
+          }
+        },
+        "pulse-ring": {
+          "0%": {
+            "boxShadow": "0 0 0 0 var(--color-status-ring)"
+          },
+          "100%": {
+            "boxShadow": "0 0 0 7px transparent"
+          }
+        },
+        "dot-bounce": {
+          "0%, 100%": {
+            "opacity": "0.3",
+            "transform": "translateY(0)"
+          },
+          "50%": {
+            "opacity": "1",
+            "transform": "translateY(-2px)"
+          }
+        },
+        "bar-level": {
+          "0%": {
+            "transform": "scaleY(0.35)"
+          },
+          "100%": {
+            "transform": "scaleY(1)"
+          }
+        },
+        "caret-blink": {
+          "50%": {
+            "opacity": "0"
+          }
+        },
+        "shine": {
+          "0%": {
+            "transform": "translateX(-220px)"
+          },
+          "100%": {
+            "transform": "translateX(260px)"
+          }
+        },
+        "ticker": {
+          "0%": {
+            "transform": "translateX(0)"
+          },
+          "100%": {
+            "transform": "translateX(-50%)"
+          }
+        }
+      },
+      "animation": {
+        "pop-confirm": "pop-confirm 450ms ease-out",
+        "rise-in": "rise-in 300ms ease-out",
+        "word-in": "word-in 250ms ease-out",
+        "flash-fade": "flash-fade 1400ms ease-out forwards",
+        "pulse-ring": "pulse-ring 1600ms ease-out infinite",
+        "dot-bounce": "dot-bounce 1s ease-in-out infinite",
+        "bar-level": "bar-level 500ms ease-in-out infinite alternate",
+        "caret-blink": "caret-blink 1s step-end infinite",
+        "shine": "shine 3000ms linear infinite",
+        "ticker": "ticker var(--ticker-duration, 40s) linear infinite"
+      }
+    },
+    "recommended_libraries": [
+      "motion (Framer Motion) for hover springs, variants, whileInView and height-auto menu animation",
+      "lottie-web (SVG renderer) for card illustrations",
+      "No smooth-scroll library: the source uses native scrolling plus a short JS anchor tween"
+    ]
+  },
+  "ai_replication_prompt": "Build every new screen with the Calm Technical Showcase Motion system. Import the motion tokens (CSS variables and the DUR, EASE, SPRING, STAGGER, DIST constants) and the presets module, and never invent new curves. Scroll content uses card-grid-rise: one IntersectionObserver per section container (threshold 0.15), children fade from opacity 0 and 16 to 24px below with ease-out-expo over 1 to 1.5s, staggered by index at stagger_ms.base (90ms), revealed once and never reversed. The hero uses hero-heading-char-rise (characters rise 4px behind an overflow mask, 2s ease-out-expo, 30ms stagger, starting 30ms after mount) followed by hero-sequenced-fade (subline at 400ms, action group at 600ms, both 1200ms ease-soft, final action at 1000ms over 400ms), all starting from opacity 0.001. Metrics use stat-block-grow-count: the frame scales from its bottom-left corner over 600ms, label and corner markers fade at 50 and 60% of the grow, then the number counts up for 1200ms with ease-out-cubic after a 300ms hold. Supporting captions use scramble-type-on resolving from the right in about 744ms. Illustrations follow lottie-in-view-play and start only after their card stagger slot. Buttons follow button-hover-spring-fill: colour, border or fill changes on spring-soft (duration 0.4, bounce 0.2); compact header controls use compact-button-hover at 200ms ease-soft; links use text-link-colour. No lifts, scales, shadows, parallax, pinning or scrubbing anywhere. The only hover transform is icon-button-spin on media buttons. Explainer panels are scripted timelines (product-demo-scripted-loop): highlight source words (demo-highlight-sweep, 60ms per word), spawn items at the source (300ms ease-snap), move them to their destination (demo-chip-travel, 800ms ease-travel, 80ms apart), confirm with demo-row-flash and demo-pop-confirm (450ms, 8% overshoot), hold the end state 3200ms, then loop. Pause explainers off screen. Keep a fixed, always-visible header with inline anchor links (anchor-smooth-scroll, about 850ms ease-in-out) and a compact primary CTA; below 810px use mobile-menu-expand, where the header grows in place on spring-soft and the two bars rotate into a cross. Use a real button with aria-expanded, close on Escape and on link tap. Repeat the primary booking CTA after most sections and pair it with an outline secondary in the hero and final section. Under prefers-reduced-motion, render every final state instantly.",
+  "gaps": [
+    {
+      "area": "Timing under a hidden browser pane",
+      "issue": "The inspection browser pane was hidden for part of the session, which throttles requestAnimationFrame. The anchor-scroll duration (about 850ms) and ticker motion were observed under these conditions; code-read values are unaffected.",
+      "suggested_approach": "Re-measure anchor scroll and ticker speed in a visible browser with a performance trace."
+    },
+    {
+      "area": "Reduced motion",
+      "issue": "prefers-reduced-motion could not be emulated in the test browser. Reduced-motion support is inferred from code only.",
+      "suggested_approach": "Toggle reduced motion in DevTools rendering settings and re-check hero, grid, stat and ticker behaviour."
+    },
+    {
+      "area": "Tablet range",
+      "issue": "The 810 to 1199px layout was not visually tested (768px falls in the phone breakpoint). Behaviour is taken from breakpoint definitions and variant names.",
+      "suggested_approach": "Test at 1024px for header variant, grid columns and reveal behaviour."
+    },
+    {
+      "area": "Pressed and keyboard activation states",
+      "issue": "No pressed variants were found; Enter or Space activation of the div-based menu toggle was not verified.",
+      "suggested_approach": "Test keyboard activation of the toggle and record any active-state styling in a live session."
+    },
+    {
+      "area": "Grid reveal gating hook",
+      "issue": "The grid reveal is skipped by a runtime hook imported from the site builder; whether it is reduced-motion, static render or editor detection was not confirmed.",
+      "suggested_approach": "Emulate reduced motion and compare initial grid state."
+    },
+    {
+      "area": "Spring conversion",
+      "issue": "The source defines springs as duration 0.4s and bounce 0.2. The stiffness 470 and damping 35 values are an approximate conversion, not code.",
+      "suggested_approach": "Use the duration and bounce form directly in Framer Motion; convert with the library if a physics form is required."
+    },
+    {
+      "area": "Lottie internals",
+      "issue": "Motion inside the Lottie illustration files was not decomposed.",
+      "suggested_approach": "Open the JSON files in a Lottie viewer to extract their internal timing if exact parity is needed."
+    },
+    {
+      "area": "Other pages and flows",
+      "issue": "Only the home page was inspected. Resources, sign-in and the external scheduler were not analysed, and no page transitions were exercised.",
+      "suggested_approach": "Run the same sweep on secondary templates and any in-app pages."
+    },
+    {
+      "area": "Screen reader behaviour",
+      "issue": "Assistive-technology notes are based on DOM inspection, not a real screen reader session.",
+      "suggested_approach": "Test with NVDA or VoiceOver, focusing on the split hero heading, counters and ticker duplicates."
+    },
+    {
+      "area": "Hero action attribution",
+      "issue": "The late 1000ms/400ms appear effect is attached to one button inside the hero action group; which of the two buttons it is was inferred from width and nesting rather than confirmed.",
+      "suggested_approach": "Record the hero load at high frame rate to confirm which action lands last."
+    }
+  ],
+  "extensions": {
+    "motion_tokens_extra": {
+      "durations_ms": {
+        "link": 150,
+        "micro": 250,
+        "micro_300": 300,
+        "pop": 450,
+        "grow": 600,
+        "anchor_scroll": 850,
+        "slower": 1000,
+        "count": 1200,
+        "flash": 1400,
+        "reveal_long": 1500,
+        "pulse": 1600,
+        "tint_settle": 1800,
+        "hero_text": 2000,
+        "ambient": 3000,
+        "demo_hold": 3200,
+        "type_on": 744,
+        "lottie_native": "per file (speed 1x; one looping file at 0.5x)"
+      },
+      "stagger_ms": {
+        "heading_default": 20,
+        "highlight": 60,
+        "travel": 80,
+        "dots": 150,
+        "result": 850,
+        "demo_row": 2100
+      },
+      "load_offsets_ms": {
+        "heading_start": 30,
+        "subline": 400,
+        "action_group": 600,
+        "late_action": 1000
+      },
+      "thresholds": {
+        "grid_and_cards": 0.15,
+        "stat_block": 0.3,
+        "separator": 0.5,
+        "type_on": "any pixel",
+        "lottie_wrapper": 0.3
+      },
+      "velocity": {
+        "ticker_px_per_s": 20,
+        "ticker_hover_modifier": "100% (no slow-down)"
+      },
+      "spring_soft_exact": {
+        "type": "spring",
+        "duration_s": 0.4,
+        "bounce": 0.2,
+        "source": "code",
+        "confidence": "high"
+      }
+    },
+    "product_demo_timeline_ms": {
+      "first_row": 500,
+      "per_row": 2100,
+      "row_sub_beats": [
+        0,
+        550,
+        1050,
+        1450,
+        2250
+      ],
+      "stage_gaps": [
+        1200,
+        1100,
+        900
+      ],
+      "word_interval": 190,
+      "post_query_gaps": [
+        450,
+        450,
+        500,
+        1100,
+        900
+      ],
+      "result_interval": 850,
+      "end_hold": 3200,
+      "source": "code",
+      "confidence": "high"
+    },
+    "breakpoints_px": {
+      "widest": "1440 and up",
+      "desktop": "1200 to 1439",
+      "tablet": "810 to 1199",
+      "phone": "under 810"
+    },
+    "appear_optimisation": "Load effects are serialised as JSON per breakpoint and started by an inline animator before hydration, beginning at opacity 0.001. Replicas in React can approximate this with SSR-rendered initial styles plus CSS transitions triggered on first paint.",
+    "confidence_split": {
+      "motion": "high (values read from source)",
+      "ux": "medium (interactive sweep limited by hidden pane and no reduced-motion emulation)"
+    },
+    "inspection_notes": "Values tagged code were read from inline configuration, stylesheets and page component chunks at runtime. Values tagged observed come from live interaction in an emulated 1440, 768 and 375px viewport. No recordings or screenshots were supplied."
+  }
+}

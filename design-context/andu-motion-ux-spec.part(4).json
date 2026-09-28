@@ -1,0 +1,3075 @@
+{
+  "meta": {
+    "system_name": "Mission-Console Cinematic Motion",
+    "summary": "A dark, cinematic marketing system where motion behaves like instrumentation: rules draw across the grid, content slides in a short distance from the reading-start edge, and small labels decode through random characters as if resolving live data. Durations are long and eased with a steep exponential out-curve, so things arrive fast and then settle for a long time, which reads as confident and heavy rather than playful. Interaction is quiet and typographic (sibling dimming, underline sweeps, quarter-turn icons) while a smooth-scrolled, WebGL-backed page and a scale-crossfade route transition make the whole site feel like one continuous application. Navigation gets out of the way in proportion to scroll and comes back instantly on upward intent.",
+    "inputs_used": {
+      "live_url": true,
+      "recordings": 0,
+      "screenshots": 0
+    },
+    "platform": "web",
+    "product_type": "marketing site (SPA, CMS-driven, WebGL-enhanced)",
+    "confidence_overall": "high"
+  },
+  "principles": [
+    {
+      "principle": "Arrive fast, settle long",
+      "description": "Almost every entrance uses an exponential ease-out at 1000 to 1500ms. Most of the distance is covered in the first 20% of the time, then the element drifts into place.",
+      "how_to_apply": "Use ease-out-expo with slow or cinematic durations for entrances. Never use springs or overshoot. Keep hover and state feedback at 300ms with a gentle ease-out.",
+      "applies_to": [
+        "motion"
+      ]
+    },
+    {
+      "principle": "Draw the structure, then fill it",
+      "description": "Hairline rules draw left to right before or alongside the content that sits on them.",
+      "how_to_apply": "Pair every row or card entrance with a rule-draw on its divider, starting at the same moment, with content offset by a 200ms base delay and 100ms per child.",
+      "applies_to": [
+        "motion",
+        "ux"
+      ]
+    },
+    {
+      "principle": "Motion follows reading direction",
+      "description": "Things enter from the left, exit to the right, underlines draw from the left and wipe out to the right.",
+      "how_to_apply": "Use x -10% for entrances and +10% for exits. Flip transform-origin to the trailing edge for retractions. Mirror all of this for right-to-left locales.",
+      "applies_to": [
+        "motion"
+      ]
+    },
+    {
+      "principle": "Text resolves, it does not bounce",
+      "description": "Short labels and descriptions decode through random characters; headings reveal line by line behind a mask. Body copy is never split.",
+      "how_to_apply": "Reserve text-scramble-decode for labels, eyebrows, menu titles and one-line descriptions; reserve hero-line-mask-reveal for the single primary heading per page.",
+      "applies_to": [
+        "motion"
+      ]
+    },
+    {
+      "principle": "Quiet, typographic interaction",
+      "description": "Hover states change opacity, underline, fill or a quarter-turn of an icon. Elements do not lift, glow or bounce.",
+      "how_to_apply": "Prefer opacity, background wipes and transform-origin sweeps. Scale only media inside a clipped frame, never the card.",
+      "applies_to": [
+        "motion",
+        "ux"
+      ]
+    },
+    {
+      "principle": "Chrome yields to content in proportion to intent",
+      "description": "The header hides at a rate tied to scroll distance (half rate going down, full rate coming back up) and frosts only once the page has moved.",
+      "how_to_apply": "Drive header offset from accumulated scroll delta, clamp to its height, and never animate it on a timer.",
+      "applies_to": [
+        "ux",
+        "motion"
+      ]
+    },
+    {
+      "principle": "One continuous space",
+      "description": "Smooth scrolling, a scale-crossfade route transition and a WebGL layer synced to DOM sections remove the feeling of page loads.",
+      "how_to_apply": "Freeze the outgoing page in place, reset scroll invisibly, and run page-transition-scale-crossfade then page-transition-settle-in (two 350ms phases). Start hero entrances only after the transition ends.",
+      "applies_to": [
+        "motion",
+        "ux"
+      ]
+    },
+    {
+      "principle": "Disclose on intent, not by default",
+      "description": "Menus, card descriptions and accordion content stay hidden until hover, focus or tap, and touch devices get an automatic reveal instead of a hover.",
+      "how_to_apply": "Gate hover reveals behind (hover: hover); on touch, trigger the same reveal once on in-view.",
+      "applies_to": [
+        "ux"
+      ]
+    }
+  ],
+  "behaviour_keywords": [
+    "cinematic",
+    "restrained",
+    "technical",
+    "heavy",
+    "precise",
+    "directional",
+    "decoding",
+    "immersive",
+    "confident"
+  ],
+  "motion_system": {
+    "tech": {
+      "libraries": [
+        {
+          "name": "Hydra framework (proprietary creative-studio framework with its own TweenManager, SplitText, Scroll, Slider, Interaction and WebGL renderer)",
+          "version": "1.1.18",
+          "evidence": "Global flag CREATED_WITH_HYDRAX, class registry in app bundle (TweenManager, SplitText, Slider, Interaction, RenderManager, FXScene, UIL)",
+          "source": "code"
+        },
+        {
+          "name": "Lenis",
+          "version": "1.3.23",
+          "evidence": "Separate lenis bundle with embedded version string; global instance with duration 0.8, lerp false, Quart.Out easing, syncTouch false",
+          "source": "code"
+        },
+        {
+          "name": "Custom WebGL renderer (three.js-style scene graph inside the framework)",
+          "version": "",
+          "evidence": "Compiled shader bundle preloaded, single fixed full-viewport canvas, per-slice meshes with scroll uniforms, GPU tier detection scripts",
+          "source": "code"
+        },
+        {
+          "name": "Headless CMS with live visual editing",
+          "version": "",
+          "evidence": "Stega-encoded strings cleaned before text animations; page content delivered as JSON slices",
+          "source": "code"
+        }
+      ],
+      "smooth_scroll": {
+        "enabled": true,
+        "library": "Lenis",
+        "settings": {
+          "lerp": false,
+          "duration": 0.8,
+          "easing": "easeOutQuart (1 - (1 - t)^4)",
+          "smoothWheel": true,
+          "syncTouch": false,
+          "autoResize": false,
+          "wheelMultiplier": 1,
+          "touchMultiplier": "1 global, 2 on nested menu instances",
+          "nested_instances": "mobile menu, dropdowns, search results, location modal",
+          "scroll_lock": "reference-counted pauser: lenis.stop() when the first overlay opens, start() when the last closes"
+        }
+      },
+      "rendering": "mixed",
+      "page_transition_method": "spa-router"
+    },
+    "personality": "cinematic and restrained: long exponential settles, technical decode text, typographic hovers",
+    "tokens": {
+      "durations_ms": {
+        "instant": 125,
+        "fast": 300,
+        "base": 500,
+        "slow": 1000,
+        "cinematic": 1500
+      },
+      "easings": [
+        {
+          "token": "ease-out-expo",
+          "value": "cubic-bezier(0.19, 1, 0.22, 1) | gsap 'expo.out'",
+          "usage": "Dominant entrance curve: slide-in-from-start, rule-draw, hero reveals, counters, chart draws, exits of reveals.",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "ease-out-cubic",
+          "value": "cubic-bezier(0.215, 0.61, 0.355, 1) | gsap 'power2.out'",
+          "usage": "Menus, panel heights, header frost, card disclosure, carousel snap, sibling dimming.",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "ease-in-out-cubic",
+          "value": "cubic-bezier(0.645, 0.045, 0.355, 1) | gsap 'power2.inOut'",
+          "usage": "Programmatic header hide and show, symmetric fades of section content, vertical slide swaps.",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "ease-out-sine",
+          "value": "cubic-bezier(0.39, 0.575, 0.565, 1) | gsap 'sine.out'",
+          "usage": "Accordions, row fill wipes, modal blur and scrim, page transition phase 1.",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "ease-in-sine",
+          "value": "cubic-bezier(0.47, 0, 0.745, 0.715) | gsap 'sine.in'",
+          "usage": "Page transition phase 2 (incoming page settle and overlay out).",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "ease-in-out-sine",
+          "value": "cubic-bezier(0.445, 0.05, 0.55, 0.95) | gsap 'sine.inOut'",
+          "usage": "Progress curve of text-scramble-decode.",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "ease-in-out-quad",
+          "value": "cubic-bezier(0.455, 0.03, 0.515, 0.955) | gsap 'power1.inOut'",
+          "usage": "Side panels and drawers (250ms).",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "ease-out-quart",
+          "value": "t => 1 - Math.pow(1 - t, 4) | gsap 'power3.out'",
+          "usage": "Smooth scroll (Lenis) easing.",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "css-ease-out",
+          "value": "ease-out",
+          "usage": "CSS hover and state transitions (300ms): colour, opacity, icon rotation, media zoom, mobile menu screens.",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "css-ease-in-out",
+          "value": "ease-in-out",
+          "usage": "CSS opacity and translate toggles for floating buttons and banners.",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "css-ease",
+          "value": "ease",
+          "usage": "Load progress bar steps.",
+          "source": "code",
+          "confidence": "high"
+        },
+        {
+          "token": "linear",
+          "value": "linear",
+          "usage": "Infinite loops (marquee, spinners), frame-synced WebGL uniforms.",
+          "source": "code",
+          "confidence": "high"
+        }
+      ],
+      "springs": [],
+      "stagger_ms": {
+        "tight": 50,
+        "base": 100,
+        "loose": 200
+      },
+      "distances": {
+        "reveal_offset": "translateX(-10%) of the element's own width for content; translateY(100%) of line height for masked heading lines",
+        "hover_lift": "none (no card lift anywhere); media inside cards scales 1.05 to 1.1",
+        "parallax_range": "none in DOM; WebGL layers track DOM positions 1:1",
+        "slide_distance": "100% of panel width for drawers, mobile menu and side panels"
+      },
+      "entrance_exit_ratio": "Reveal exits run at about 0.5x the entrance (700ms out vs 1500ms in for rows; scrim 300ms out vs 600ms in). Overlays that hold spatial context are symmetric (modal 1000/1000, side panel 250/250, page transition 350/350). Dimming is asymmetric the other way: highlight in 150ms, restore 500ms."
+    },
+    "patterns": [
+      {
+        "name": "page-load-progress-bar",
+        "category": "preloader",
+        "trigger": {
+          "type": "load",
+          "start": "document start",
+          "end": "app ready",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "translateX(-100%)",
+              "opacity": 1
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "translateX(0%)",
+              "opacity": 0
+            }
+          }
+        ],
+        "duration_token": "slow",
+        "easing_token": "css-ease",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "On completion snaps to 100% over 200ms, waits 200ms, fades to opacity 0 over 200ms, then is removed from the DOM.",
+        "interruptible": "Fake progress: increments shrink as progress rises (+10% below 20%, +4% to 50%, +2% to 80%, +0.5% to 99%) every 1000ms and cap at 99.4% until the real done() fires. Re-used as a route-change ticker with an expected duration of 2000ms and linear bar transitions.",
+        "applies_to": "Global: first load and every client-side route change.",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Keep; it is a thin, non-intrusive indicator. No change needed.",
+        "ux_purpose": "Reduces perceived wait while a heavy WebGL/CMS payload boots, without a blocking splash screen; the page underneath stays a calm solid field.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "// Vanilla JS, runs before the framework mounts\nconst bar = Object.assign(document.createElement('div'), { className: 'load-bar' });\nObject.assign(bar.style, { position: 'fixed', top: 0, left: 0, width: '100%', height: '3px', zIndex: 10001, pointerEvents: 'none', background: 'var(--color-accent)', transform: 'translateX(-100%)', transition: 'all 1000ms ease' });\ndocument.body.appendChild(bar);\nlet p = 0, t;\nconst tick = () => { const inc = p < .2 ? .1 : p < .5 ? .04 : p < .8 ? .02 : p < .99 ? .005 : 0; p = Math.min(p + inc, .994); bar.style.transform = `translate3d(${(p - 1) * 100}%,0,0)`; t = setTimeout(tick, 1000); };\nt = setTimeout(tick, 0);\nwindow.loadBarDone = () => { clearTimeout(t); bar.style.transition = 'all 200ms ease'; bar.style.transform = 'translate3d(0,0,0)'; setTimeout(() => { bar.style.opacity = 0; setTimeout(() => bar.remove(), 200); }, 200); };"
+      },
+      {
+        "name": "hero-line-mask-reveal",
+        "category": "text",
+        "trigger": {
+          "type": "state-change",
+          "start": "route transition finished",
+          "end": "",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": true,
+          "by": "lines",
+          "mask": true,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "translateY(100%)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "translateY(0%)"
+            }
+          }
+        ],
+        "duration_token": "slow",
+        "easing_token": "ease-out-expo",
+        "stagger_token": "base",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "No exit. Leaves with the page transition.",
+        "interruptible": "Split is reverted and re-run on resize or content change; a queued flag prevents overlapping splits.",
+        "applies_to": "Primary hero headings on landing and section heroes.",
+        "responsive_differences": "Same motion; line breaks re-computed per viewport. Heading min-width changes (full width under 769px).",
+        "reduced_motion_fallback": "None in the source for this pattern (it plays regardless of prefers-reduced-motion). Recommended for replicas: skip the tween and set the end state instantly.",
+        "ux_purpose": "Gives the first heading a deliberate, one-line-at-a-time cadence that reads as a statement, and holds attention on the headline before media and secondary text settle.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nimport { SplitText } from 'gsap/SplitText';\ngsap.registerPlugin(SplitText);\nexport async function heroLineReveal(el) {\n  await document.fonts.ready;\n  const split = SplitText.create(el, { type: 'lines', mask: 'lines' });\n  gsap.set(el, { opacity: 1 });\n  return gsap.from(split.lines, { yPercent: 100, duration: 1, ease: 'expo.out', stagger: 0.1 });\n}"
+      },
+      {
+        "name": "hero-media-fade",
+        "category": "load",
+        "trigger": {
+          "type": "state-change",
+          "start": "route transition finished",
+          "end": "",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "opacity": 0
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "opacity": 1
+            }
+          }
+        ],
+        "duration_token": "slow",
+        "easing_token": "ease-out-expo",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "No exit.",
+        "interruptible": "Media element is swapped (destroyed and rebuilt) when the viewport aspect ratio crosses to a closer-matching source; the swap is not animated.",
+        "applies_to": "Hero background video or image; hero short labels fade to a reduced opacity target (about 0.6) instead of 1.",
+        "responsive_differences": "Hero media height is a viewport-relative value (about 96svh with no title, about 76svh with a title). A portrait or landscape source is chosen by nearest aspect angle.",
+        "reduced_motion_fallback": "None in the source for this pattern (it plays regardless of prefers-reduced-motion). Recommended for replicas: skip the tween and set the end state instantly.",
+        "ux_purpose": "Media arrives softly behind the headline so the headline wins the first beat, then the atmosphere fills in.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nexport const heroMediaFade = (el) => gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 1, ease: 'expo.out' });"
+      },
+      {
+        "name": "text-scramble-decode",
+        "category": "text",
+        "trigger": {
+          "type": "in-view",
+          "start": "element 5% visible (or on panel open / hover)",
+          "end": "",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "progress": 0,
+              "characters": "all randomised"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "progress": 1,
+              "characters": "all resolved"
+            }
+          }
+        ],
+        "duration_token": "base",
+        "easing_token": "ease-in-out-sine",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Can run in reverse (progress 1 to 0) to scramble text away; normally no exit.",
+        "interruptible": "Each call increments an id; stale runs stop themselves. The loop stops early if progress has not changed for 3 frames, and always restores the clean text on complete or interrupt.",
+        "applies_to": "Small uppercase labels, eyebrow text, card descriptions revealed on hover, menu section titles, hero sub-labels and hero descriptions.",
+        "responsive_differences": "Card descriptions scramble on hover on pointer devices and on in-view on touch.",
+        "reduced_motion_fallback": "Recommended: skip the scramble and show clean text immediately.",
+        "ux_purpose": "A terminal-style decode that signals live, technical, machine-generated information. It makes short copy feel like it is being resolved rather than faded in, and gives static labels a moment of attention without moving layout.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "export function scramble(el, duration = 500, delay = 0) {\n  const clean = el.dataset.clean ?? (el.dataset.clean = el.textContent);\n  const pool = /^\\d+$/.test(clean) ? '0123456789' : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';\n  const keep = new Set([' ', '/', '?', ',', '.']);\n  const ease = (t) => -(Math.cos(Math.PI * t) - 1) / 2; // sine in-out\n  const id = (el._scrambleId = (el._scrambleId || 0) + 1);\n  let start, lastFrame = 0;\n  const frame = (now) => {\n    if (id !== el._scrambleId) return;\n    start ??= now + delay;\n    const t = Math.min(Math.max((now - start) / duration, 0), 1);\n    if (now - lastFrame >= 50 || t === 1) {\n      lastFrame = now;\n      const from = Math.round(ease(t) * clean.length);\n      el.textContent = clean.split('').map((c, i) => (i < from || keep.has(c)) ? c : (() => { const r = pool[Math.floor(Math.random() * pool.length)]; return c === c.toLowerCase() ? r.toLowerCase() : r; })()).join('');\n    }\n    if (t < 1) requestAnimationFrame(frame); else el.textContent = clean;\n  };\n  requestAnimationFrame(frame);\n}"
+      },
+      {
+        "name": "rule-draw",
+        "category": "scroll-reveal",
+        "trigger": {
+          "type": "in-view",
+          "start": "element 5% to 50% visible depending on section",
+          "end": "",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "scaleX(0)",
+              "transform-origin": "0% 50%"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "scaleX(1)",
+              "transform-origin": "0% 50%"
+            }
+          }
+        ],
+        "duration_token": "cinematic",
+        "easing_token": "ease-out-expo",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "See rule-retract-exit: origin flips to the right edge and the rule retracts over 700ms.",
+        "interruptible": "Guarded by an animatedIn flag, so it only plays once per mount unless explicitly reset.",
+        "applies_to": "Hairline dividers on list rows, news rows, link cards, stat blocks, accordion rows and section tops. List rows may use a longer 2000ms draw.",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Recommended: render rules at full width immediately.",
+        "ux_purpose": "Draws the grid before the content lands, like a technical drawing being ruled. It establishes structure and reading direction (left to right) and gives every row a clear start point.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nexport const ruleDraw = (el, delay = 0, duration = 1.5) =>\n  gsap.fromTo(el, { scaleX: 0, transformOrigin: '0% 50%' }, { scaleX: 1, duration, ease: 'expo.out', delay });"
+      },
+      {
+        "name": "slide-in-from-start",
+        "category": "scroll-reveal",
+        "trigger": {
+          "type": "in-view",
+          "start": "IntersectionObserver threshold 0.05 by default, 0.5 on text-heavy sections",
+          "end": "",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "translateX(-10%)",
+              "opacity": 0
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "translateX(0%)",
+              "opacity": 1
+            }
+          }
+        ],
+        "duration_token": "slow",
+        "easing_token": "ease-out-expo",
+        "stagger_token": "base",
+        "delay_ms": 200,
+        "repeat": 0,
+        "exit_behaviour": "Mirror exit when content is hidden by a parent (for example a tab switch): translateX(+10%) and opacity 0 over 700ms ease-out-expo.",
+        "interruptible": "One-shot per mount via an animatedIn flag. If the element is already in the viewport at mount, it animates immediately instead of waiting for the observer.",
+        "applies_to": "Content groups inside rows and cards (index label, title, subtitle, media), stat blocks, news rows, link cards, accordion row headers, form fields (variant: 800ms, tight stagger of 50ms per field index).",
+        "responsive_differences": "Same on all sizes.",
+        "reduced_motion_fallback": "Recommended: opacity-only fade at the fast duration, no translate.",
+        "ux_purpose": "The house entrance. A short horizontal push from the reading-start edge, paired with rule-draw, makes lists and cards assemble in reading order and keeps scanning left-aligned and fast. Distance is relative (10% of the element) so small labels move little and large blocks move more.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nexport function slideInFromStart(els, { baseDelay = 0.2, stagger = 0.1, duration = 1 } = {}) {\n  return gsap.fromTo(els, { xPercent: -10, opacity: 0 }, { xPercent: 0, opacity: 1, duration, ease: 'expo.out', delay: baseDelay, stagger });\n}\nexport function onceInView(el, cb, threshold = 0.05) {\n  const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { cb(); io.disconnect(); } }, { threshold });\n  io.observe(el);\n}"
+      },
+      {
+        "name": "rule-retract-exit",
+        "category": "scroll-reveal",
+        "trigger": {
+          "type": "state-change",
+          "start": "parent hides the section (tab or filter change)",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "scaleX(1)",
+              "transform-origin": "100% 50%"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "scaleX(0)",
+              "transform-origin": "100% 50%"
+            }
+          }
+        ],
+        "duration_token": "extensions.exit",
+        "easing_token": "ease-out-expo",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "This is the exit. Content beside it moves +10% on x and fades to 0 in the same 700ms.",
+        "interruptible": "Resets the animatedIn flag so the entrance can replay when the section returns.",
+        "applies_to": "Accordion rows and list rows inside tabbed containers.",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Recommended: instant hide.",
+        "ux_purpose": "Leaving in the reading direction (out to the right) while entering from the left keeps a consistent sense of flow, so swapped content feels like it has been paged forward rather than deleted.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nexport function retractOut(rule, content, delay = 0) {\n  gsap.set(rule, { transformOrigin: '100% 50%' });\n  return gsap.timeline({ delay })\n    .to(rule, { scaleX: 0, duration: 0.7, ease: 'expo.out' }, 0)\n    .to(content, { xPercent: 10, opacity: 0, duration: 0.7, ease: 'expo.out' }, 0);\n}"
+      },
+      {
+        "name": "header-scroll-coupled-hide",
+        "category": "scroll-scrub",
+        "trigger": {
+          "type": "scroll-scrub",
+          "start": "scroll > 0",
+          "end": "one header height of scroll",
+          "once": false,
+          "scrub": true,
+          "direction_aware": true
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "translateY(0)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "translateY(-100%)"
+            }
+          }
+        ],
+        "duration_token": "extensions.header-hide-programmatic",
+        "easing_token": "ease-in-out-cubic",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Scrolling up reveals it at 1:1 with scroll distance. Programmatic hide or show (for immersive sections) tweens over 1000ms ease-in-out-cubic.",
+        "interruptible": "Not a toggle: the offset is accumulated from scroll deltas and clamped to 0..1 of header height, so reversing direction mid-hide reverses smoothly. Scroll updates are ignored while a route transition or programmatic tween is running. A reference-counted hider API lets several components request hidden state; it shows again only when all release.",
+        "applies_to": "Primary header on every page. Writes a --header-offset CSS variable so sticky sub-navigation follows it.",
+        "responsive_differences": "Desktop: downward scroll hides at half rate (header fully hides after 2x its height of scroll), upward reveals at full rate. Mobile (768px and under): 1:1 both ways.",
+        "reduced_motion_fallback": "Recommended: keep (it is scroll-bound, not autonomous motion).",
+        "ux_purpose": "Returns screen space to content as soon as the reader commits to scrolling down, but gives navigation back instantly on any upward intent. Coupling to scroll distance instead of a timed toggle means the header never animates on its own and never fights the reader.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import Lenis from 'lenis';\nexport function scrollCoupledHeader(header, lenis, { downRate = 0.5 } = {}) {\n  let hidden = 0, last = 0;\n  lenis.on('scroll', ({ scroll }) => {\n    const h = header.offsetHeight, s = Math.max(0, scroll);\n    let d = s - last; if (d > 0 && innerWidth > 768) d *= downRate;\n    hidden = Math.min(1, Math.max(0, hidden + d / h)); last = s;\n    const y = -h * hidden;\n    header.style.transform = `translate3d(0,${y}px,0)`;\n    document.documentElement.style.setProperty('--header-offset', `${h + y}px`);\n    header.toggleAttribute('data-frosted', s > 30);\n  });\n}"
+      },
+      {
+        "name": "header-frost-on-scroll",
+        "category": "state-change",
+        "trigger": {
+          "type": "state-change",
+          "start": "scroll > 30px, or any nav item hovered, or mobile menu open",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "--frosted": 0,
+              "--background-opacity": 0
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "--frosted": 1,
+              "--background-opacity": "0.5 on light variants, 1 on solid-dark variant"
+            }
+          }
+        ],
+        "duration_token": "fast",
+        "easing_token": "ease-out-cubic",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Reverses over the same 300ms when back at the top and no menu is open. Resets instantly at the midpoint of a route change.",
+        "interruptible": "Values are tweened custom properties, so a new target simply retargets from the current value.",
+        "applies_to": "Primary header. Each page declares a header mode (transparent over dark, transparent over light, frosted light, solid dark); text colour switches instantly per mode.",
+        "responsive_differences": "Mobile header keeps a minimum 0.3 background opacity on the bar.",
+        "reduced_motion_fallback": "Keep.",
+        "ux_purpose": "Keeps the header legible over any content once the page moves, while letting heroes run edge to edge at rest. The per-page mode lets each hero choose the header tone.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nexport function setFrost(header, on, mode = 'light') {\n  gsap.to(header, { '--frosted': on ? 1 : 0, '--background-opacity': on ? (mode === 'solid' ? 1 : 0.5) : 0, duration: 0.3, ease: 'power2.out' });\n}\n// CSS: .header{background:rgb(var(--header-bg-rgb)/var(--background-opacity));backdrop-filter:blur(calc(var(--frosted)*{blur.header}))}"
+      },
+      {
+        "name": "mega-menu-height-expand",
+        "category": "overlay",
+        "trigger": {
+          "type": "hover",
+          "start": "pointer enters or keyboard focuses a top-level nav item",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "height": "0",
+              "panel-content-opacity": 0
+            }
+          },
+          {
+            "offset": 0.2,
+            "properties": {
+              "panel-content-opacity": 0
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "height": "content height",
+              "panel-content-opacity": 1
+            }
+          }
+        ],
+        "duration_token": "base",
+        "easing_token": "ease-out-cubic",
+        "stagger_token": "",
+        "delay_ms": 100,
+        "repeat": 0,
+        "exit_behaviour": "On leaving the whole nav region (not just the item) height tweens to 0 over 500ms and content fades out 500ms; the company panel fades out slower (1000ms). Panels are display:none after fade.",
+        "interruptible": "Moving between sibling items crossfades panels (outgoing 500ms fade, incoming 500ms fade with 100ms delay) while the wrapper height tweens from its current value to the new panel height. A ResizeObserver re-tweens height if the panel content changes.",
+        "applies_to": "Desktop primary navigation panels (category menus, company menu, search panel). Search panel focuses its input after its fade completes.",
+        "responsive_differences": "Desktop only (769px and up). Mobile uses mobile-menu-slide.",
+        "reduced_motion_fallback": "Recommended: instant height, keep the opacity crossfade at the fast duration.",
+        "ux_purpose": "A single shared panel that morphs in height between sections preserves spatial context: the menu feels like one surface changing content, not several dropdowns opening and closing.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nexport function openPanel(wrapper, panels, next) {\n  panels.forEach((p) => p !== next && gsap.to(p, { opacity: 0, duration: 0.5, ease: 'power2.out', onComplete: () => (p.hidden = true) }));\n  next.hidden = false;\n  gsap.fromTo(next, { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 0.1, ease: 'power2.out' });\n  gsap.to(wrapper, { height: next.offsetHeight, duration: 0.5, ease: 'power2.out' });\n  wrapper.setAttribute('aria-hidden', 'false');\n}\nexport function closePanel(wrapper, panels) {\n  panels.forEach((p) => gsap.to(p, { opacity: 0, duration: 0.5, ease: 'power2.out', onComplete: () => (p.hidden = true) }));\n  gsap.to(wrapper, { height: 0, duration: 0.5, ease: 'power2.out', onComplete: () => wrapper.setAttribute('aria-hidden', 'true') });\n}"
+      },
+      {
+        "name": "sibling-dim-focus",
+        "category": "hover",
+        "trigger": {
+          "type": "hover",
+          "start": "pointer over or focus on one item in a group",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "sibling-opacity": 1
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "sibling-opacity": 0.5
+            }
+          }
+        ],
+        "duration_token": "base",
+        "easing_token": "ease-out-cubic",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Siblings return to full opacity over 500ms with a 150ms delay when the pointer leaves the group; the hovered item returns to 1 over 150ms.",
+        "interruptible": "Retargets from current opacity.",
+        "applies_to": "Top-level navigation items; the pattern suits any horizontal set of peer options.",
+        "responsive_differences": "Pointer and keyboard focus only.",
+        "reduced_motion_fallback": "Keep (opacity only).",
+        "ux_purpose": "Spotlights the active choice by receding the alternatives rather than decorating the target, which keeps the nav typographic and quiet.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nexport function dimSiblings(items, active) {\n  items.forEach((el) => gsap.to(el, active && el !== active ? { opacity: 0.5, duration: 0.5, ease: 'power2.out' } : { opacity: 1, duration: active ? 0.15 : 0.5, delay: active ? 0 : 0.15, ease: 'power2.out' }));\n}"
+      },
+      {
+        "name": "nav-scrim-fade",
+        "category": "overlay",
+        "trigger": {
+          "type": "hover",
+          "start": "any nav item hovered",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "opacity": 0
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "opacity": 1
+            }
+          }
+        ],
+        "duration_token": "extensions.scrim-in",
+        "easing_token": "ease-out-cubic",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Exits from 0.5 to 0 over 300ms (about 0.5x the entrance) then is hidden.",
+        "interruptible": "Retargets.",
+        "applies_to": "A full-viewport gradient scrim beneath the desktop header while a nav panel is open.",
+        "responsive_differences": "Desktop only.",
+        "reduced_motion_fallback": "Keep (opacity only).",
+        "ux_purpose": "Pushes page content back so the open menu reads as the foreground layer, without a hard modal.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nexport const scrimIn = (el) => { el.hidden = false; return gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' }); };\nexport const scrimOut = (el) => gsap.fromTo(el, { opacity: 0.5 }, { opacity: 0, duration: 0.3, ease: 'power2.out', onComplete: () => (el.hidden = true) });"
+      },
+      {
+        "name": "link-underline-draw-replay",
+        "category": "hover",
+        "trigger": {
+          "type": "in-view",
+          "start": "300ms after the link enters view; replays on each pointer over",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "scaleX(1)",
+              "transform-origin": "100% 50%"
+            }
+          },
+          {
+            "offset": 0.49,
+            "properties": {
+              "transform": "scaleX(0)",
+              "transform-origin": "100% 50%"
+            }
+          },
+          {
+            "offset": 0.5,
+            "properties": {
+              "transform": "scaleX(0)",
+              "transform-origin": "0% 50%"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "scaleX(1)",
+              "transform-origin": "0% 50%"
+            }
+          }
+        ],
+        "duration_token": "extensions.underline-replay",
+        "easing_token": "css-ease-out",
+        "stagger_token": "",
+        "delay_ms": 300,
+        "repeat": 0,
+        "exit_behaviour": "No exit; underline stays drawn. The whole link sits at a reduced opacity (about 0.6) and rises to full on hover over 300ms.",
+        "interruptible": "Replay restarts cleanly: the class is removed, a reflow is forced, and the class is re-added.",
+        "applies_to": "Primary text links with trailing arrow icon. First draw is 300ms scaleX 0 to 1 from the left; hover replay is 600ms (wipe out to the right, then redraw from the left). Secondary (outlined) link buttons instead invert fill and text over 300ms.",
+        "responsive_differences": "On touch the in-view draw still plays; hover replay never fires.",
+        "reduced_motion_fallback": "Recommended: underline static at full width.",
+        "ux_purpose": "The underline arriving on its own marks links as actionable before any hover. The wipe-through on hover confirms the pointer has registered, with a directional sweep that echoes the rule-draw language.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "/* CSS */\n.link-u { position: relative; opacity: .6; transition: opacity .3s ease-out; }\n.link-u:hover { opacity: 1; }\n.link-u::after { content: ''; position: absolute; left: 0; bottom: -.3rem; width: 100%; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: 0; }\n.link-u.is-drawn::after { animation: u-in .3s ease-out forwards; }\n.link-u.is-replay::after { animation: u-replay .6s forwards; }\n@keyframes u-in { from { transform: scaleX(0); } to { transform: scaleX(1); } }\n@keyframes u-replay { 0% { transform-origin: 100%; transform: scaleX(1); } 49% { transform-origin: 100%; transform: scaleX(0); } 50% { transform-origin: 0; transform: scaleX(0); } 100% { transform-origin: 0; transform: scaleX(1); } }\n/* JS */\n// el.addEventListener('pointerenter', () => { if (!el.classList.contains('is-drawn')) return; el.classList.remove('is-replay'); void el.offsetWidth; el.classList.add('is-replay'); });"
+      },
+      {
+        "name": "plus-rotate-toggle",
+        "category": "feedback",
+        "trigger": {
+          "type": "state-change",
+          "start": "expanded state changes",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "vertical-bar": "rotate(90deg)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "vertical-bar": "rotate(0deg)"
+            }
+          }
+        ],
+        "duration_token": "fast",
+        "easing_token": "css-ease-out",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Reverses on collapse over the same 300ms.",
+        "interruptible": "CSS transition, retargets naturally.",
+        "applies_to": "Expand indicators on nav items with sub-menus, footer link groups (mobile), product feature rows and accordion rows (accordion rows swap a plus icon for a minus icon instead).",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Keep, or swap instantly.",
+        "ux_purpose": "A plus built from two bars where one bar rotates flat to form a minus. It confirms state change in the exact spot the user clicked, with no layout shift.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": ".plus { position: relative; width: .75rem; height: .75rem; }\n.plus > span { position: absolute; top: 50%; left: 50%; width: 100%; height: 1px; background: currentColor; transform: translate(-50%,-50%); transition: transform .3s ease-out; }\n.plus > span:first-child { transform: translate(-50%,-50%) rotate(90deg); }\n[aria-expanded='true'] .plus > span:first-child { transform: translate(-50%,-50%) rotate(0deg); }"
+      },
+      {
+        "name": "close-button-rotate",
+        "category": "hover",
+        "trigger": {
+          "type": "hover",
+          "start": "pointer over close control",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "rotate(0deg)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "rotate(90deg)"
+            }
+          }
+        ],
+        "duration_token": "fast",
+        "easing_token": "css-ease-out",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Rotates back on leave over 300ms.",
+        "interruptible": "CSS transition.",
+        "applies_to": "Circular close buttons on side panels, profile overlays and modals.",
+        "responsive_differences": "Hover only; no touch equivalent.",
+        "reduced_motion_fallback": "Keep or disable.",
+        "ux_purpose": "A quarter turn on a symmetric cross is a playful but precise confirmation that the control is live; it does not change the icon's meaning.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": ".close-btn { transition: transform .3s ease-out; }\n@media (hover:hover) { .close-btn:hover { transform: rotate(90deg); } }"
+      },
+      {
+        "name": "accordion-fill-wipe",
+        "category": "hover",
+        "trigger": {
+          "type": "hover",
+          "start": "pointer enters a closed accordion row",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "background": "scaleY(0) from bottom",
+              "--filter-progress": 0
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "background": "scaleY(1) from bottom",
+              "--filter-progress": 1
+            }
+          }
+        ],
+        "duration_token": "fast",
+        "easing_token": "ease-out-sine",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Wipes back down over 300ms on leave or on open. Row text flips to the contrast tone ({color.on-accent}) instantly while filled; images inside get a filter driven by --filter-progress.",
+        "interruptible": "Retargets. Suppressed while the row is open.",
+        "applies_to": "Accordion rows and open-role list rows (same wipe via CSS on the list variant).",
+        "responsive_differences": "Disabled at 768px and under.",
+        "reduced_motion_fallback": "Recommended: instant background swap.",
+        "ux_purpose": "A solid block rising from the baseline makes the whole row feel like one large target and previews that it will open, which is stronger than a colour shift on the text alone.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nexport function rowFill(row, bg, on) {\n  if (matchMedia('(max-width: 768px)').matches || row.getAttribute('aria-expanded') === 'true') on = false;\n  gsap.to(bg, { scaleY: on ? 1 : 0, transformOrigin: '50% 100%', duration: 0.3, ease: 'sine.out' });\n  gsap.to(row, { '--filter-progress': on ? 1 : 0, duration: 0.3, ease: 'sine.out' });\n  row.classList.toggle('is-filled', on);\n}"
+      },
+      {
+        "name": "accordion-height-expand",
+        "category": "state-change",
+        "trigger": {
+          "type": "click",
+          "start": "row header click",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "height": "header height"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "height": "header height + content scrollHeight"
+            }
+          }
+        ],
+        "duration_token": "base",
+        "easing_token": "ease-out-sine",
+        "stagger_token": "tight",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Collapse tweens height back to the header height over 500ms; preview images fade out over 100ms then become invisible.",
+        "interruptible": "Retargets from the current height. Height is recomputed on resize via ResizeObserver.",
+        "applies_to": "Accordion rows, location lists, feature lists, tabbed accordions. On open, preview thumbnails fade in 250ms each with a 50ms stagger.",
+        "responsive_differences": "Same on all sizes.",
+        "reduced_motion_fallback": "Recommended: instant height change.",
+        "ux_purpose": "Animating the row height (not just revealing content) lets the reader keep their place: rows below slide down smoothly instead of jumping.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nexport function toggleRow(row, header, content, thumbs = []) {\n  const open = row.getAttribute('aria-expanded') !== 'true';\n  row.setAttribute('aria-expanded', String(open));\n  const h = header.getBoundingClientRect().height, c = content.scrollHeight;\n  gsap.to(content, { height: open ? c : 0, duration: 0.5, ease: 'sine.out' });\n  gsap.to(row, { height: open ? h + c : h, duration: 0.5, ease: 'sine.out' });\n  gsap.to(thumbs, open ? { opacity: 1, duration: 0.25, stagger: 0.05, ease: 'sine.out' } : { opacity: 0, duration: 0.1, ease: 'sine.out' });\n}"
+      },
+      {
+        "name": "card-hover-disclosure",
+        "category": "hover",
+        "trigger": {
+          "type": "hover",
+          "start": "pointer enters card (touch: card enters view)",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "description-height": "0",
+              "description-margin-top": "0",
+              "description-opacity": 0,
+              "icons-opacity": 0
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "description-height": "one line (about 1.25rem desktop, 1.5rem mobile)",
+              "description-margin-top": "0.5rem",
+              "description-opacity": 1,
+              "icons-opacity": 1
+            }
+          }
+        ],
+        "duration_token": "base",
+        "easing_token": "ease-out-cubic",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "On leave, the description collapses back to height 0 and icons fade out over 500ms. Collapsing is skipped on mobile, where the description stays open once revealed.",
+        "interruptible": "Starts from a fixed set state each time, so rapid hover in and out restarts rather than blends. Also collapses on card resize.",
+        "applies_to": "Featured product and destination cards in a mosaic grid. The description text also runs text-scramble-decode over 750ms. Media inside scales slightly (see media-hover-zoom).",
+        "responsive_differences": "Touch or 768px and under: reveals once on in-view and stays.",
+        "reduced_motion_fallback": "Recommended: show the description statically.",
+        "ux_purpose": "Keeps the grid visually clean (titles only) while rewarding intent with a one-line summary. The scramble makes the reveal feel like data surfacing, in keeping with the system.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nexport function bindCardDisclosure(card, desc, icons, scramble) {\n  const show = () => { gsap.fromTo(desc, { height: 0, marginTop: 0, opacity: 0 }, { height: '1.25rem', marginTop: '0.5rem', opacity: 1, duration: 0.5, ease: 'power2.out' }); gsap.to(icons, { opacity: 1, duration: 0.5, ease: 'power2.out' }); scramble?.(desc, 750); };\n  const hide = () => { gsap.to(desc, { height: 0, marginTop: 0, opacity: 0, duration: 0.5, ease: 'power2.out' }); gsap.to(icons, { opacity: 0, duration: 0.5, ease: 'power2.out' }); };\n  if (matchMedia('(hover: hover)').matches) { card.addEventListener('mouseenter', show); card.addEventListener('mouseleave', hide); }\n  else new IntersectionObserver(([e], o) => { if (e.isIntersecting) { show(); o.disconnect(); } }, { threshold: 0.05 }).observe(card);\n}"
+      },
+      {
+        "name": "media-hover-zoom",
+        "category": "hover",
+        "trigger": {
+          "type": "hover",
+          "start": "pointer enters card",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "scale(1)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "scale(1.05) to scale(1.1)"
+            }
+          }
+        ],
+        "duration_token": "fast",
+        "easing_token": "css-ease-out",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Returns on leave over the same duration.",
+        "interruptible": "CSS transition.",
+        "applies_to": "Image inside carousel link cards (1.05), product carousel cards (1.1), resource and profile cards (transform transition 300ms). Mosaic cards use a faster 200ms transform and opacity transition.",
+        "responsive_differences": "Pointer only.",
+        "reduced_motion_fallback": "Keep or disable.",
+        "ux_purpose": "A slow push-in inside a fixed, clipped frame signals the card is interactive without moving the card itself, so the grid stays rigid.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": ".card-media { overflow: hidden; }\n.card-media img { transition: transform .3s ease-out; transform: scale(1); }\n@media (hover:hover) { .card:hover .card-media img { transform: scale(1.05); } }"
+      },
+      {
+        "name": "modal-blur-backdrop",
+        "category": "overlay",
+        "trigger": {
+          "type": "click",
+          "start": "open request",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "backdrop-filter": "blur(0px)",
+              "scrim-opacity": 0
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "backdrop-filter": "blur(30px)",
+              "scrim-opacity": 0.7
+            }
+          }
+        ],
+        "duration_token": "slow",
+        "easing_token": "ease-out-sine",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Symmetric: blur 30px to 0 and scrim back to 0 over 1000ms, then display:none.",
+        "interruptible": "Tweens retarget from current values.",
+        "applies_to": "Centre modals (video player, forms, profiles). Page scroll is paused via a reference-counted Lenis pauser.",
+        "responsive_differences": "Same.",
+        "reduced_motion_fallback": "Recommended: no blur tween; show scrim at target opacity immediately.",
+        "ux_purpose": "A slow defocus of the page behind feels like a camera racking focus: the page is still there (spatial context preserved) but clearly out of play.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nexport function openModal(root, scrim, closeBtn, lenis) {\n  lenis?.stop(); root.hidden = false;\n  gsap.fromTo(root, { backdropFilter: 'blur(0px)' }, { backdropFilter: 'blur(30px)', duration: 1, ease: 'sine.out' });\n  gsap.fromTo(scrim, { opacity: 0 }, { opacity: 0.7, duration: 1, ease: 'sine.out', onComplete: () => closeBtn.focus() });\n}\nexport function closeModal(root, scrim, lenis) {\n  lenis?.start();\n  gsap.to(scrim, { opacity: 0, duration: 1, ease: 'sine.out' });\n  gsap.to(root, { backdropFilter: 'blur(0px)', duration: 1, ease: 'sine.out', onComplete: () => (root.hidden = true) });\n}"
+      },
+      {
+        "name": "side-panel-slide",
+        "category": "overlay",
+        "trigger": {
+          "type": "click",
+          "start": "open request",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "panel-transform": "translateX(100%)",
+              "scrim-opacity": 0,
+              "backdrop-filter": "blur(0px)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "panel-transform": "translateX(0)",
+              "scrim-opacity": 0.7,
+              "backdrop-filter": "blur(30px)"
+            }
+          }
+        ],
+        "duration_token": "extensions.panel",
+        "easing_token": "ease-in-out-quad",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Symmetric 250ms: panel back to 100%, scrim to 0, blur to 0, then hidden. Focus returns to the trigger.",
+        "interruptible": "Tweens retarget.",
+        "applies_to": "Filter panels, location detail panels, secondary detail drawers.",
+        "responsive_differences": "Panel is a fraction of viewport width on desktop and wider on mobile. Horizontal drag of more than 80px to the right closes it.",
+        "reduced_motion_fallback": "Recommended: instant show and hide.",
+        "ux_purpose": "Fast and symmetric because the panel is a quick side trip; the page behind remains in place so the user can return exactly where they were.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nconst T = { duration: 0.25, ease: 'power1.inOut' };\nexport function openSide(root, panel, scrim, focusEl) { root.hidden = false; gsap.fromTo(panel, { xPercent: 100, x: 0 }, { xPercent: 0, ...T }); gsap.to(scrim, { opacity: 0.7, ...T }); gsap.fromTo(root, { backdropFilter: 'blur(0px)' }, { backdropFilter: 'blur(30px)', ...T, onComplete: () => focusEl.focus() }); }\nexport function closeSide(root, panel, scrim, trigger) { gsap.to(panel, { xPercent: 100, x: 0, ...T }); gsap.to(scrim, { opacity: 0, ...T }); gsap.to(root, { backdropFilter: 'blur(0px)', ...T, onComplete: () => { root.hidden = true; trigger?.focus(); } }); }"
+      },
+      {
+        "name": "mobile-menu-slide",
+        "category": "overlay",
+        "trigger": {
+          "type": "click",
+          "start": "menu button tap",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "screen-transform": "translateX(100%)",
+              "background-transform": "translateX(100%)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "screen-transform": "translateX(0%)",
+              "background-transform": "translateX(0%)"
+            }
+          }
+        ],
+        "duration_token": "fast",
+        "easing_token": "css-ease-out",
+        "stagger_token": "tight",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Screens slide back to translateX(100%) over 300ms; focus returns to the menu button.",
+        "interruptible": "State-driven and debounced; rapid toggles collapse to the final state.",
+        "applies_to": "Mobile navigation. A frosted background layer and the menu screen slide in together from the right; section titles run text-scramble-decode at 600ms and 700ms. Drilling into a sub-menu crossfades screens (opacity 0.5s) and staggers the sub-links in at 300ms + 50ms x index.",
+        "responsive_differences": "768px and under only. Body scroll paused; the menu has its own scroll instance.",
+        "reduced_motion_fallback": "Recommended: crossfade screens only.",
+        "ux_purpose": "Moving in from the right edge maps to going deeper; the two-level screen stack (menu, then sub-menu with a back control) keeps each screen short and thumb-friendly.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "/* CSS */\n.m-menu, .m-menu-bg { position: fixed; inset: 0; transform: translateX(100%); transition: transform .3s ease-out; }\n.m-nav[data-open='true'] .m-menu, .m-nav[data-open='true'] .m-menu-bg { transform: translateX(0); }\n.m-menu-bg { backdrop-filter: blur({blur.menu}); }\n/* JS */\n// btn.onclick = () => { nav.dataset.open = 'true'; lenis.stop(); searchBtn.focus(); };\n// close.onclick = () => { nav.dataset.open = 'false'; lenis.start(); btn.focus(); };"
+      },
+      {
+        "name": "page-transition-scale-crossfade",
+        "category": "page-transition",
+        "trigger": {
+          "type": "route-change",
+          "start": "internal link click",
+          "end": "outgoing page covered",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "overlay-opacity": 0,
+              "outgoing-scale": 1
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "overlay-opacity": 1,
+              "outgoing-scale": 1.02
+            }
+          }
+        ],
+        "duration_token": "extensions.page-phase",
+        "easing_token": "ease-out-sine",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Hands over to page-transition-settle-in once the new page is built.",
+        "interruptible": "The old page is frozen in place (position fixed at its current scroll offset, transform-origin at the viewport centre) and scroll resets to top instantly before this phase, so there is no visible jump. Header frost resets at the midpoint. A WebGL uniform runs 0 to 1 in step with the overlay.",
+        "applies_to": "All internal navigations in the SPA router (pushState). First load skips the transition and shows instantly.",
+        "responsive_differences": "Same.",
+        "reduced_motion_fallback": "Recommended: plain 350ms crossfade without scale.",
+        "ux_purpose": "A slight push-in on the outgoing page reads as moving forward into the next space, and covers fetch latency.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nexport async function transitionOut({ overlay, oldPage, lenis }) {\n  const y = lenis.scroll;\n  gsap.set(oldPage, { position: 'fixed', top: -y, left: 0, right: 0, transformOrigin: `50vw ${y + innerHeight / 2}px` });\n  lenis.scrollTo(0, { immediate: true, force: true });\n  gsap.set(overlay, { autoAlpha: 0 });\n  await Promise.all([gsap.to(oldPage, { scale: 1.02, duration: 0.35, ease: 'sine.out' }), gsap.to(overlay, { autoAlpha: 1, duration: 0.35, ease: 'sine.out' })]);\n}"
+      },
+      {
+        "name": "page-transition-settle-in",
+        "category": "page-transition",
+        "trigger": {
+          "type": "route-change",
+          "start": "new page ready",
+          "end": "transition finished",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "overlay-opacity": 1,
+              "incoming-scale": 0.98
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "overlay-opacity": 0,
+              "incoming-scale": 1
+            }
+          }
+        ],
+        "duration_token": "extensions.page-phase",
+        "easing_token": "ease-in-sine",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Transforms are cleared on complete; the router then flags the transition as finished, which releases hero entrance patterns.",
+        "interruptible": "Not interrupted mid-phase; a new navigation starts after the current one resolves.",
+        "applies_to": "All internal navigations in the SPA router.",
+        "responsive_differences": "Same.",
+        "reduced_motion_fallback": "Recommended: plain crossfade.",
+        "ux_purpose": "The incoming page settles from slightly small to full size, completing one continuous forward motion so the site feels like a single application rather than separate pages.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\nexport async function transitionIn({ overlay, newPage }) {\n  gsap.set(newPage, { scale: 0.98, visibility: 'visible' });\n  await Promise.all([gsap.to(newPage, { scale: 1, duration: 0.35, ease: 'sine.in', clearProps: 'transform' }), gsap.to(overlay, { autoAlpha: 0, duration: 0.35, ease: 'sine.in' })]);\n}"
+      },
+      {
+        "name": "smooth-scroll-inertia",
+        "category": "scroll-scrub",
+        "trigger": {
+          "type": "scroll-scrub",
+          "start": "wheel input",
+          "end": "",
+          "once": false,
+          "scrub": true,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "scroll": "current"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "scroll": "target"
+            }
+          }
+        ],
+        "duration_token": "extensions.lenis-step",
+        "easing_token": "ease-out-quart",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "n/a",
+        "interruptible": "Each wheel event retargets the duration-based tween. Programmatic scroll-to (hero down-arrow, anchor links) uses 2500ms with lerp 0.1.",
+        "applies_to": "Global document scroll; separate instances for the mobile menu, dropdown lists and search results panels.",
+        "responsive_differences": "Wheel only. Touch uses native momentum (syncTouch off).",
+        "reduced_motion_fallback": "Recommended: disable smoothing (native scroll) when reduced motion is requested.",
+        "ux_purpose": "Heavy, damped scrolling gives the long cinematic pages a sense of mass and keeps scroll-linked WebGL in sync; leaving touch native avoids fighting mobile momentum.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import Lenis from 'lenis';\nexport const lenis = new Lenis({ lerp: 0, duration: 0.8, easing: (t) => 1 - Math.pow(1 - t, 4), smoothWheel: true, syncTouch: false, autoRaf: true });\nexport const scrollToNext = (section) => lenis.scrollTo(section.offsetTop + section.offsetHeight, { duration: 2.5 });"
+      },
+      {
+        "name": "carousel-drag-snap",
+        "category": "carousel",
+        "trigger": {
+          "type": "drag",
+          "start": "pointer or touch drag on track; arrow keys; prev and next buttons",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "translateX(-slideWidth * current)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "translateX(-slideWidth * next)"
+            }
+          }
+        ],
+        "duration_token": "base",
+        "easing_token": "ease-out-cubic",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "n/a",
+        "interruptible": "Drag cancels any running snap tween and continues from the live position. Past the first or last slide, movement is damped with a friction factor of 0.3 (rubber band). On release: velocity above 1.5 flicks forward by log2(velocity) slides, a smaller velocity steps one slide, otherwise rounds to the nearest slide. Drag is axis-locked so vertical page scroll is not hijacked.",
+        "applies_to": "Link carousels, product carousels, quote carousels. Prev and next circle buttons disable (reduced opacity, pointer-events off) at the ends.",
+        "responsive_differences": "Desktop drag enabled; touch drag native feel. Arrow keys move one slide.",
+        "reduced_motion_fallback": "Recommended: jump without tween.",
+        "ux_purpose": "Physical drag with friction and flick momentum makes carousels feel like handling an object, and the snap guarantees every slide rests aligned to the grid.",
+        "source": "code",
+        "confidence": "medium",
+        "snippet": "import { gsap } from 'gsap';\nexport function slider(track, count, w) {\n  let i = 0, x = 0, startX = 0, base = 0, lastX = 0, lastT = 0, v = 0;\n  const clampF = (val) => { const min = -w * (count - 1); return val > 0 ? val * 0.3 : val < min ? min + (val - min) * 0.3 : val; };\n  const go = (n) => { i = Math.max(0, Math.min(count - 1, n)); gsap.to(track, { x: -w * i, duration: 0.5, ease: 'power2.out', onUpdate: () => (x = gsap.getProperty(track, 'x')) }); };\n  track.addEventListener('pointerdown', (e) => { gsap.killTweensOf(track); startX = lastX = e.clientX; base = x; lastT = performance.now(); track.setPointerCapture(e.pointerId); });\n  track.addEventListener('pointermove', (e) => { if (!track.hasPointerCapture(e.pointerId)) return; const now = performance.now(); v = (e.clientX - lastX) / Math.max(1, now - lastT) * 16; lastX = e.clientX; lastT = now; x = clampF(base + e.clientX - startX); gsap.set(track, { x }); });\n  track.addEventListener('pointerup', () => { const dir = -Math.sign(v); if (Math.abs(v) > 1.5) go(Math.round(-x / w) + dir * Math.round(Math.log2(Math.abs(v)))); else if (Math.abs(v) > 0.1) go(i + dir); else go(Math.round(-x / w)); });\n  addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') go(i - 1); if (e.key === 'ArrowRight') go(i + 1); });\n  return { next: () => go(i + 1), prev: () => go(i - 1) };\n}"
+      },
+      {
+        "name": "roller-counter",
+        "category": "number",
+        "trigger": {
+          "type": "in-view",
+          "start": "stat enters view",
+          "end": "",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "column-transform": "translateY(-100% * currentDigitIndex)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "column-transform": "translateY(-100% * targetDigitIndex)"
+            }
+          }
+        ],
+        "duration_token": "slow",
+        "easing_token": "ease-out-expo",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "No exit.",
+        "interruptible": "Re-targeting picks the shortest path around a doubled 0 to 9 column (bias factor 1.2 towards the preferred direction), so updates never spin the long way.",
+        "applies_to": "Numeric stats and counters, including in-chart values.",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Recommended: set final digits instantly.",
+        "ux_purpose": "An odometer roll reads as a measured value arriving, and keeps digit widths fixed so surrounding text does not reflow while counting.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": "import { gsap } from 'gsap';\n// markup: .roller > .col (x N) > .digit (0..9 repeated twice), .roller{overflow:hidden;height:1lh} .digit{height:1lh}\nexport function rollTo(root, value, duration = 1) {\n  const cols = [...root.querySelectorAll('.col')];\n  const digits = String(value).padStart(cols.length, '0').split('').map(Number);\n  return gsap.timeline().add(cols.map((c, k) => gsap.to(c, { yPercent: -100 * (digits[k] + 10) / 20, duration, ease: 'expo.out' })), 0);\n}"
+      },
+      {
+        "name": "marquee-loop",
+        "category": "background",
+        "trigger": {
+          "type": "load",
+          "start": "mount",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "translate": "0"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "translate": "-100%"
+            }
+          }
+        ],
+        "duration_token": "extensions.marquee",
+        "easing_token": "linear",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "n/a",
+        "interruptible": "Infinite loop; two identical groups placed side by side so the loop seam is invisible. Duration is set per instance via a --duration custom property.",
+        "applies_to": "Partner or logo strips.",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Recommended: pause the marquee (animation-play-state: paused) and allow manual horizontal scroll.",
+        "ux_purpose": "Signals breadth (many items) in minimal vertical space, without asking the user to interact.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": ".marquee { display: flex; overflow: hidden; }\n.marquee__group { flex-shrink: 0; display: flex; animation: marquee var(--duration, 40s) linear infinite; }\n@keyframes marquee { from { translate: 0; } to { translate: -100%; } }\n@media (prefers-reduced-motion: reduce) { .marquee__group { animation-play-state: paused; } }"
+      },
+      {
+        "name": "image-lazy-fade",
+        "category": "loader",
+        "trigger": {
+          "type": "in-view",
+          "start": "250px before entering viewport (rootMargin)",
+          "end": "image decoded",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "opacity": 0
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "opacity": 1
+            }
+          }
+        ],
+        "duration_token": "instant",
+        "easing_token": "css-ease-out",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "No exit.",
+        "interruptible": "n/a",
+        "applies_to": "All responsive images. Aspect ratio is reserved from CMS metadata before load, so there is no layout shift.",
+        "responsive_differences": "Different srcset and sizes per breakpoint.",
+        "reduced_motion_fallback": "Keep.",
+        "ux_purpose": "Loads just ahead of need and fades in very quickly: enough to avoid a hard pop, too quick to feel like a deliberate animation.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": ".img { opacity: 0; } .img.is-loaded { opacity: 1; transition: opacity .125s ease-out; }\n/* JS */\n// new IntersectionObserver(([e], o) => { if (e.isIntersecting) { img.src = img.dataset.src; img.onload = () => img.classList.add('is-loaded'); o.disconnect(); } }, { rootMargin: '250px' }).observe(img);"
+      },
+      {
+        "name": "spinner-rotate",
+        "category": "loader",
+        "trigger": {
+          "type": "state-change",
+          "start": "async action pending",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "transform": "rotate(0deg)"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "transform": "rotate(360deg)"
+            }
+          }
+        ],
+        "duration_token": "extensions.spinner",
+        "easing_token": "linear",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Fades out over 300ms when loading ends.",
+        "interruptible": "n/a",
+        "applies_to": "Inline in buttons that load heavy assets (for example a 3D viewer). A segmented progress icon pulses segments (opacity 1 to 0.2 over 2500ms, linear, infinite) while a 3D asset loads.",
+        "responsive_differences": "None.",
+        "reduced_motion_fallback": "Recommended: static indicator with a text status.",
+        "ux_purpose": "Local, in-place feedback that the specific action is working, without blocking the page.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": ".btn-spinner { width: 1rem; height: 1rem; border: 2px solid; border-bottom-color: transparent; border-radius: 50%; opacity: 0; transition: all .3s ease-out; }\n.is-loading .btn-spinner { opacity: 1; animation: spin 1.5s linear infinite; }\n@keyframes spin { to { transform: rotate(360deg); } }"
+      },
+      {
+        "name": "floating-anchor-button-reveal",
+        "category": "feedback",
+        "trigger": {
+          "type": "state-change",
+          "start": "a designated section has scrolled above the viewport top",
+          "end": "",
+          "once": false,
+          "scrub": false,
+          "direction_aware": true
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "opacity": 0,
+              "translate": "0 {distance.float-offset}"
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "opacity": 1,
+              "translate": "0 0"
+            }
+          }
+        ],
+        "duration_token": "fast",
+        "easing_token": "css-ease-in-out",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Reverses when scrolled back above the section.",
+        "interruptible": "CSS transition; checked every frame.",
+        "applies_to": "Fixed bottom-corner square button that returns to a page section (for example back to top of a long article).",
+        "responsive_differences": "Same.",
+        "reduced_motion_fallback": "Keep or opacity only.",
+        "ux_purpose": "Appears only once it is useful (the target is out of view), so it never clutters the first screen.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": ".anchor-btn { position: fixed; right: 1rem; bottom: 1rem; opacity: 0; pointer-events: none; translate: 0 {distance.float-offset}; transition: opacity .3s ease-in-out, translate .3s ease-in-out; }\n.anchor-btn.is-shown { opacity: 1; pointer-events: auto; translate: 0 0; }\n/* JS */\n// lenis.on('scroll', () => btn.classList.toggle('is-shown', target.getBoundingClientRect().top < 0));"
+      },
+      {
+        "name": "consent-banner-fade",
+        "category": "feedback",
+        "trigger": {
+          "type": "timer",
+          "start": "1000ms after mount, only where consent is legally required",
+          "end": "",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "opacity": 0
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "opacity": 1
+            }
+          }
+        ],
+        "duration_token": "extensions.banner",
+        "easing_token": "css-ease-in-out",
+        "stagger_token": "",
+        "delay_ms": 1000,
+        "repeat": 0,
+        "exit_behaviour": "Fades out over 250ms after accept or reject, then removed from layout at 500ms.",
+        "interruptible": "n/a",
+        "applies_to": "Consent banner (bottom-right, frosted).",
+        "responsive_differences": "Full-width on mobile (inferred).",
+        "reduced_motion_fallback": "Keep.",
+        "ux_purpose": "Delaying the banner lets the first impression land before asking for a decision; the frosted treatment keeps it visually part of the interface.",
+        "source": "code",
+        "confidence": "high",
+        "snippet": ".consent { position: fixed; right: 0; bottom: 0; opacity: 0; transition: opacity .25s ease-in-out; }\n.consent.is-visible { opacity: 1; }\n/* JS */\n// setTimeout(() => banner.classList.add('is-visible'), 1000);"
+      },
+      {
+        "name": "chart-draw-on-view",
+        "category": "scroll-reveal",
+        "trigger": {
+          "type": "in-view",
+          "start": "chart 50% visible",
+          "end": "",
+          "once": true,
+          "scrub": false,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "stroke-dashoffset": -1000,
+              "label-opacity": 0,
+              "marker-opacity": 0
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "stroke-dashoffset": 0,
+              "label-opacity": 1,
+              "marker-opacity": 1
+            }
+          }
+        ],
+        "duration_token": "cinematic",
+        "easing_token": "ease-out-expo",
+        "stagger_token": "loose",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "No exit.",
+        "interruptible": "Guarded by a one-time scrolled flag. Stepped reveals inside charts (titles, details, markers) appear 200ms apart.",
+        "applies_to": "SVG data visualisations in long-form editorial pages: lines draw, labels and markers fade in sequence.",
+        "responsive_differences": "Mobile variants of complex charts swap to simpler layouts (drag-scrub chart has separate desktop and mobile builds).",
+        "reduced_motion_fallback": "Supported: gated by a user-facing animation on/off switch whose default comes from prefers-reduced-motion and is persisted in localStorage. When off, charts render in their final state.",
+        "ux_purpose": "Draws data in the order it should be read (lines, then labels, then markers), turning a static chart into a guided explanation.",
+        "source": "code",
+        "confidence": "medium",
+        "snippet": "import { gsap } from 'gsap';\nexport function drawChart(lines, labels, markers, enabled = !matchMedia('(prefers-reduced-motion: reduce)').matches) {\n  if (!enabled) return;\n  lines.forEach((l) => { const len = l.getTotalLength(); gsap.fromTo(l, { strokeDasharray: len, strokeDashoffset: -len }, { strokeDashoffset: 0, duration: 1.5, ease: 'expo.out' }); });\n  gsap.fromTo(labels, { opacity: 0 }, { opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.2, delay: 0.5 });\n  gsap.fromTo(markers, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out', stagger: 0.05, delay: 0.8 });\n}"
+      },
+      {
+        "name": "webgl-dom-sync",
+        "category": "background",
+        "trigger": {
+          "type": "scroll-scrub",
+          "start": "every frame",
+          "end": "",
+          "once": false,
+          "scrub": true,
+          "direction_aware": false
+        },
+        "text_split": {
+          "enabled": false,
+          "by": "lines",
+          "mask": false,
+          "order": "start"
+        },
+        "keyframes": [
+          {
+            "offset": 0,
+            "properties": {
+              "uVertOffset": "section offset from viewport",
+              "uVertClip": "visible fraction",
+              "uTransition": 0
+            }
+          },
+          {
+            "offset": 1,
+            "properties": {
+              "uVertOffset": "updated per frame",
+              "uVertClip": "updated per frame",
+              "uTransition": "0 to 1 to -1 to 0 during route change"
+            }
+          }
+        ],
+        "duration_token": "extensions.frame",
+        "easing_token": "linear",
+        "stagger_token": "",
+        "delay_ms": 0,
+        "repeat": 0,
+        "exit_behaviour": "Meshes hidden when their section is off screen.",
+        "interruptible": "Driven directly by scroll position; no tweens to interrupt.",
+        "applies_to": "Hero and feature sections whose media or 3D scenes render in a single fixed full-viewport canvas behind the DOM, positioned to match their DOM placeholders.",
+        "responsive_differences": "GPU tier detection selects asset quality; an accessible DOM mirror (visually hidden) carries the text for WebGL-rendered titles.",
+        "reduced_motion_fallback": "Recommended: render static poster images instead of the live scene.",
+        "ux_purpose": "Lets immersive 3D and shader media scroll exactly like normal content, so the page feels continuous rather than a sequence of embedded players.",
+        "source": "code",
+        "confidence": "medium",
+        "snippet": "// Minimal DOM-to-canvas sync (three.js or any WebGL renderer)\nexport function syncMeshToElement(mesh, el, viewportH) {\n  const r = el.getBoundingClientRect();\n  mesh.visible = r.bottom > 0 && r.top < viewportH;\n  mesh.material.uniforms.uVertOffset.value = r.top / viewportH;\n  mesh.material.uniforms.uVertClip.value = Math.min(1, Math.max(0, (Math.min(r.bottom, viewportH) - Math.max(r.top, 0)) / r.height));\n}"
+      }
+    ],
+    "choreography_rules": [
+      "Hero order after a route transition: heading lines (100ms stagger), short label decode, and media fade all start together; the heading's steep ease makes it read first.",
+      "Within a row or card: the divider rule starts at 0ms, content children follow at a 200ms base delay plus 100ms per child in DOM order (index label, title, subtitle, media last at about +500ms).",
+      "Form fields cascade at 50ms per field index, 800ms each.",
+      "Sub-menu links cascade at 300ms plus 50ms per index, after the screen swap.",
+      "Overlays: the backdrop (blur and scrim) animates first; focus moves to the close control only when the backdrop tween completes.",
+      "Menus: the shared panel height and the incoming panel fade run together, with the fade delayed 100ms so content never appears outside the growing container.",
+      "Page change: freeze and reset scroll, fade the overlay while the old page scales up, swap, then settle the new page while the overlay fades out. Hero entrances wait for the transition to report finished.",
+      "Anything already in the viewport at mount animates immediately; everything else waits for its own in-view trigger. Reveals are one-shot per mount.",
+      "Only one hover-driven overlay (a nav panel or the scrim) is ever active; moving between nav items crossfades rather than stacking."
+    ],
+    "reduced_motion": {
+      "supported": "partial",
+      "strategy": "An animation on/off switch (role=switch, aria-checked, persisted in localStorage, default derived from prefers-reduced-motion) exists only in the long-form editorial template and only gates data-visualisation animations. The main site's reveals, scrambles, transitions and smooth scroll ignore the preference, and the stylesheet contains no prefers-reduced-motion media queries. Replicas should apply the per-pattern reduced_motion_fallback values globally."
+    },
+    "performance_notes": "Entrances animate transform and opacity (translate percentages, scaleX and scaleY for rules and fills). Height is tweened directly for accordions, mega-menu panels and card descriptions (layout-affecting but short and localised). Backdrop-filter blur is tweened on modals (1000ms), which is GPU-heavy on low-end devices. Header offset and frost are written to CSS custom properties in a per-frame render loop. Text scramble writes textContent at a throttled rate. Images lazy-load 250px ahead with reserved aspect ratios. WebGL runs in one fixed canvas with GPU tier detection selecting asset quality. will-change is used sparingly (row fill backgrounds). Live testing in an automated pane showed the app pausing rendering when not painted, consistent with a requestAnimationFrame-driven loop."
+  },
+  "ux_system": {
+    "information_architecture": {
+      "structure": "hub-and-spoke",
+      "depth": "1 to 2 clicks from the home page to any capability or detail page via the mega menu; long-form editorial and listing pages are reached from featured slots or the company menu.",
+      "page_templates": [
+        {
+          "name": "landing",
+          "purpose": "Brand statement and routing into capability areas and news.",
+          "section_order": [
+            "full-bleed hero video with masked heading and scroll-down control",
+            "featured announcement banner card",
+            "capability mosaic grid of cards",
+            "announcement feature with large media",
+            "featured news list",
+            "media link cards",
+            "footer"
+          ]
+        },
+        {
+          "name": "capability detail",
+          "purpose": "Explain one capability area or product family and route to specifics.",
+          "section_order": [
+            "section hero with decoding description",
+            "optional sticky secondary navigation",
+            "interactive 3D or media feature",
+            "feature accordion or key-feature list",
+            "application or variation cards",
+            "carousel of related items",
+            "next-page link slice",
+            "footer"
+          ]
+        },
+        {
+          "name": "listing",
+          "purpose": "Browse news, roles or resources.",
+          "section_order": [
+            "listing header",
+            "filter controls (desktop inline, mobile drawer)",
+            "row list with ruled dividers",
+            "pagination",
+            "footer"
+          ]
+        },
+        {
+          "name": "long-form editorial",
+          "purpose": "Chaptered narrative with data visualisations.",
+          "section_order": [
+            "chapter header",
+            "rich text",
+            "animated charts gated by the animation switch",
+            "pull quotes",
+            "next chapter link"
+          ]
+        },
+        {
+          "name": "form",
+          "purpose": "Enquiry or application capture.",
+          "section_order": [
+            "intro text",
+            "single-column form with cascading fields",
+            "inline confirmation replacing the form"
+          ]
+        }
+      ]
+    },
+    "navigation": {
+      "primary": "Fixed top bar. Transparent over heroes at rest (tone set per page), frosts after 30px of scroll or on any nav hover. Hides in proportion to scroll (desktop hides at half the scroll rate, reveals at full rate on scroll up). Hovering or focusing a top-level item dims siblings, fades in a page scrim and expands one shared mega panel whose height morphs between sections. Search lives in the same panel system and receives focus when opened. When hidden programmatically the header is made inert.",
+      "mobile": "Compact bar (72px tall) with menu and search buttons. Menu slides in from the right as a frosted full-screen layer with its own scroll; sections drill into a second screen with a back control and staggered links. Page scroll is paused. Custom Tab focus trap keeps focus inside the open menu; closing returns focus to the menu button.",
+      "secondary": "Optional sticky in-page secondary navigation below the header (follows the header via a --header-offset custom property); in-page anchor deep links (the section more than 50% in view is tracked as the current deep link); footer with link groups that collapse into plus-toggled accordions on mobile; floating anchor button on long pages.",
+      "wayfinding": "Current section tracked by in-view share; route changes announced by the top progress bar; per-page header tone signals context. No breadcrumbs or scroll progress bar observed.",
+      "motion_patterns": [
+        "header-scroll-coupled-hide",
+        "header-frost-on-scroll",
+        "mega-menu-height-expand",
+        "sibling-dim-focus",
+        "nav-scrim-fade",
+        "mobile-menu-slide",
+        "plus-rotate-toggle",
+        "text-scramble-decode",
+        "smooth-scroll-inertia",
+        "page-load-progress-bar",
+        "page-transition-scale-crossfade",
+        "page-transition-settle-in",
+        "floating-anchor-button-reveal"
+      ]
+    },
+    "component_behaviour": [
+      {
+        "name": "text link button (primary)",
+        "purpose": "Primary call to action rendered as text with a trailing arrow icon.",
+        "states": {
+          "default": "Reduced opacity; underline absent until the link has been in view for 300ms, then drawn.",
+          "hover": "Full opacity over 300ms; underline wipes out to the right and redraws from the left over 600ms.",
+          "focus_visible": "Browser default focus ring (no custom style found).",
+          "active": "No distinct style.",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "Opacity rises from {opacity.muted} to 1; underline in currentColor.",
+        "motion_patterns": [
+          "link-underline-draw-replay"
+        ],
+        "keyboard": "Enter activates (native anchor or button).",
+        "pointer_vs_touch": "Hover replay pointer only; the in-view underline draw serves touch.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "role link or button set from element type; icon aria-hidden and removed from tab order; download links get a descriptive aria-label; external links open in a new tab with rel noopener.",
+        "rules": [
+          "Only one primary text link per content block.",
+          "Clicks are tracked; external and download clicks fire separate analytics events."
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "outlined link button (secondary)",
+        "purpose": "Secondary action in a bordered box.",
+        "states": {
+          "default": "Transparent fill, outline in {color.fg}.",
+          "hover": "Fill becomes {color.fg}, text becomes {color.bg}, over 300ms.",
+          "focus_visible": "Browser default.",
+          "active": "No distinct style.",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "Background and text invert.",
+        "motion_patterns": [
+          "link-underline-draw-replay"
+        ],
+        "keyboard": "Enter or Space.",
+        "pointer_vs_touch": "Hover only on pointer.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "As primary.",
+        "rules": [
+          "No icon on the secondary variant."
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "circle icon button",
+        "purpose": "Carousel prev and next, close, small round controls.",
+        "states": {
+          "default": "Outlined circle with icon in {color.fg}.",
+          "hover": "Fill and icon invert over 500ms, gated by (hover: hover).",
+          "focus_visible": "Browser default.",
+          "active": "On touch, a hovered class is added on touchstart and removed on touchend or touchcancel, so the inverted state doubles as the pressed state.",
+          "disabled": "Opacity drops to about 0.2 and pointer events are removed; aria-disabled set.",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "Background {color.fg}, icon {color.bg} when hovered or pressed.",
+        "motion_patterns": [
+          "close-button-rotate",
+          "carousel-drag-snap"
+        ],
+        "keyboard": "Enter or Space (native button).",
+        "pointer_vs_touch": "Touch gets the press state via touch events; pointer gets hover.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "aria-label required; aria-disabled mirrors state.",
+        "rules": [
+          "Disable at carousel ends rather than wrapping."
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "desktop primary navigation",
+        "purpose": "Top-level routing and search.",
+        "states": {
+          "default": "Items at full opacity over a transparent or frosted bar.",
+          "hover": "Siblings dim to 0.5; shared panel expands; scrim fades in; bar frosts.",
+          "focus_visible": "Focus triggers the same behaviour as hover (focus opens the panel, blur closes it).",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "No persistent current-page indicator found.",
+          "expanded": "Panel open; plus icon rotates to minus on the company item."
+        },
+        "state_changes": "Background opacity 0 to {opacity.frost} with {blur.header}; text tone follows the page's header mode.",
+        "motion_patterns": [
+          "mega-menu-height-expand",
+          "sibling-dim-focus",
+          "nav-scrim-fade",
+          "header-frost-on-scroll",
+          "header-scroll-coupled-hide",
+          "plus-rotate-toggle",
+          "text-scramble-decode"
+        ],
+        "keyboard": "Tab moves through top-level items; focusing an item opens its panel and tab indices are re-numbered so Tab walks into that panel's links; tabbing out of the nav closes it.",
+        "pointer_vs_touch": "Desktop only; closes on pointer up outside the nav or mouse out of the nav region.",
+        "dismissal": "Mouse leaving the nav region, click outside, Tab out, or route change. No Escape handling found.",
+        "focus_management": "Search panel focuses its input after opening. Other panels leave focus on the trigger.",
+        "aria": "Panel wrapper toggles aria-hidden. Top-level items are div elements with role link and tabindex 0 (not native buttons, no aria-expanded).",
+        "rules": [
+          "Only one panel open at a time.",
+          "Panel height follows content via ResizeObserver."
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "mobile menu",
+        "purpose": "Full navigation on small screens.",
+        "states": {
+          "default": "Closed; bar shows home, menu and search.",
+          "hover": "n/a",
+          "focus_visible": "Menu button has outline removed on focus and focus-visible (focus invisible).",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "Menu screen open; sub-menu screen replaces it when a section is chosen; search mode hides content and shows the search field."
+        },
+        "state_changes": "Frosted full-screen layer over content.",
+        "motion_patterns": [
+          "mobile-menu-slide",
+          "text-scramble-decode",
+          "plus-rotate-toggle",
+          "smooth-scroll-inertia"
+        ],
+        "keyboard": "Custom focus trap on Tab keyup; back control focused when entering a sub-menu.",
+        "pointer_vs_touch": "Touch-first.",
+        "dismissal": "Close buttons (one per screen), selecting any link, or route change. No Escape or swipe to close.",
+        "focus_management": "On open, focus goes to the search button; on sub-menu, to the back button; on close, back to the menu button, which is removed from the tab order while the menu is open.",
+        "aria": "Screens toggle aria-hidden; menu button toggles aria-hidden and tabindex.",
+        "rules": [
+          "Page scroll paused while open.",
+          "Two-level maximum depth."
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "featured card",
+        "purpose": "Mosaic card linking to a capability area.",
+        "states": {
+          "default": "Media with title; description collapsed.",
+          "hover": "Description expands to one line with a decode, icons fade in, media scales slightly.",
+          "focus_visible": "Browser default on the anchor.",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "Media fades in on load.",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "On touch, description stays expanded after in-view reveal."
+        },
+        "state_changes": "Title tone shifts over 250ms; icons fade in with a 150ms delay.",
+        "motion_patterns": [
+          "card-hover-disclosure",
+          "media-hover-zoom",
+          "text-scramble-decode",
+          "image-lazy-fade"
+        ],
+        "keyboard": "Enter follows link. Keyboard focus does not trigger the description reveal (gap).",
+        "pointer_vs_touch": "Hover reveal on pointer; in-view reveal on touch.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "Whole card is an anchor with role link and aria-label equal to the card title.",
+        "rules": [
+          "Card layouts vary between square, wide (2:1) and tall (1:2) within the mosaic."
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "accordion",
+        "purpose": "Expandable rows for features, locations and lists.",
+        "states": {
+          "default": "Collapsed row with ruled divider and plus icon.",
+          "hover": "Accent block wipes up from the bottom and text inverts (desktop only).",
+          "focus_visible": "Browser default (rows are clickable divs; see issues).",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "Height grows to reveal content; icon becomes minus; preview images fade in with a 50ms stagger."
+        },
+        "state_changes": "Fill {color.accent}; text {color.on-accent}.",
+        "motion_patterns": [
+          "accordion-fill-wipe",
+          "accordion-height-expand",
+          "rule-draw",
+          "slide-in-from-start",
+          "rule-retract-exit",
+          "plus-rotate-toggle"
+        ],
+        "keyboard": "Not keyboard operable as implemented (click handler on a div). Replicas must use a button with Enter and Space.",
+        "pointer_vs_touch": "Hover fill disabled at 768px and under.",
+        "dismissal": "Click the row again.",
+        "focus_management": "Focus stays on the row.",
+        "aria": "aria-expanded toggled on the row; row uses a non-standard role value.",
+        "rules": [
+          "Items open independently (no forced single-open found).",
+          "Each open is tracked as an analytics event."
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "centre modal",
+        "purpose": "Video playback, forms and profiles over the page.",
+        "states": {
+          "default": "Hidden.",
+          "hover": "Close control background shifts to {color.hover}.",
+          "focus_visible": "Close control uses the browser default outline.",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "Open with blurred page behind."
+        },
+        "state_changes": "Page behind blurs to {blur.modal}; scrim to {opacity.scrim}.",
+        "motion_patterns": [
+          "modal-blur-backdrop"
+        ],
+        "keyboard": "Close control focusable. No Escape handling found.",
+        "pointer_vs_touch": "Same.",
+        "dismissal": "Close button.",
+        "focus_management": "Focus moves to the close button once the backdrop tween completes; no explicit focus trap or return found.",
+        "aria": "No aria-modal or dialog role on the generic modal (a native dialog element is used only for the fullscreen 3D viewer).",
+        "rules": [
+          "Scroll paused while open."
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "side panel",
+        "purpose": "Filters and detail drawers.",
+        "states": {
+          "default": "Off-canvas right.",
+          "hover": "Close control rotates 90 degrees.",
+          "focus_visible": "Browser default.",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "Slid in with blurred scrim."
+        },
+        "state_changes": "Scrim {opacity.scrim}; blur {blur.modal}.",
+        "motion_patterns": [
+          "side-panel-slide",
+          "close-button-rotate"
+        ],
+        "keyboard": "Close control focusable; no Escape.",
+        "pointer_vs_touch": "Drag right more than 80px closes.",
+        "dismissal": "Close button, swipe right. No outside-click close found.",
+        "focus_management": "Focus moves to the close button on open and returns to the trigger on close.",
+        "aria": "None specific found.",
+        "rules": [
+          "Scroll paused while open."
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "carousel",
+        "purpose": "Horizontal sets of cards, products or quotes.",
+        "states": {
+          "default": "Snapped to a slide.",
+          "hover": "Card media zoom.",
+          "focus_visible": "Browser default.",
+          "active": "Dragging follows the pointer 1:1 with rubber-band resistance at the ends.",
+          "disabled": "Prev or next control disabled at the ends.",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "Current slide index drives control state.",
+          "expanded": "n/a"
+        },
+        "state_changes": "Relative only.",
+        "motion_patterns": [
+          "carousel-drag-snap",
+          "media-hover-zoom"
+        ],
+        "keyboard": "Left and Right arrows step one slide (listener is global while the slider is visible).",
+        "pointer_vs_touch": "Drag on both; flick momentum; axis-locked so vertical scroll passes through.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "Optional ARIA control mode maps Tab and Shift to next and prev (not recommended to replicate).",
+        "rules": [
+          "Non-infinite by default; snap on release."
+        ],
+        "source": "code",
+        "confidence": "medium"
+      },
+      {
+        "name": "form input",
+        "purpose": "Text, textarea, select, multi-select, single-select, checkbox, country, file upload fields.",
+        "states": {
+          "default": "Bottom border only, top label, placeholder in reduced opacity.",
+          "hover": "n/a",
+          "focus_visible": "Bottom border brightens to {color.fg}; outline removed.",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "Container gains an invalid class; red-toned message appears below the field ({color.error}).",
+          "success": "Whole form replaced by a confirmation block.",
+          "selected": "Multi-select shows selected items; dropdown icon swaps plus and minus.",
+          "expanded": "Dropdown list opens with its own smooth scroll."
+        },
+        "state_changes": "Border tone change on focus; error tone on invalid.",
+        "motion_patterns": [
+          "slide-in-from-start"
+        ],
+        "keyboard": "Native inputs; custom selects use checkbox or radio inputs internally.",
+        "pointer_vs_touch": "Same.",
+        "dismissal": "Dropdown closes on outside click.",
+        "focus_management": "No focus move to the first invalid field on submit (gap).",
+        "aria": "Native required attribute; no aria-invalid or aria-describedby linking to error text found.",
+        "rules": [
+          "Text fields cap at 35 characters (URL 2048, phone 13, textarea 2000).",
+          "Phone field blocks non-numeric characters as typed.",
+          "Textarea auto-grows with content."
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "animation switch",
+        "purpose": "User control to turn decorative animations on or off (long-form template only).",
+        "states": {
+          "default": "Reflects stored preference or prefers-reduced-motion.",
+          "hover": "n/a",
+          "focus_visible": "Browser default.",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "A sliding background pill moves behind the active Off or On label.",
+          "expanded": "n/a"
+        },
+        "state_changes": "Active label gets the selected tone; pill width and position track the label.",
+        "motion_patterns": [
+          "chart-draw-on-view"
+        ],
+        "keyboard": "Button activation toggles.",
+        "pointer_vs_touch": "Same.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "role switch with aria-checked; aria-label on the track; uses a positive tabindex (10).",
+        "rules": [
+          "Preference persists across visits."
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "consent banner",
+        "purpose": "Tracking consent in regions that require it.",
+        "states": {
+          "default": "Hidden, then fades in after 1000ms.",
+          "hover": "Buttons shift opacity.",
+          "focus_visible": "Browser default.",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "Fades out after a choice.",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "Frosted panel.",
+        "motion_patterns": [
+          "consent-banner-fade"
+        ],
+        "keyboard": "Native buttons.",
+        "pointer_vs_touch": "Same.",
+        "dismissal": "Accept or reject only.",
+        "focus_management": "Focus is not moved to the banner.",
+        "aria": "None specific.",
+        "rules": [
+          "Shown only when the visitor's region requires consent.",
+          "Reject opts out of analytics immediately."
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "hero",
+        "purpose": "First screen of landing and section pages: full-bleed media with the page's primary heading.",
+        "states": {
+          "default": "Heading, label and media hidden until the route transition finishes.",
+          "hover": "Scroll-down control follows circle button behaviour.",
+          "focus_visible": "Browser default on the scroll-down control.",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "Media hidden (opacity 0) until the entrance; a closer-matching portrait or landscape source is chosen on resize.",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "Relative only; header tone follows the hero's declared header mode.",
+        "motion_patterns": [
+          "hero-line-mask-reveal",
+          "hero-media-fade",
+          "text-scramble-decode",
+          "smooth-scroll-inertia",
+          "webgl-dom-sync"
+        ],
+        "keyboard": "Scroll-down control triggers a smooth scroll of one hero height over 2500ms.",
+        "pointer_vs_touch": "Same.",
+        "dismissal": "n/a",
+        "focus_management": "Focus is not moved on arrival.",
+        "aria": "Split heading keeps an accessible label; WebGL titles have a visually hidden DOM mirror.",
+        "rules": [
+          "One masked heading per page.",
+          "Entrances wait for the route transition to finish."
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "logo marquee",
+        "purpose": "Continuous strip of partner or client marks.",
+        "states": {
+          "default": "Scrolling continuously.",
+          "hover": "No change found.",
+          "focus_visible": "n/a",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "None.",
+        "motion_patterns": [
+          "marquee-loop"
+        ],
+        "keyboard": "Not interactive.",
+        "pointer_vs_touch": "Same.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "Replicas should mark the duplicate group aria-hidden.",
+        "rules": [
+          "Two identical groups for a seamless loop."
+        ],
+        "source": "code",
+        "confidence": "high"
+      },
+      {
+        "name": "3D viewer launcher",
+        "purpose": "Inline interactive 3D preview that expands to a fullscreen inspection mode.",
+        "states": {
+          "default": "Preview with a launch button.",
+          "hover": "Button follows outlined button behaviour.",
+          "focus_visible": "Browser default.",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "In-button spinner and a segmented pulsing loader while the 3D asset streams.",
+          "error": "n/a",
+          "success": "Loader segments go solid and stop pulsing when loaded.",
+          "selected": "Active point of interest highlighted.",
+          "expanded": "Fullscreen native dialog with close control; page gestures and scroll locked."
+        },
+        "state_changes": "Relative only.",
+        "motion_patterns": [
+          "spinner-rotate",
+          "webgl-dom-sync"
+        ],
+        "keyboard": "Left and Right arrows step between points of interest in fullscreen (desktop).",
+        "pointer_vs_touch": "Orbit by drag; pinch and gesture events blocked in fullscreen.",
+        "dismissal": "Close control; native dialog behaviour.",
+        "focus_management": "Native dialog manages focus while open.",
+        "aria": "Native dialog element.",
+        "rules": [
+          "Deep-linkable; opening scrolls the section into view first."
+        ],
+        "source": "code",
+        "confidence": "medium"
+      },
+      {
+        "name": "stat block",
+        "purpose": "Large numeric call-outs with labels.",
+        "states": {
+          "default": "Hidden until in view.",
+          "hover": "n/a",
+          "focus_visible": "n/a",
+          "active": "n/a",
+          "disabled": "n/a",
+          "loading": "n/a",
+          "error": "n/a",
+          "success": "n/a",
+          "selected": "n/a",
+          "expanded": "n/a"
+        },
+        "state_changes": "None beyond entrance.",
+        "motion_patterns": [
+          "rule-draw",
+          "slide-in-from-start",
+          "roller-counter"
+        ],
+        "keyboard": "n/a",
+        "pointer_vs_touch": "Same.",
+        "dismissal": "n/a",
+        "focus_management": "n/a",
+        "aria": "Plain text.",
+        "rules": [
+          "Stat, label and supporting text slide in at 200, 300 and 400ms after the rule starts."
+        ],
+        "source": "code",
+        "confidence": "high"
+      }
+    ],
+    "interaction_patterns": [
+      {
+        "pattern": "hover-or-focus-to-open mega menu",
+        "where_used": "Desktop primary nav",
+        "behaviour": "Hover or keyboard focus opens a shared panel; leaving the nav region closes it.",
+        "ux_purpose": "Zero-click browsing of the whole site structure.",
+        "source": "code"
+      },
+      {
+        "pattern": "hover-to-preview description",
+        "where_used": "Mosaic cards",
+        "behaviour": "One-line description decodes into view on hover; auto-reveals on touch when in view.",
+        "ux_purpose": "Keeps the grid scannable while giving context on demand.",
+        "source": "code"
+      },
+      {
+        "pattern": "scroll-coupled chrome",
+        "where_used": "Header, sticky secondary nav, floating anchor button",
+        "behaviour": "Header offset tracks scroll deltas; sticky elements follow via a CSS variable; the anchor button appears once its target scrolls away.",
+        "ux_purpose": "Maximises content area without hiding navigation from users who scroll back.",
+        "source": "code"
+      },
+      {
+        "pattern": "scroll-down affordance",
+        "where_used": "Heroes",
+        "behaviour": "A control below the hero smooth-scrolls exactly one hero height over 2500ms.",
+        "ux_purpose": "Invites the first scroll on full-bleed heroes where content below is not visible.",
+        "source": "code"
+      },
+      {
+        "pattern": "in-view reveal with immediate fallback",
+        "where_used": "All content slices",
+        "behaviour": "Elements animate on first intersection; elements already visible at mount animate straight away.",
+        "ux_purpose": "Nothing is ever left invisible waiting for a scroll that will not happen.",
+        "source": "code"
+      },
+      {
+        "pattern": "drag, flick and snap",
+        "where_used": "Carousels",
+        "behaviour": "Rubber-band ends, velocity-based skip, snap to slide.",
+        "ux_purpose": "Direct manipulation with predictable resting positions.",
+        "source": "code"
+      },
+      {
+        "pattern": "deep-link tracking",
+        "where_used": "Pages with anchored sections",
+        "behaviour": "The section occupying more than half the viewport becomes the current deep link; anchor clicks smooth-scroll with the header height subtracted.",
+        "ux_purpose": "Shareable positions and accurate anchor landing under a fixed header.",
+        "source": "code"
+      },
+      {
+        "pattern": "fullscreen 3D viewer",
+        "where_used": "Capability detail pages",
+        "behaviour": "A 3D preview expands to a native modal dialog with its own controls, arrow-key stepping between points of interest and locked page gestures.",
+        "ux_purpose": "Lets users inspect an object closely without leaving the page.",
+        "source": "code"
+      }
+    ],
+    "user_flows": [
+      {
+        "flow": "enquiry or application form",
+        "steps": [
+          "Open form (inline slice or modal triggered by an action button)",
+          "Fields cascade into view",
+          "Fill fields; phone input filters characters live",
+          "Submit",
+          "Client-side validation runs across all fields at once",
+          "On failure: inline field errors plus a form-level message",
+          "On success: form hidden, confirmation shown, fields cleared"
+        ],
+        "entry_points": [
+          "Action buttons configured to open a form",
+          "Dedicated form pages"
+        ],
+        "friction_reducers": [
+          "Single column",
+          "Auto-growing textarea",
+          "Searchable select components",
+          "Double-submit guard"
+        ],
+        "exit_and_recovery": "Server error shows a generic retry message in place; entered values are kept. No loading state on the submit button.",
+        "source": "code"
+      },
+      {
+        "flow": "browse to capability detail",
+        "steps": [
+          "Hover or focus a top-level nav item",
+          "Scan the panel links",
+          "Click a link",
+          "Progress bar and scale-crossfade transition",
+          "Hero reveals on arrival"
+        ],
+        "entry_points": [
+          "Primary nav",
+          "Mosaic cards",
+          "Carousels",
+          "Next-page link slices"
+        ],
+        "friction_reducers": [
+          "Single shared panel",
+          "Instant scroll reset hidden behind the transition"
+        ],
+        "exit_and_recovery": "Browser back uses the same router and transition.",
+        "source": "code"
+      },
+      {
+        "flow": "site search",
+        "steps": [
+          "Open search in the nav panel (desktop) or search mode in the mobile menu",
+          "Type query",
+          "Results panel resizes to fit results",
+          "Select a result (closes menu and navigates)"
+        ],
+        "entry_points": [
+          "Header search"
+        ],
+        "friction_reducers": [
+          "Search input auto-focused",
+          "Results in place without leaving the page"
+        ],
+        "exit_and_recovery": "Leaving the nav region or toggling search closes it.",
+        "source": "code"
+      }
+    ],
+    "forms": {
+      "layout": "single column",
+      "label_style": "top",
+      "validation_timing": "on submit",
+      "error_presentation": "Message text directly below each invalid field, field container marked invalid, plus a form-level message near the submit control. Specific messages for email, month, phone and profile URL formats; otherwise a configurable required message.",
+      "success_presentation": "Form container hidden and a confirmation block shown in place; all fields cleared.",
+      "required_indicator": "Native required attribute set; visual indicator not confirmed (see gaps).",
+      "input_assistance": "Live character filtering on phone input, max lengths per type, auto-growing textarea, searchable single and multi-select dropdowns with their own scroll, file upload with type limits, country list select.",
+      "motion_patterns": [
+        "slide-in-from-start"
+      ]
+    },
+    "feedback_and_states": {
+      "loading": "progress bars",
+      "perceived_performance": "Thin top progress bar with decelerating fake progress; route changes hidden behind a 700ms scale-crossfade; images lazy-load 250px early with reserved aspect ratios and a 125ms fade; heavy 3D assets show a segmented pulsing loader and an in-button spinner.",
+      "empty_states": "Not observed (listing filters with no results not tested).",
+      "errors": "Inline form errors in an error tone; form-level generic error on network failure. Unsupported browsers are redirected to a static fallback page before the app loads.",
+      "success": "Inline confirmation replacing the form.",
+      "toasts_and_notifications": "None. A consent banner (bottom-right) and a content preview banner are the only notification-like surfaces.",
+      "confirmations": "None needed (no destructive actions on a marketing site).",
+      "undo": "Not offered."
+    },
+    "attention_and_hierarchy": {
+      "cta_strategy": "Primary actions are understated text links with an arrow and a self-drawing underline; secondary actions are outlined boxes. CTAs repeat per section rather than sticking to the viewport. A single floating square anchor button may appear on long pages.",
+      "scanning_pattern": "card grid",
+      "attention_direction": "The masked heading reveal wins the first beat of each page; rules then draw left to right and content slides in from the left in DOM order, walking the eye down and across each row. Scrambled labels create brief points of flicker that pull attention to category and metadata text.",
+      "progressive_disclosure": "Mega menu panels, card descriptions, accordion content, mobile sub-menus, filter drawers and fullscreen 3D viewers are all hidden until intent (hover, focus or tap)."
+    },
+    "responsive_behaviour": {
+      "strategy": "desktop-first",
+      "breakpoint_behaviour": [
+        {
+          "range": "768px and under",
+          "changes": "Mobile header and menu replace desktop nav; header hides 1:1 with scroll; accordion hover fill disabled; card descriptions reveal on in-view instead of hover; footer link groups collapse into accordions; charts switch to mobile builds; filters move into drawers."
+        },
+        {
+          "range": "769px to 1280px",
+          "changes": "Desktop nav and hover behaviours; some grids tighten."
+        },
+        {
+          "range": "1281px to 1919px",
+          "changes": "Base desktop layout."
+        },
+        {
+          "range": "1920px and up",
+          "changes": "Larger scale for type and spacing; motion unchanged."
+        },
+        {
+          "range": "short landscape (height 500px and under)",
+          "changes": "Specific adjustments for landscape phones (inferred from media queries)."
+        }
+      ],
+      "touch_adaptations": "Hover effects gated by (hover: hover); circle buttons use touchstart and touchend to show a pressed state; native touch scrolling (smooth scroll disabled for touch); swipe-to-close on side panels; drag with axis lock on carousels; pinch and gesture events blocked in the fullscreen 3D viewer."
+    },
+    "accessibility": {
+      "focus_visibility": "Mostly relies on browser default focus rings; only four custom focus-visible rules exist. Several controls remove outlines entirely (mobile menu button, some filter and text inputs replace the outline with a border change).",
+      "keyboard_support": "partial",
+      "tab_order": "issues found",
+      "semantics": "Landmarks nav, header, main and footer present. Heading order starts with h3 elements in the navigation before the page h1. Navigation category triggers and accordion rows are div elements with click handlers rather than buttons.",
+      "touch_target_min_px": 34,
+      "screen_reader_notes": "WebGL-rendered titles have a visually hidden DOM mirror. Decorative icons are aria-hidden. Split text keeps an aria-label on the original element by default. Scrambled text writes random characters into live text nodes during animation, which screen readers may announce if they read mid-animation.",
+      "issues_found": [
+        "No Escape key handling for any menu, panel or modal.",
+        "Generic modal lacks role dialog, aria-modal and a focus trap.",
+        "Top-level nav triggers are div role=link without aria-expanded or aria-controls.",
+        "Accordion rows are clickable divs with a non-standard role value; not operable by keyboard.",
+        "Positive tabindex on the animation switch and on the desktop mega menu (tabindex values renumbered dynamically).",
+        "Mobile menu button removes focus-visible outline.",
+        "No skip link.",
+        "Reduced motion preference ignored outside long-form data visualisations; no prefers-reduced-motion CSS.",
+        "Form errors are not programmatically linked to inputs (no aria-invalid or aria-describedby) and focus is not moved to the first error.",
+        "Circle buttons are about 34px square (8px padding around a 16px icon plus border), under the 44px guideline (inferred from CSS)."
+      ]
+    }
+  },
+  "dos_and_donts": {
+    "do": [
+      "Use ease-out-expo at 1000 to 1500ms for entrances and 700ms for reveal exits.",
+      "Pair every list row or card with a rule-draw from the left edge.",
+      "Offset content entrances by translateX(-10%) of the element, never a fixed pixel distance.",
+      "Stagger siblings at 100ms after a 200ms base delay; use 50ms for dense lists such as form fields and sub-menu links.",
+      "Use text-scramble-decode for short uppercase labels and one-line descriptions only, and always restore the clean string at the end.",
+      "Mask heading lines and translate them from 100% on y, 100ms apart.",
+      "Tie the header's hidden offset to accumulated scroll delta and clamp it; reveal at full rate on upward scroll.",
+      "Morph one shared menu panel in height between sections instead of opening separate dropdowns.",
+      "Animate overlay backdrops first and move focus only after the backdrop completes.",
+      "Freeze the outgoing page and reset scroll before a route transition so the swap never jumps.",
+      "Trigger in-view reveals immediately for elements already on screen at mount.",
+      "Gate hover-only reveals with (hover: hover) and provide an in-view equivalent on touch.",
+      "Add Escape to close, real buttons with aria-expanded, and prefers-reduced-motion fallbacks (the source lacks these; the replica should not)."
+    ],
+    "dont": [
+      "Do not use springs, overshoot or bounce easing; the feel is damped and heavy.",
+      "Do not lift, tilt or add glow to cards on hover; only media inside a clipped frame may scale.",
+      "Do not fade content up from below as the default entrance; the house direction is horizontal from the reading-start edge.",
+      "Do not scramble body copy or headings longer than a line; it becomes unreadable noise.",
+      "Do not animate the header on a timer or toggle it at a fixed threshold.",
+      "Do not replay scroll reveals every time an element re-enters the viewport.",
+      "Do not use short (under 300ms) durations for entrances; they break the cinematic pacing.",
+      "Do not stack multiple overlays or scrims; crossfade between them.",
+      "Do not hijack touch scrolling with smoothing.",
+      "Do not ship hover-only affordances without a touch alternative."
+    ]
+  },
+  "implementation": {
+    "target_stack": "Next.js (App Router, client components) + Tailwind CSS + GSAP 3 (with SplitText) + Lenis 1.3. Assumed because the target stack field was left unfilled; every snippet is a plain ES module usable inside a 'use client' component or useEffect.",
+    "motion_tokens_code": "/* motion-tokens.css */\n:root {\n  --dur-instant: 125ms; --dur-fast: 300ms; --dur-base: 500ms; --dur-slow: 1000ms; --dur-cinematic: 1500ms;\n  --dur-page-phase: 350ms; --dur-panel: 250ms; --dur-exit: 700ms; --dur-scrim-in: 600ms; --dur-underline-replay: 600ms; --dur-image-fade: 125ms; --dur-banner: 250ms; --dur-spinner: 1500ms; --dur-rule-long: 2000ms;\n  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);\n  --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);\n  --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);\n  --ease-out-sine: cubic-bezier(0.39, 0.575, 0.565, 1);\n  --ease-in-sine: cubic-bezier(0.47, 0, 0.745, 0.715);\n  --ease-in-out-sine: cubic-bezier(0.445, 0.05, 0.55, 0.95);\n  --ease-in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);\n  --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);\n  --stagger-tight: 50ms; --stagger-base: 100ms; --stagger-loose: 200ms;\n  --reveal-x: -10%; --exit-x: 10%; --line-y: 100%;\n}\n\n// motion-tokens.js\nexport const DUR = { instant: 0.125, fast: 0.3, base: 0.5, slow: 1, cinematic: 1.5, pagePhase: 0.35, panel: 0.25, exit: 0.7, scrimIn: 0.6, ruleLong: 2, scrollTo: 2.5 };\nexport const EASE = { outExpo: 'expo.out', outCubic: 'power2.out', inOutCubic: 'power2.inOut', outSine: 'sine.out', inSine: 'sine.in', inOutSine: 'sine.inOut', inOutQuad: 'power1.inOut', outQuart: 'power3.out' };\nexport const STAGGER = { tight: 0.05, base: 0.1, loose: 0.2 };\nexport const DIST = { revealX: -10, exitX: 10, lineY: 100 };\nexport const LENIS = { lerp: 0, duration: 0.8, easing: (t) => 1 - Math.pow(1 - t, 4), smoothWheel: true, syncTouch: false };",
+    "motion_presets": "// motion-presets.js\nimport { gsap } from 'gsap';\nimport { SplitText } from 'gsap/SplitText';\ngsap.registerPlugin(SplitText);\nconst reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;\ngsap.defaults({ ease: 'expo.out', duration: 1 });\n\nexport function onceInView(el, cb, threshold = 0.05) {\n  if (el.getBoundingClientRect().top < innerHeight) return cb();\n  const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); cb(); } }, { threshold });\n  io.observe(el);\n}\nexport function revealRow(row) {\n  const rule = row.querySelector('[data-rule]');\n  const kids = row.querySelectorAll('[data-reveal]');\n  if (reduce()) { gsap.set(rule, { scaleX: 1 }); gsap.set(kids, { opacity: 1, xPercent: 0 }); return; }\n  gsap.set(rule, { scaleX: 0, transformOrigin: '0% 50%' });\n  gsap.set(kids, { xPercent: -10, opacity: 0 });\n  onceInView(row, () => {\n    gsap.to(rule, { scaleX: 1, duration: 1.5 });\n    gsap.to(kids, { xPercent: 0, opacity: 1, duration: 1, delay: 0.2, stagger: 0.1 });\n  }, 0.05);\n}\nexport function hideRow(row) {\n  gsap.set(row.querySelector('[data-rule]'), { transformOrigin: '100% 50%' });\n  return gsap.timeline().to(row.querySelector('[data-rule]'), { scaleX: 0, duration: 0.7 }, 0).to(row.querySelectorAll('[data-reveal]'), { xPercent: 10, opacity: 0, duration: 0.7 }, 0);\n}\nexport async function revealHeading(el) {\n  await document.fonts.ready;\n  const s = SplitText.create(el, { type: 'lines', mask: 'lines' });\n  if (reduce()) return;\n  return gsap.from(s.lines, { yPercent: 100, duration: 1, stagger: 0.1 });\n}\nexport const fadeIn = (el, d = 1) => gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: reduce() ? 0.01 : d });\nexport const formCascade = (fields) => reduce() ? gsap.set(fields, { opacity: 1 }) : gsap.fromTo(fields, { xPercent: -10, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.8, stagger: 0.05 });",
+    "interaction_recipes": [
+      {
+        "component": "ruled list row",
+        "structure": "<li class=\"row\" data-state=\"hidden\"><span class=\"row__rule\" data-rule></span><div class=\"row__meta\" data-reveal></div><div class=\"row__title\" data-reveal></div><div class=\"row__media\" data-reveal></div></li>",
+        "behaviour_code": "import { revealRow } from './motion-presets';\ndocument.querySelectorAll('.row').forEach(revealRow);"
+      },
+      {
+        "component": "accessible accordion",
+        "structure": "<div class=\"acc\"><h3><button class=\"acc__trigger\" aria-expanded=\"false\" aria-controls=\"acc-1\"><span class=\"acc__fill\" aria-hidden=\"true\"></span><span class=\"acc__label\"></span><span class=\"plus\" aria-hidden=\"true\"><span></span><span></span></span></button></h3><div id=\"acc-1\" class=\"acc__panel\" role=\"region\" style=\"height:0;overflow:hidden\"></div><span class=\"acc__rule\" data-rule></span></div>",
+        "behaviour_code": "import { gsap } from 'gsap';\ndocument.querySelectorAll('.acc').forEach((acc) => {\n  const btn = acc.querySelector('.acc__trigger'), panel = acc.querySelector('.acc__panel'), fill = acc.querySelector('.acc__fill');\n  const canHover = () => matchMedia('(hover: hover) and (min-width: 769px)').matches;\n  const setFill = (on) => gsap.to(fill, { scaleY: on && canHover() && btn.getAttribute('aria-expanded') !== 'true' ? 1 : 0, transformOrigin: '50% 100%', duration: 0.3, ease: 'sine.out' });\n  btn.addEventListener('pointerenter', () => setFill(true));\n  btn.addEventListener('pointerleave', () => setFill(false));\n  btn.addEventListener('click', () => {\n    const open = btn.getAttribute('aria-expanded') !== 'true';\n    btn.setAttribute('aria-expanded', String(open));\n    setFill(false);\n    gsap.to(panel, { height: open ? panel.scrollHeight : 0, duration: 0.5, ease: 'sine.out' });\n  });\n});"
+      },
+      {
+        "component": "desktop mega nav",
+        "structure": "<header class=\"hdr\" data-frosted=\"false\"><nav aria-label=\"Primary\"><ul class=\"hdr__items\"><li><button class=\"hdr__item\" aria-expanded=\"false\" aria-controls=\"panel-a\"></button></li></ul><div class=\"hdr__wrapper\" aria-hidden=\"true\" style=\"height:0;overflow:hidden\"><div id=\"panel-a\" class=\"hdr__panel\" hidden></div></div></nav><div class=\"hdr__scrim\" hidden></div></header>",
+        "behaviour_code": "import { gsap } from 'gsap';\nconst nav = document.querySelector('.hdr nav'), items = [...nav.querySelectorAll('.hdr__item')], wrapper = nav.querySelector('.hdr__wrapper'), scrim = document.querySelector('.hdr__scrim');\nconst panels = items.map((b) => document.getElementById(b.getAttribute('aria-controls')));\nlet current = null;\nfunction open(i) {\n  if (current === i) return; current = i;\n  items.forEach((b, k) => { b.setAttribute('aria-expanded', String(k === i)); gsap.to(b, { opacity: k === i ? 1 : 0.5, duration: k === i ? 0.15 : 0.5, ease: 'power2.out' }); });\n  panels.forEach((p, k) => { if (k !== i) gsap.to(p, { opacity: 0, duration: 0.5, ease: 'power2.out', onComplete: () => (p.hidden = true) }); });\n  const p = panels[i]; p.hidden = false; gsap.fromTo(p, { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 0.1, ease: 'power2.out' });\n  wrapper.setAttribute('aria-hidden', 'false'); gsap.to(wrapper, { height: p.offsetHeight, duration: 0.5, ease: 'power2.out' });\n  if (scrim.hidden) { scrim.hidden = false; gsap.fromTo(scrim, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' }); }\n}\nfunction close() {\n  if (current === null) return; current = null;\n  items.forEach((b) => { b.setAttribute('aria-expanded', 'false'); gsap.to(b, { opacity: 1, duration: 0.5, delay: 0.15, ease: 'power2.out' }); });\n  panels.forEach((p) => gsap.to(p, { opacity: 0, duration: 0.5, ease: 'power2.out', onComplete: () => (p.hidden = true) }));\n  gsap.to(wrapper, { height: 0, duration: 0.5, ease: 'power2.out', onComplete: () => wrapper.setAttribute('aria-hidden', 'true') });\n  gsap.fromTo(scrim, { opacity: 0.5 }, { opacity: 0, duration: 0.3, ease: 'power2.out', onComplete: () => (scrim.hidden = true) });\n}\nitems.forEach((b, i) => { b.addEventListener('pointerenter', () => open(i)); b.addEventListener('focus', () => open(i)); });\nnav.addEventListener('pointerleave', close);\nnav.addEventListener('focusout', (e) => { if (!nav.contains(e.relatedTarget)) close(); });\naddEventListener('keydown', (e) => { if (e.key === 'Escape' && current !== null) { const b = items[current]; close(); b.focus(); } });"
+      },
+      {
+        "component": "centre modal",
+        "structure": "<div class=\"modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"m-title\" hidden><div class=\"modal__scrim\"></div><div class=\"modal__body\"><h2 id=\"m-title\" class=\"sr-only\"></h2><button class=\"modal__close\" aria-label=\"Close\"></button></div></div>",
+        "behaviour_code": "import { gsap } from 'gsap';\nexport function createModal(root, lenis) {\n  const scrim = root.querySelector('.modal__scrim'), closeBtn = root.querySelector('.modal__close');\n  let trigger;\n  const onKey = (e) => { if (e.key === 'Escape') close(); };\n  function open(from) {\n    trigger = from; lenis?.stop(); root.hidden = false; addEventListener('keydown', onKey);\n    gsap.fromTo(root, { backdropFilter: 'blur(0px)' }, { backdropFilter: 'blur(30px)', duration: 1, ease: 'sine.out' });\n    gsap.fromTo(scrim, { opacity: 0 }, { opacity: 0.7, duration: 1, ease: 'sine.out', onComplete: () => closeBtn.focus() });\n  }\n  function close() {\n    removeEventListener('keydown', onKey); lenis?.start();\n    gsap.to(scrim, { opacity: 0, duration: 1, ease: 'sine.out' });\n    gsap.to(root, { backdropFilter: 'blur(0px)', duration: 1, ease: 'sine.out', onComplete: () => { root.hidden = true; trigger?.focus(); } });\n  }\n  closeBtn.addEventListener('click', close);\n  scrim.addEventListener('click', close);\n  return { open, close };\n}"
+      },
+      {
+        "component": "form field",
+        "structure": "<div class=\"field\" data-invalid=\"false\"><label for=\"f-1\" class=\"field__label\"></label><input id=\"f-1\" class=\"field__input\" aria-describedby=\"f-1-err\" /><p id=\"f-1-err\" class=\"field__error\" hidden></p></div>",
+        "behaviour_code": "export function validateForm(form) {\n  let first = null;\n  form.querySelectorAll('.field').forEach((f) => {\n    const input = f.querySelector('input,textarea,select'), err = f.querySelector('.field__error');\n    const ok = input.checkValidity();\n    f.dataset.invalid = String(!ok); input.setAttribute('aria-invalid', String(!ok));\n    err.hidden = ok; err.textContent = ok ? '' : input.validationMessage;\n    if (!ok && !first) first = input;\n  });\n  first?.focus();\n  return !first;\n}"
+      },
+      {
+        "component": "scroll-coupled header",
+        "structure": "<header class=\"hdr\" data-frosted=\"false\" style=\"position:fixed;inset:0 0 auto 0\"></header>",
+        "behaviour_code": "import Lenis from 'lenis';\nimport { gsap } from 'gsap';\nconst lenis = new Lenis({ lerp: 0, duration: 0.8, easing: (t) => 1 - Math.pow(1 - t, 4), smoothWheel: true, syncTouch: false, autoRaf: true });\nconst hdr = document.querySelector('.hdr');\nlet hidden = 0, last = 0, frosted = false;\nlenis.on('scroll', ({ scroll }) => {\n  const h = hdr.offsetHeight, s = Math.max(0, scroll);\n  let d = s - last; if (d > 0 && innerWidth > 768) d *= 0.5;\n  hidden = Math.min(1, Math.max(0, hidden + d / h)); last = s;\n  hdr.style.transform = `translate3d(0,${-h * hidden}px,0)`;\n  document.documentElement.style.setProperty('--header-offset', `${h * (1 - hidden)}px`);\n  const f = s > 30;\n  if (f !== frosted) { frosted = f; gsap.to(hdr, { '--frosted': f ? 1 : 0, '--background-opacity': f ? 0.5 : 0, duration: 0.3, ease: 'power2.out' }); }\n});"
+      }
+    ],
+    "tailwind_theme_extend": {
+      "transitionDuration": {
+        "instant": "125ms",
+        "fast": "300ms",
+        "base": "500ms",
+        "slow": "1000ms",
+        "cinematic": "1500ms",
+        "panel": "250ms",
+        "page": "350ms",
+        "exit": "700ms",
+        "image": "125ms"
+      },
+      "transitionTimingFunction": {
+        "out-expo": "cubic-bezier(0.19, 1, 0.22, 1)",
+        "out-cubic": "cubic-bezier(0.215, 0.61, 0.355, 1)",
+        "in-out-cubic": "cubic-bezier(0.645, 0.045, 0.355, 1)",
+        "out-sine": "cubic-bezier(0.39, 0.575, 0.565, 1)",
+        "in-sine": "cubic-bezier(0.47, 0, 0.745, 0.715)",
+        "in-out-sine": "cubic-bezier(0.445, 0.05, 0.55, 0.95)",
+        "in-out-quad": "cubic-bezier(0.455, 0.03, 0.515, 0.955)",
+        "out-quart": "cubic-bezier(0.165, 0.84, 0.44, 1)"
+      },
+      "keyframes": {
+        "underline-in": {
+          "0%": {
+            "transformOrigin": "0",
+            "transform": "scaleX(0)"
+          },
+          "100%": {
+            "transformOrigin": "0",
+            "transform": "scaleX(1)"
+          }
+        },
+        "underline-replay": {
+          "0%": {
+            "transformOrigin": "100%",
+            "transform": "scaleX(1)"
+          },
+          "49%": {
+            "transformOrigin": "100%",
+            "transform": "scaleX(0)"
+          },
+          "50%": {
+            "transformOrigin": "0",
+            "transform": "scaleX(0)"
+          },
+          "100%": {
+            "transformOrigin": "0",
+            "transform": "scaleX(1)"
+          }
+        },
+        "marquee": {
+          "0%": {
+            "translate": "0"
+          },
+          "100%": {
+            "translate": "-100%"
+          }
+        },
+        "spin": {
+          "0%": {
+            "transform": "rotate(0deg)"
+          },
+          "100%": {
+            "transform": "rotate(360deg)"
+          }
+        },
+        "segment-pulse": {
+          "0%": {
+            "opacity": "1"
+          },
+          "20%": {
+            "opacity": "1"
+          },
+          "25%": {
+            "opacity": "0.2"
+          },
+          "100%": {
+            "opacity": "0.2"
+          }
+        },
+        "reveal-x": {
+          "0%": {
+            "transform": "translateX(-10%)",
+            "opacity": "0"
+          },
+          "100%": {
+            "transform": "translateX(0)",
+            "opacity": "1"
+          }
+        },
+        "rule-draw": {
+          "0%": {
+            "transform": "scaleX(0)"
+          },
+          "100%": {
+            "transform": "scaleX(1)"
+          }
+        }
+      },
+      "animation": {
+        "underline-in": "underline-in 300ms ease-out forwards",
+        "underline-replay": "underline-replay 600ms forwards",
+        "marquee": "marquee var(--duration, 40s) linear infinite",
+        "spin-slow": "spin 1500ms linear infinite",
+        "segment-pulse": "segment-pulse 2500ms linear infinite",
+        "reveal-x": "reveal-x 1000ms cubic-bezier(0.19, 1, 0.22, 1) both",
+        "rule-draw": "rule-draw 1500ms cubic-bezier(0.19, 1, 0.22, 1) both"
+      }
+    },
+    "recommended_libraries": [
+      "gsap (core + SplitText) as the tween engine; its expo, power and sine eases map 1:1 to the source curves",
+      "lenis 1.3.x for duration-based wheel smoothing with native touch",
+      "three.js only if replicating the WebGL-synced media layer (optional)"
+    ]
+  },
+  "ai_replication_prompt": "You are implementing a cinematic, restrained motion system called Mission-Console Cinematic Motion. Import motion-tokens.js and motion-presets.js and use only their tokens. Entrances use ease-out-expo: content groups slide in with slide-in-from-start (translateX(-10%) plus opacity, 1000ms, 200ms base delay, 100ms stagger in DOM order) while their divider runs rule-draw (scaleX from the left edge, 1500ms). Trigger reveals once per mount with a 5% IntersectionObserver threshold (50% for text-heavy sections), and animate immediately if the element is already on screen. The single primary heading per page uses hero-line-mask-reveal (masked lines from y 100%, 1000ms, 100ms apart) after the page transition finishes; hero media uses hero-media-fade. Short uppercase labels and one-line descriptions use text-scramble-decode (500ms, ease-in-out-sine progress, random letters for text or digits for numbers, spaces and punctuation preserved, clean text restored). Numbers use roller-counter. Reveal exits run at about half the entrance duration and move the other way (rule-retract-exit, +10%, origin on the right edge, 700ms). Hover feedback is typographic: link-underline-draw-replay on text links, sibling-dim-focus in nav groups, accordion-fill-wipe on rows, media-hover-zoom inside clipped frames, close-button-rotate on close icons, plus-rotate-toggle for expand icons. Never lift cards, never use springs or bounce. Navigation: header-scroll-coupled-hide (offset from accumulated scroll delta, half rate down on desktop, full rate up), header-frost-on-scroll after 30px, one shared mega-menu-height-expand panel with nav-scrim-fade, and mobile-menu-slide on small screens. Overlays: modal-blur-backdrop (1000ms, symmetric) and side-panel-slide (250ms ease-in-out-quad, symmetric); animate the backdrop first, then focus the close control; Escape closes; focus returns to the trigger. Route changes use page-transition-scale-crossfade (freeze old page, reset scroll, scale 1 to 1.02 and overlay in over 350ms ease-out-sine) then page-transition-settle-in (scale 0.98 to 1 and overlay out over 350ms ease-in-sine) with page-load-progress-bar. Scrolling uses smooth-scroll-inertia on wheel only. Carousels use carousel-drag-snap. Gate every hover reveal with (hover: hover) and give touch an in-view equivalent. Respect prefers-reduced-motion using each pattern's reduced_motion_fallback. Use real buttons with aria-expanded for every disclosure.",
+  "gaps": [
+    {
+      "area": "Screen recordings",
+      "issue": "None supplied. Timing comes from code; perceived choreography across a full scroll was not recorded.",
+      "suggested_approach": "Capture a 60fps recording of a slow then fast scroll on the landing page and one route change to confirm the relative start times of overlapping patterns."
+    },
+    {
+      "area": "Live visual confirmation",
+      "issue": "The automated browser pane paused requestAnimationFrame when not painting, so screenshots timed out and runtime header offsets were stale. Visual behaviour was reconstructed from the application bundle and stylesheet instead.",
+      "suggested_approach": "Re-run the interaction sweep in a foreground desktop browser and log the header --header-offset variable and document.getAnimations() during scroll."
+    },
+    {
+      "area": "Mobile runtime",
+      "issue": "The app did not boot under mobile emulation in the test pane, so touch target sizes and the mobile menu were not measured live. The touch_target_min_px value is inferred from CSS.",
+      "suggested_approach": "Test on a real device or a foreground emulator at 375px and 768px; measure hit areas of circle buttons, menu buttons and footer toggles."
+    },
+    {
+      "area": "Text scramble frame rate",
+      "issue": "The scramble loop is registered with a framework render call taking a second numeric argument of 20, interpreted as about 20 updates per second. Not verified against framework source.",
+      "suggested_approach": "Record the scramble at high frame rate and count distinct character changes per second."
+    },
+    {
+      "area": "Target stack",
+      "issue": "The target stack field in the brief was left as a placeholder, so Next.js + Tailwind + GSAP + Lenis was assumed.",
+      "suggested_approach": "Tell me the actual stack and the snippets can be re-expressed (for example Framer Motion variants or plain CSS)."
+    },
+    {
+      "area": "Form required indicator and empty states",
+      "issue": "No required marker styling and no empty listing state were confirmed; filters and pagination were not exercised live.",
+      "suggested_approach": "Submit a live form empty and invalid in a foreground browser, and apply a filter combination with no results."
+    },
+    {
+      "area": "WebGL shaders",
+      "issue": "Compiled shader bundle and 3D scene behaviour (fluid cursor effect, particle headers, 3D product viewer) were not decoded beyond their scroll and transition uniforms.",
+      "suggested_approach": "Treat WebGL as optional progressive enhancement; if needed, inspect the shader bundle and scene configuration JSON separately."
+    },
+    {
+      "area": "Long-form editorial template",
+      "issue": "Chart and chapter animations were sampled from code only; the animation switch lives in that template's header and was not exercised.",
+      "suggested_approach": "Open a long-form page and toggle the switch with reduced motion on and off."
+    },
+    {
+      "area": "Search",
+      "issue": "Result rendering, debounce timing and keyboard navigation within results were not traced.",
+      "suggested_approach": "Type into the search field live and inspect network timing and result focus behaviour."
+    }
+  ],
+  "extensions": {
+    "motion_tokens_extra": {
+      "page-phase": {
+        "value_ms": 350,
+        "usage": "each half of the route transition",
+        "source": "code",
+        "confidence": "high"
+      },
+      "panel": {
+        "value_ms": 250,
+        "usage": "side panels and location drawers",
+        "source": "code",
+        "confidence": "high"
+      },
+      "exit": {
+        "value_ms": 700,
+        "usage": "reveal exits",
+        "source": "code",
+        "confidence": "high"
+      },
+      "scrim-in": {
+        "value_ms": 600,
+        "usage": "nav scrim entrance (exit 300)",
+        "source": "code",
+        "confidence": "high"
+      },
+      "underline-replay": {
+        "value_ms": 600,
+        "usage": "link hover replay",
+        "source": "code",
+        "confidence": "high"
+      },
+      "banner": {
+        "value_ms": 250,
+        "usage": "consent banner fade",
+        "source": "code",
+        "confidence": "high"
+      },
+      "spinner": {
+        "value_ms": 1500,
+        "usage": "in-button spinner cycle",
+        "source": "code",
+        "confidence": "high"
+      },
+      "marquee": {
+        "value_ms": "per instance via --duration",
+        "usage": "logo marquee",
+        "source": "code",
+        "confidence": "high"
+      },
+      "lenis-step": {
+        "value_ms": 800,
+        "usage": "wheel smoothing duration",
+        "source": "code",
+        "confidence": "high"
+      },
+      "header-hide-programmatic": {
+        "value_ms": 1000,
+        "usage": "header hidden or shown by a component request",
+        "source": "code",
+        "confidence": "high"
+      },
+      "frame": {
+        "value_ms": "per frame",
+        "usage": "WebGL uniform sync",
+        "source": "code",
+        "confidence": "high"
+      }
+    },
+    "placeholder_tokens_referenced": [
+      "{color.fg}",
+      "{color.bg}",
+      "{color.accent}",
+      "{color.on-accent}",
+      "{color.hover}",
+      "{color.error}",
+      "{opacity.muted}",
+      "{opacity.frost}",
+      "{opacity.scrim}",
+      "{blur.header}",
+      "{blur.menu}",
+      "{blur.modal}",
+      "{distance.float-offset}"
+    ],
+    "tween_usage_statistics": {
+      "source": "code",
+      "confidence": "high",
+      "note": "Counts of tween calls in the application bundle",
+      "by_easing": {
+        "ease-out-expo": 82,
+        "ease-in-out-cubic": 73,
+        "ease-out-sine": 64,
+        "ease-out-cubic": 60,
+        "ease-out-quad": 11,
+        "other": 16
+      },
+      "by_duration_ms": {
+        "500": 106,
+        "1000": 73,
+        "300": 27,
+        "1500": 16,
+        "800": 13,
+        "250": 10,
+        "700": 7,
+        "2000": 4
+      },
+      "most_common_from_states": {
+        "scaleX(0)": 21,
+        "translateX(-10%)": 20,
+        "translateY(100%)": 15
+      }
+    },
+    "output_file": "C:/Users/jamesdarcy/OneDrive - Prescience Technology Pty. Ltd/Apps/motion-ux-spec.json"
+  }
+}

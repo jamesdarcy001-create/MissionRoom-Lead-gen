@@ -1,0 +1,667 @@
+{
+  "meta": {
+    "system_name": "Graphite Blueprint Terminal",
+    "brand_name": null,
+    "brand_mode": "abstract",
+    "summary": "A dark-only, engineered marketing language: warm graphite surfaces, ivory type, and a single electric-blue accent used with discipline. Soft-cornered grotesque display type is set huge and tight, and a monospace spec-sheet voice plus pixel dot-matrix numerals frame it, so the site reads like technical documentation that has been art directed. Hairline rails, repeating vertical-line bands and square-cornered controls give it the feel of instrumentation. The overall character is calm and precise, operator-grade, with a knowing nod to terminal and hardware culture.",
+    "inputs_used": { "live_url": true, "screenshots": 0, "brand_materials": 0 },
+    "platform": "web",
+    "product_type": "marketing site (B2B SaaS) with embedded product UI mock-ups",
+    "confidence_overall": "medium"
+  },
+
+  "brand": {
+    "personality": {
+      "archetype": "Sage with a Creator streak (inferred)",
+      "traits": [
+        { "trait": "Precise", "is": "measured, labelled, specified like an engineering datasheet", "is_not": "clinical or sterile; warm neutrals and soft letterforms keep it human" },
+        { "trait": "Composed", "is": "quiet dark canvas, one accent, lots of air", "is_not": "moody, gamer-dark or neon-drenched" },
+        { "trait": "Technical insider", "is": "mono labels, serial-code microcopy, pixel numerals, circuit-style line art", "is_not": "hacker cliche, green-on-black matrix or glitch overload" },
+        { "trait": "Confident", "is": "short declarative headlines at very large sizes", "is_not": "shouty; no exclamation marks, no gradients fighting for attention" },
+        { "trait": "Systematic", "is": "rails, grids, numbered rows, repeated line devices", "is_not": "decorative for its own sake" }
+      ],
+      "sliders": { "formal_to_casual": 4, "serious_to_playful": 3, "traditional_to_modern": 9, "exclusive_to_accessible": 5, "understated_to_bold": 6, "warm_to_cool": 5 },
+      "sliders_note": "1 to 10 scale, inferred. Warm_to_cool sits mid because warm-tinted greys and ivory offset the cool blue accent.",
+      "emotional_goal": "Within 5 seconds a technical buyer should feel 'these people build serious tools for people like me, and they have taste'."
+    },
+    "positioning_signals": "Enterprise-credible challenger. The dark canvas, restraint and datasheet typography borrow from developer tooling and hardware spec sheets, which signal engineering competence. Oversized soft display type and ivory rather than pure white add a premium, crafted edge that separates it from generic dark SaaS templates. Square buttons and hairline structure signal seriousness over friendliness.",
+    "voice_characteristics": {
+      "tone": "Direct, assured, low on adjectives. States outcomes and consequences plainly; reads like an operator explaining a system to a peer.",
+      "headline_style": "2 to 8 words, sentence case, usually ending in a full stop. Often a two-beat construction (claim then consequence) split across two lines. No exclamation marks.",
+      "body_style": "Short paragraphs of 1 to 3 sentences, plain verbs, second person. Lists of concrete nouns rather than abstractions. Body copy is kept to roughly 45 to 60 characters per line.",
+      "cta_style": "Imperative, 2 to 3 words, Title Case. A primary demo-style CTA repeats throughout; a secondary access or sign-in CTA sits beside it.",
+      "person": "we/you (you-led; the product is often the grammatical subject)",
+      "note": "Eyebrows and micro-labels are 2 to 4 words in monospace caps, written like section codes or datasheet fields. Characteristics only; no copy quoted."
+    },
+    "logo": {
+      "style": "symbol + wordmark",
+      "construction": "Geometric symbol built from the system's own repeating vertical-line device, held in a simple primitive shape, paired with a lowercase, heavy, rounded-terminal grotesque wordmark. Transferable rule: the mark should be constructible from the same line device used in section dividers.",
+      "variants_needed": ["primary", "horizontal", "stacked", "icon", "mono", "reversed"],
+      "placement_rules": "Top-left in the nav at roughly 40px height. The symbol alone may be used as an inline glyph beside display headings at cap height, and as a large decorative emblem in footers. Always ivory or white on graphite; never on the blue accent except as a mono reversal.",
+      "clear_space": "Inferred: at least the height of the wordmark x-height on all sides; in nav, 40px from the viewport edge matches {space.gutter.page}.",
+      "minimum_size_px": 24,
+      "assets": null
+    },
+    "brand_devices": [
+      { "device": "Vertical line band (barcode or tick rule): rows of 1px vertical strokes at tight, sometimes irregular pitch", "usage": "Section dividers, background texture for CTA bands, progress indicators, fill for circular emblems", "frequency": "signature" },
+      { "device": "Monospace eyebrow in accent blue", "usage": "Above every section heading; 2 to 4 words, caps, tight tracking", "frequency": "signature" },
+      { "device": "Hairline rails and frames: 1px vertical and horizontal rules that box the content column and split columns", "usage": "Hero frame, column dividers in feature rows, row separators in lists", "frequency": "signature" },
+      { "device": "Pixel dot-matrix numerals in accent blue or muted grey", "usage": "Oversized stats, step indices, vertical rotated section labels", "frequency": "occasional" },
+      { "device": "Datasheet micro-copy: tiny uppercase mono paragraphs, pseudo serial or report codes, label left and value right on a hairline", "usage": "Beside CTAs, in stat bands, as captions to diagrams", "frequency": "occasional" },
+      { "device": "Technical line-art diagrams: off-white strokes with exactly one blue accent segment", "usage": "Feature icons and explanatory illustrations", "frequency": "signature" },
+      { "device": "Punched-tag plate: solid accent-blue rectangle with four small dark circles near the corners and an oversized light-weight numeral", "usage": "Single hero stat per page", "frequency": "rare" },
+      { "device": "Dot separators: small filled grey circles between nav items", "usage": "Primary nav only", "frequency": "occasional" },
+      { "device": "Framed product window: dark app chrome with three dot controls, 1px translucent border and deep soft shadow", "usage": "Product proof directly under the hero", "frequency": "signature" }
+    ],
+    "extension_rules": {
+      "social": "Square (1080x1080) and vertical (1080x1920) on {color.background.base}. 64px outer margin with a 1px {color.border.default} frame inset 32px. Blue mono eyebrow top-left, display heading at 96 to 140px in {font.display}, tracking -0.03em, left aligned, max 3 lines. One line-art diagram or one pixel numeral as the visual, never both. A vertical-line band may run along the bottom edge. Logo symbol in ivory bottom-left. Accent blue on at most two elements.",
+      "presentations": "16:9, graphite background. Title slides: display type 120 to 160px, left aligned, blue mono eyebrow above. Content slides: 12-column grid with 80px margins; hairline column dividers instead of boxes; body in {font.body} at 24 to 28px. Stats use pixel numerals. Section breaks use a full-width vertical-line band. Charts: ivory and grey series, blue for the one series that matters.",
+      "email": "Dark header band ({color.background.base}) with logo and a blue mono eyebrow, then a content body on {color.surface.raised}. Single-column 600px, square-cornered full-width primary button in {color.action.primary}. Web fonts will often fall back, so specify system-ui for body and a monospace stack for eyebrows. Keep images as dark line-art on graphite.",
+      "print_and_signage": "Graphite (approx. CMYK rich black with warm bias) or uncoated black stock, ivory type, one spot blue. Large-format: display type dominates, vertical-line band as a border or floor strip, datasheet micro-copy as footer. Avoid large blue floods except for a single tag-plate panel.",
+      "co_branding": "Partner marks sit in ivory or white mono on graphite, aligned on a shared hairline, separated by a 1px vertical rule. Never recolour partner logos blue. The house accent stays reserved for house CTAs and eyebrows."
+    }
+  },
+
+  "design_principles": [
+    { "principle": "One accent, used like a signal light", "description": "Blue appears only on primary actions, eyebrows, active states and single highlight moments.", "how_to_apply": "Before adding blue, ask whether it marks an action, a section code or the one number that matters. If not, use ivory or grey.", "what_it_communicates": "Control and intent. When colour is scarce, every blue element reads as important." },
+    { "principle": "Engineer the frame", "description": "Structure is drawn with 1px hairlines rather than filled cards.", "how_to_apply": "Divide columns and rows with {color.border.default} rules; box the content column with vertical rails; avoid rounded card containers on marketing surfaces.", "what_it_communicates": "Blueprint precision, and a sense that everything is measured and placed." },
+    { "principle": "Two voices of type", "description": "Soft display grotesque for statements, monospace for labels and data.", "how_to_apply": "Headlines and body use the display or body family; anything that names, codes, counts or labels uses {font.mono}.", "what_it_communicates": "Human clarity backed by machine rigour." },
+    { "principle": "Big, tight and quiet", "description": "Display type is very large with negative tracking and tight leading, surrounded by generous space.", "how_to_apply": "Use {text.display.*} at -0.03em and line-height 0.9 to 1.0; give each headline block 140 to 200px of section padding.", "what_it_communicates": "Confidence. The brand doesn't need decoration to be heard." },
+    { "principle": "Square controls, soft letters", "description": "Marketing buttons and panels have zero radius; softness lives in the typeface.", "how_to_apply": "Use {radius.none} for buttons, bands and frames. Reserve pills and small radii for chips and product UI.", "what_it_communicates": "Serious, instrument-like controls without feeling cold." },
+    { "principle": "Warm darkness", "description": "Greys are neutral to slightly warm and text is ivory, never pure black backgrounds or pure white text for body.", "how_to_apply": "Use the graphite neutral scale; body text {color.text.primary} (ivory). Reserve #ffffff for tiny UI glyphs.", "what_it_communicates": "Premium restraint, and easier long-form reading than harsh black and white." }
+  ],
+  "style_keywords": ["engineered", "graphite", "restrained", "datasheet", "precise", "monospaced", "oversized", "hairline", "calm", "instrumental"],
+
+  "tokens": {
+    "primitives": {
+      "color": {
+        "graphite": {
+          "950": "#1b1b1b",
+          "925": "#1f1f1f",
+          "900": "#202020",
+          "875": "#262624",
+          "850": "#272727",
+          "825": "#2a2a2a",
+          "800": "#303030",
+          "775": "#333333",
+          "750": "#3f3f3e",
+          "700": "#4f4f4d",
+          "600": "#6b6b6b",
+          "500": "#7c7b77",
+          "400": "#9b9b9b",
+          "100": "#f2f2f2",
+          "0": "#ffffff"
+        },
+        "ivory": { "50": "#faf9f5" },
+        "sand": { "200": "#e9e4da", "300": "#dcd5ca" },
+        "blue": { "300": "#7b93ff", "450": "#4b6bf5", "500": "#3e77e8" },
+        "violet": { "300": "#a594ff" },
+        "green": { "500": "#30a46c" },
+        "amber": { "500": "#f2b01e", "600": "#e0a526" },
+        "teal": { "500": "#2eb5a6" },
+        "red": { "500": "#e5484d" },
+        "alpha": {
+          "white_035": "rgba(255,255,255,0.035)",
+          "white_04": "rgba(255,255,255,0.04)",
+          "white_06": "rgba(255,255,255,0.06)",
+          "white_07": "rgba(255,255,255,0.07)",
+          "white_10": "rgba(255,255,255,0.10)",
+          "white_14": "rgba(255,255,255,0.14)",
+          "graphite500_50": "rgba(124,123,119,0.5)",
+          "ivory_60": "rgba(250,249,245,0.6)",
+          "blue450_16": "rgba(75,107,245,0.16)",
+          "blue300_15": "rgba(123,147,255,0.15)",
+          "violet300_16": "rgba(165,148,255,0.16)",
+          "green500_15": "rgba(48,164,108,0.15)",
+          "amber500_30": "rgba(242,176,30,0.30)",
+          "black_35": "rgba(0,0,0,0.35)",
+          "black_40": "rgba(0,0,0,0.40)",
+          "black_50": "rgba(0,0,0,0.50)",
+          "transparent": "rgba(255,255,255,0)"
+        }
+      },
+      "font_size": {
+        "9": "9px", "10_5": "10.5px", "11": "11px", "11_5": "11.5px", "12": "12px", "12_5": "12.5px", "13": "13px", "14": "14px",
+        "16": "16px", "20": "20px", "24": "24px", "32": "32px", "40": "40px", "50": "50px", "56": "56px", "60": "60px", "72": "72px", "80": "80px", "100": "100px", "130": "130px"
+      },
+      "space": {
+        "0": "0px", "1": "4px", "1_5": "6px", "2": "8px", "2_5": "10px", "4": "16px", "5": "20px", "6": "24px", "7_5": "30px", "8": "32px",
+        "10": "40px", "12": "48px", "16": "64px", "20": "80px", "24": "96px", "25": "100px", "30": "120px", "35": "140px", "40": "160px", "42": "168px", "50": "200px"
+      },
+      "radius": { "0": "0px", "2": "2px", "10": "10px", "12": "12px", "14": "14px", "pill": "999px", "circle": "50%" },
+      "shadow": {
+        "ring_hairline": "0 0 0 1px rgba(255,255,255,0.14)",
+        "ring_avatar": "0 0 0 1.5px #2a2a2a",
+        "float": "0 10px 28px 0 rgba(0,0,0,0.5), 0 1px 2px 0 rgba(0,0,0,0.4)",
+        "window": "0 0 0 1px rgba(255,255,255,0.14), 0 24px 60px 0 rgba(0,0,0,0.35)"
+      },
+      "opacity": { "035": 0.035, "04": 0.04, "06": 0.06, "07": 0.07, "10": 0.1, "14": 0.14, "16": 0.16, "30": 0.3, "50": 0.5, "60": 0.6 },
+      "blur": { "soft": "2px" }
+    },
+    "semantic": {
+      "color": {
+        "background": { "base": "{color.graphite.850}", "subtle": "{color.graphite.800}", "inverse": "{color.ivory.50}" },
+        "surface": { "base": "{color.graphite.850}", "raised": "{color.graphite.800}", "overlay": "{color.graphite.925}", "sunken": "{color.graphite.900}" },
+        "text": { "primary": "{color.ivory.50}", "secondary": "{color.sand.300}", "muted": "{color.graphite.400}", "inverse": "{color.graphite.850}", "link": "{color.ivory.50}" },
+        "border": { "default": "{color.graphite.700}", "subtle": "{color.alpha.white_14}", "strong": "{color.graphite.500}", "focus": "{color.blue.300}" },
+        "action": { "primary": "{color.blue.500}", "primary_hover": "{color.blue.450}", "secondary": "{color.ivory.50}", "secondary_hover": "{color.alpha.white_06}", "disabled": "{color.graphite.600}" },
+        "hover": "{color.alpha.white_04}",
+        "selected": "{color.alpha.blue450_16}",
+        "feedback": { "success": "{color.green.500}", "warning": "{color.amber.500}", "error": "{color.red.500}", "info": "{color.blue.300}" },
+        "accent": "{color.blue.500}"
+      },
+      "elevation": { "flat": "none", "raised": "{shadow.ring_hairline}", "floating": "{shadow.float}", "overlay": "{shadow.window}" },
+      "radius": { "sm": "{radius.2}", "md": "{radius.10}", "lg": "{radius.14}", "pill": "{radius.pill}", "full": "{radius.circle}" }
+    },
+    "token_metadata": [
+      { "token": "{color.background.base}", "resolves_to": "{color.graphite.850}", "value": "#272727", "source": "code", "confidence": "high" },
+      { "token": "{color.background.subtle}", "resolves_to": "{color.graphite.800}", "value": "#303030", "source": "code", "confidence": "high" },
+      { "token": "{color.background.inverse}", "resolves_to": "{color.ivory.50}", "value": "#faf9f5", "source": "inferred", "confidence": "medium" },
+      { "token": "{color.surface.overlay}", "resolves_to": "{color.graphite.925}", "value": "#1f1f1f", "source": "code", "confidence": "medium" },
+      { "token": "{color.surface.sunken}", "resolves_to": "{color.graphite.900}", "value": "#202020", "source": "code", "confidence": "high" },
+      { "token": "{color.text.primary}", "resolves_to": "{color.ivory.50}", "value": "#faf9f5", "source": "code", "confidence": "high" },
+      { "token": "{color.text.secondary}", "resolves_to": "{color.sand.300}", "value": "#dcd5ca", "source": "code", "confidence": "high" },
+      { "token": "{color.text.muted}", "resolves_to": "{color.graphite.400}", "value": "#9b9b9b", "source": "code", "confidence": "high" },
+      { "token": "{color.text.inverse}", "resolves_to": "{color.graphite.850}", "value": "#272727", "source": "code", "confidence": "medium" },
+      { "token": "{color.text.link}", "resolves_to": "{color.ivory.50}", "value": "#faf9f5", "source": "code", "confidence": "high" },
+      { "token": "{color.border.default}", "resolves_to": "{color.graphite.700}", "value": "#4f4f4d", "source": "code", "confidence": "high" },
+      { "token": "{color.border.subtle}", "resolves_to": "{color.alpha.white_14}", "value": "rgba(255,255,255,0.14)", "source": "code", "confidence": "high" },
+      { "token": "{color.border.strong}", "resolves_to": "{color.graphite.500}", "value": "#7c7b77", "source": "code", "confidence": "high" },
+      { "token": "{color.border.focus}", "resolves_to": "{color.blue.300}", "value": "#7b93ff", "source": "inferred", "confidence": "low" },
+      { "token": "{color.action.primary}", "resolves_to": "{color.blue.500}", "value": "#3e77e8", "source": "code", "confidence": "high" },
+      { "token": "{color.action.primary_hover}", "resolves_to": "{color.blue.450}", "value": "#4b6bf5", "source": "inferred", "confidence": "low" },
+      { "token": "{color.action.secondary}", "resolves_to": "{color.ivory.50}", "value": "#faf9f5", "source": "code", "confidence": "high" },
+      { "token": "{color.action.secondary_hover}", "resolves_to": "{color.alpha.white_06}", "value": "rgba(255,255,255,0.06)", "source": "inferred", "confidence": "low" },
+      { "token": "{color.action.disabled}", "resolves_to": "{color.graphite.600}", "value": "#6b6b6b", "source": "inferred", "confidence": "low" },
+      { "token": "{color.hover}", "resolves_to": "{color.alpha.white_04}", "value": "rgba(255,255,255,0.04)", "source": "code", "confidence": "medium" },
+      { "token": "{color.selected}", "resolves_to": "{color.alpha.blue450_16}", "value": "rgba(75,107,245,0.16)", "source": "code", "confidence": "medium" },
+      { "token": "{color.feedback.success}", "resolves_to": "{color.green.500}", "value": "#30a46c", "source": "code", "confidence": "high" },
+      { "token": "{color.feedback.warning}", "resolves_to": "{color.amber.500}", "value": "#f2b01e", "source": "code", "confidence": "medium" },
+      { "token": "{color.feedback.error}", "resolves_to": "{color.red.500}", "value": "#e5484d", "source": "observed", "confidence": "low" },
+      { "token": "{color.feedback.info}", "resolves_to": "{color.blue.300}", "value": "#7b93ff", "source": "code", "confidence": "medium" },
+      { "token": "{color.accent}", "resolves_to": "{color.blue.500}", "value": "#3e77e8", "source": "code", "confidence": "high" },
+      { "token": "{elevation.raised}", "resolves_to": "{shadow.ring_hairline}", "value": "0 0 0 1px rgba(255,255,255,0.14)", "source": "code", "confidence": "medium" },
+      { "token": "{elevation.floating}", "resolves_to": "{shadow.float}", "value": "0 10px 28px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.4)", "source": "code", "confidence": "high" },
+      { "token": "{elevation.overlay}", "resolves_to": "{shadow.window}", "value": "0 0 0 1px rgba(255,255,255,0.14), 0 24px 60px rgba(0,0,0,0.35)", "source": "code", "confidence": "high" },
+      { "token": "{radius.sm}", "resolves_to": "{radius.2}", "value": "2px", "source": "code", "confidence": "medium" },
+      { "token": "{radius.md}", "resolves_to": "{radius.10}", "value": "10px", "source": "code", "confidence": "medium" },
+      { "token": "{radius.lg}", "resolves_to": "{radius.14}", "value": "14px", "source": "code", "confidence": "medium" },
+      { "token": "{radius.pill}", "resolves_to": "{radius.pill}", "value": "999px", "source": "code", "confidence": "high" },
+      { "token": "{radius.full}", "resolves_to": "{radius.circle}", "value": "50%", "source": "code", "confidence": "high" },
+      { "token": "{radius.none}", "resolves_to": "{radius.0}", "value": "0px", "source": "code", "confidence": "high" }
+    ]
+  },
+
+  "colour": {
+    "mode": "dark",
+    "dark_mode_strategy": "not supported (dark-only; no light theme or prefers-color-scheme rules found)",
+    "proportions": "approx 85 graphite neutrals / 10 ivory and sand type / 4 accent blue / 1 status colours (inferred from computed background areas and text counts)",
+    "gradients": [
+      { "token": "{gradient.glass_sheen}", "definition": "linear-gradient(100deg, rgba(255,255,255,0.07), rgba(255,255,255,0.024) 60%)", "usage": "Input and composer panels inside product UI only; paired with {color.border.subtle}. Source: code, confidence: high." }
+    ],
+    "contrast_pairs": [
+      { "foreground": "{color.text.primary} #faf9f5", "background": "{color.background.base} #272727", "ratio": "14.2:1 (calculated)", "wcag": "AAA" },
+      { "foreground": "{color.text.primary} #faf9f5", "background": "{color.background.subtle} #303030", "ratio": "12.5:1 (calculated)", "wcag": "AAA" },
+      { "foreground": "{color.text.secondary} #dcd5ca", "background": "{color.background.base} #272727", "ratio": "10.2:1 (calculated)", "wcag": "AAA" },
+      { "foreground": "{color.text.muted} #9b9b9b", "background": "{color.background.base} #272727", "ratio": "5.4:1 (calculated)", "wcag": "AA" },
+      { "foreground": "{color.border.strong} #7c7b77 used as text", "background": "{color.background.base} #272727", "ratio": "3.5:1 (calculated)", "wcag": "fail" },
+      { "foreground": "{color.accent} #3e77e8", "background": "{color.background.base} #272727", "ratio": "3.6:1 (calculated)", "wcag": "fail" },
+      { "foreground": "{color.text.primary} #faf9f5", "background": "{color.action.primary} #3e77e8", "ratio": "4.0:1 (calculated)", "wcag": "fail" }
+    ],
+    "usage_rules": [
+      "Accent blue appears on at most two element types per viewport: one primary CTA and eyebrows or a single highlight.",
+      "The accent on graphite (3.6:1) and grey #7c7b77 as text (3.5:1) pass only as large text; keep them to 20px semibold and above, or use blue.300 #7b93ff for small accent text.",
+      "Ivory on blue buttons is 4.0:1, so button labels must be at least 24px medium, or 18.66px bold, to meet AA large text.",
+      "Alternate section bands between {color.background.base} and {color.background.subtle}; use {color.surface.sunken} for closing CTA bands.",
+      "Status colours (green, amber, red, teal, violet) live only inside product UI mock-ups as 15 to 30 percent tints with full-strength text; never on marketing chrome.",
+      "Sand {color.text.secondary} is for lead paragraphs and secondary headings; muted grey for supporting body and captions.",
+      "No pure black backgrounds; the darkest value is {color.graphite.950}."
+    ]
+  },
+
+  "typography": {
+    "font_families": [
+      { "role": "display", "name": "Restart Soft Medium", "fallback_stack": "\"Restart Soft Medium\", \"Inter Tight\", \"Helvetica Neue\", Arial, sans-serif", "classification": "grotesque with softened, rounded corners", "weights_used": [500], "delivery": "self-hosted", "licence_note": "Commercial face; foundry and licence unverified. Check before reuse and don't hotlink the source site's files.", "source": "code", "confidence": "high" },
+      { "role": "body", "name": "Restart Soft Regular", "fallback_stack": "\"Restart Soft Regular\", \"Inter\", system-ui, sans-serif", "classification": "grotesque with softened, rounded corners", "weights_used": [400], "delivery": "self-hosted", "licence_note": "As above. Check before reuse.", "source": "code", "confidence": "high" },
+      { "role": "mono", "name": "Proto Mono (Regular and Semi Bold)", "fallback_stack": "\"Proto Mono\", \"JetBrains Mono\", \"Geist Mono\", ui-monospace, monospace", "classification": "geometric monospace", "weights_used": [400, 600], "delivery": "self-hosted", "licence_note": "Commercial face; foundry and licence unverified. Check before reuse.", "source": "code", "confidence": "high" },
+      { "role": "accent", "name": "Geist Pixel Line", "fallback_stack": "\"Geist Pixel Line\", \"Silkscreen\", ui-monospace, monospace", "classification": "pixel or dot-matrix display, line variant", "weights_used": [400], "delivery": "self-hosted", "licence_note": "Appears to belong to the Geist family, which I believe is OFL-licensed, but I haven't verified this specific pixel cut. Check before reuse.", "source": "code", "confidence": "high" },
+      { "role": "body", "name": "Inter", "fallback_stack": "Inter, system-ui, sans-serif", "classification": "neo-grotesque UI sans", "weights_used": [400, 500, 600, 700], "delivery": "self-hosted", "licence_note": "OFL. Used only for product UI mock-up text at 9 to 14px.", "source": "code", "confidence": "high" },
+      { "role": "mono", "name": "JetBrains Mono", "fallback_stack": "\"JetBrains Mono\", ui-monospace, monospace", "classification": "monospace", "weights_used": [400], "delivery": "system", "licence_note": "OFL. Tiny uppercase labels inside product UI only.", "source": "code", "confidence": "medium" }
+    ],
+    "scale": [
+      { "token": "{text.display.xxl}", "size_px": 130, "fluid": "clamp(60px, 10vw, 130px) (inferred from 60px mobile value)", "line_height": 1.0, "weight": 500, "letter_spacing": "-0.03em", "case": "sentence", "family": "{font.display}" },
+      { "token": "{text.display.xl}", "size_px": 100, "fluid": "clamp(56px, 7.8vw, 100px) (inferred)", "line_height": 0.9, "weight": 500, "letter_spacing": "-0.03em", "case": "sentence", "family": "{font.display}" },
+      { "token": "{text.display.lg}", "size_px": 72, "fluid": "clamp(50px, 5.6vw, 72px) (inferred)", "line_height": 0.9, "weight": 500, "letter_spacing": "-0.03em", "case": "sentence", "family": "{font.display}" },
+      { "token": "{text.display.md}", "size_px": 56, "fluid": "none observed", "line_height": 1.0, "weight": 500, "letter_spacing": "-0.03em", "case": "sentence", "family": "{font.display}" },
+      { "token": "{text.heading.lg}", "size_px": 40, "fluid": "none; 40px held on mobile", "line_height": 0.9, "weight": 500, "letter_spacing": "-0.03em", "case": "sentence or Title for role labels", "family": "{font.display}" },
+      { "token": "{text.heading.md}", "size_px": 32, "fluid": "none observed", "line_height": 1.1, "weight": 500, "letter_spacing": "-0.02em", "case": "sentence", "family": "{font.display}" },
+      { "token": "{text.heading.sm}", "size_px": 24, "fluid": "none", "line_height": 1.2, "weight": 500, "letter_spacing": "-0.03em", "case": "sentence", "family": "{font.display}" },
+      { "token": "{text.body.lead}", "size_px": 24, "fluid": "20px on tablet (observed)", "line_height": 1.5, "weight": 400, "letter_spacing": "-0.02em", "case": "sentence", "family": "{font.body}" },
+      { "token": "{text.body.lg}", "size_px": 20, "fluid": "16px on mobile", "line_height": 1.5, "weight": 400, "letter_spacing": "-0.02em", "case": "sentence", "family": "{font.body}" },
+      { "token": "{text.body.md}", "size_px": 16, "fluid": "none", "line_height": 1.5, "weight": 400, "letter_spacing": "-0.02em", "case": "sentence", "family": "{font.body}" },
+      { "token": "{text.button.lg}", "size_px": 24, "fluid": "20px at 48px button height", "line_height": 1.25, "weight": 500, "letter_spacing": "0", "case": "Title", "family": "{font.display}" },
+      { "token": "{text.button.sm}", "size_px": 16, "fluid": "none", "line_height": 1.25, "weight": 500, "letter_spacing": "0", "case": "Title", "family": "{font.display}" },
+      { "token": "{text.eyebrow}", "size_px": 20, "fluid": "14 to 16px on mobile", "line_height": 1.0, "weight": 600, "letter_spacing": "-0.03em", "case": "upper (typed as caps)", "family": "{font.mono}" },
+      { "token": "{text.label.mono}", "size_px": 16, "fluid": "12 to 14px on mobile", "line_height": 1.1, "weight": 400, "letter_spacing": "0.03em", "case": "upper", "family": "{font.mono}" },
+      { "token": "{text.label.mono_strong}", "size_px": 16, "fluid": "12px on mobile", "line_height": 1.3, "weight": 600, "letter_spacing": "-0.03em", "case": "upper", "family": "{font.mono}" },
+      { "token": "{text.micro.mono}", "size_px": 13, "fluid": "none", "line_height": 1.2, "weight": 600, "letter_spacing": "-0.03em", "case": "upper", "family": "{font.mono}" },
+      { "token": "{text.numeral.pixel.lg}", "size_px": 100, "fluid": "56px on mobile", "line_height": 0.9, "weight": 400, "letter_spacing": "-0.03em", "case": "upper", "family": "{font.pixel}" },
+      { "token": "{text.numeral.pixel.md}", "size_px": 80, "fluid": "none observed", "line_height": 0.9, "weight": 400, "letter_spacing": "-0.03em", "case": "upper", "family": "{font.pixel}" },
+      { "token": "{text.ui.md}", "size_px": 13, "fluid": "none", "line_height": 1.54, "weight": 500, "letter_spacing": "0", "case": "sentence", "family": "{font.ui}" },
+      { "token": "{text.ui.sm}", "size_px": 12.5, "fluid": "none", "line_height": 1.44, "weight": 400, "letter_spacing": "0", "case": "sentence", "family": "{font.ui}" },
+      { "token": "{text.ui.xs}", "size_px": 11, "fluid": "none", "line_height": 1.3, "weight": 600, "letter_spacing": "0", "case": "sentence", "family": "{font.ui}" }
+    ],
+    "scale_ratio": "Roughly 1.25 (major third) from 16 to 40px (16, 20, 24, 32, 40), opening to about 1.3 to 1.4 at display sizes (56, 72, 100, 130). Tracking tightens as size grows: -0.02em for body, -0.03em for headings and display.",
+    "pairing_logic": "A softened grotesque carries the headlines and body. Its rounded corners stop the dark canvas feeling severe. A geometric monospace does the labelling and numbering, so the page reads like a datasheet. A pixel line face adds occasional retro-hardware character for numerals only. Inter is kept inside product mock-ups so the UI reads as real software, distinct from marketing type.",
+    "details": { "numerals": "lining (mono and pixel faces give tabular alignment where needed)", "ligatures": "Default; product UI Inter enables cv03, cv04, cv09, cv11 stylistic alternates (source: code).", "text_wrap": "balance (source: code)", "paragraph_spacing": "20px within text blocks, 40px between grouped blocks (source: code)" },
+    "rules": [
+      "Display and heading text use {font.display} at weight 500 only; hierarchy comes from size, not weight.",
+      "Line-height for display is 0.9 to 1.0; never above 1.1 for anything 40px or larger.",
+      "Every section heading is preceded by a {text.eyebrow} in {color.accent}.",
+      "Monospace is for labels, codes, indices, captions and datasheet pairs; never for paragraphs longer than about 5 short lines.",
+      "Pixel numerals are for one stat or index per section, in {color.accent} or {color.text.muted}.",
+      "Body measure: about 45 to 60 characters, max-width 360 to 480px for body columns.",
+      "Title Case for buttons and nav; sentence case for headlines and body."
+    ]
+  },
+
+  "spacing": {
+    "base_unit_px": 4,
+    "scale": [4, 6, 8, 10, 16, 20, 24, 30, 32, 40, 48, 64, 80, 96, 100, 120, 140, 160, 200],
+    "density": "spacious",
+    "section_rhythm": "Desktop sections use 100 to 200px vertical padding (typical 140 to 160px top, 80 to 100px bottom) and 40px side padding. Mobile drops to 80 to 90px top, 40 to 70px bottom and 20px sides. Hero top padding is about 168px to clear the fixed nav.",
+    "rules": [
+      "The site mixes an 8-point component rhythm with a 10/20/40 layout rhythm (a Framer habit). Normalise new work to the 4px base and prefer 8, 16, 24, 32, 40, 80, 160.",
+      "Page gutter is {space.gutter.page} (40px) on desktop and {space.gutter.page_mobile} (20px) on mobile.",
+      "Section vertical padding is about 4x the page gutter on desktop (160px vs 40px).",
+      "Gap between eyebrow and heading: 16 to 24px. Between heading and body: 30 to 40px. Between body and CTA: 40px.",
+      "Feature columns: 30 to 40px internal padding with hairline dividers, no gap between columns.",
+      "Large buttons use 18px vertical and about 94px horizontal padding; width is generous and deliberate, not hugging the label."
+    ]
+  },
+
+  "layout": {
+    "grid": { "columns": 12, "gutter_px": 40, "margin_px": 40, "max_content_width_px": 1360 },
+    "breakpoints_px": [810, 1200, 1440],
+    "alignment": "mixed: centred for hero and section intros, left-aligned for statements, feature rows and stat bands",
+    "composition_patterns": [
+      "Centred hero with the logo symbol inline beside a one-line display heading, a short subline, and two equal-width square buttons (filled plus outline) side by side",
+      "Hero content column framed by 1px vertical rails in {color.border.default}, with vertical-line texture panels outside the rails",
+      "Full-width framed product window directly below the hero, overlapping the band edge",
+      "Asymmetric split statement: display heading left (about 50%), mono micro-copy and a diagram right",
+      "Full-bleed vertical-line tick band as a section divider",
+      "4-column feature row: line-art icon, heading, body, separated by vertical hairlines with a top and bottom rule",
+      "Section intro: eyebrow and display heading left, lead paragraph right on the same baseline",
+      "Stat or spec band: pixel numeral left, hairline rule, mono spec text, outline CTA right",
+      "Numbered role rows: mono index, large label, eyebrow plus heading, body, and a dot marker, divided by horizontal hairlines",
+      "Logo strip of monochrome or native-colour integration icons centred under a statement",
+      "Closing CTA band on {color.surface.sunken} with vertical-line background texture and oversized centred heading",
+      "Footer in three columns split by vertical hairlines: emblem and blurb, numbered large nav links, mono utility links and contact"
+    ],
+    "page_templates": [
+      { "name": "Marketing home", "section_order": ["fixed nav", "centred hero with dual CTA", "framed product window", "split problem statement with diagram", "tick-band divider", "centred section header", "4-column how-it-works row", "systems feature grid with intro split", "spec band with pixel numeral and CTA", "ROI stat block with tag plate and full-width outline CTA", "section intro split", "coordination panel with radial line diagram", "role or use-case numbered rows", "integration logo strip", "closing CTA band", "footer"] }
+    ],
+    "whitespace_strategy": "Space is the main luxury. Headlines get whole bands to themselves, body copy is narrow, and structure is carried by hairlines rather than boxes, so dark areas read as intentional quiet rather than emptiness.",
+    "visual_hierarchy": "Built by size first (display 72 to 130px against 16 to 20px body), then colour (ivory headline, sand lead, grey support, blue for codes and actions), then typeface switch (display vs mono). Weight is nearly constant. Position reinforces it: eyebrow top-left of each block, CTA last.",
+    "static_responsive_changes": "Below 810px: single column, side padding 20px, display sizes drop to 50 to 60px (line-height 0.9 to 1.05), headings hold at 40px, body drops from 20 to 16px, mono eyebrows to 14 to 16px, 4-column rows stack with horizontal hairlines replacing vertical ones, buttons go full width. 810 to 1199px: 2-column splits hold, feature rows become 2x2. 1440px and up: content caps at 1360px (hero 1160px), and texture panels widen at the edges."
+  },
+
+  "shape_and_depth": {
+    "radius_logic": "Marketing surfaces, buttons, bands and frames are square ({radius.none}). Rounding exists only in product UI: {radius.sm} for tiny badges, {radius.md} to {radius.lg} for panels and inputs, {radius.pill} for chips, and {radius.full} for avatars, dots and emblems. Nested product panels use outer radius minus padding (for example 14px outer, 4px padding, 10px inner).",
+    "borders": { "width_px": 1, "style": "solid", "token": "{color.border.default}", "usage": "Rails, dividers and row separators use {color.border.default} (#4f4f4d) or {color.border.strong} (#7c7b77, the nav bottom rule). Outline buttons use a 1px border in {color.action.secondary}, or {color.accent} for the compact nav variant. Product UI uses {color.border.subtle}." },
+    "shadows": [
+      { "token": "{elevation.flat}", "css": "none", "usage": "All marketing sections, buttons and feature rows" },
+      { "token": "{elevation.raised}", "css": "0 0 0 1px rgba(255,255,255,0.14)", "usage": "Product UI cards and panels, as a ring instead of a border" },
+      { "token": "{elevation.floating}", "css": "0 10px 28px 0 rgba(0,0,0,0.5), 0 1px 2px 0 rgba(0,0,0,0.4)", "usage": "Popovers, floating chips and cursor tags within product mock-ups" },
+      { "token": "{elevation.overlay}", "css": "0 0 0 1px rgba(255,255,255,0.14), 0 24px 60px 0 rgba(0,0,0,0.35)", "usage": "The framed product window" }
+    ],
+    "elevation_model": "flat (marketing) with subtle layering (product UI)",
+    "surface_treatments": [
+      { "treatment": "transparency", "css": "background: linear-gradient(100deg, rgba(255,255,255,0.07), rgba(255,255,255,0.024) 60%); border: 1px solid rgba(255,255,255,0.14)", "usage": "Composer and input panels in product UI" },
+      { "treatment": "texture", "css": "background-image: repeating-linear-gradient(90deg, #4f4f4d 0 1px, transparent 1px 8px) (inferred recreation; the site uses SVG)", "usage": "Vertical-line bands and CTA band backgrounds" },
+      { "treatment": "blur", "css": "filter: blur(2px)", "usage": "A small number of decorative elements; exact targets not confirmed" }
+    ]
+  },
+
+  "iconography": {
+    "style": "outline",
+    "stroke_px": 1.5,
+    "corner_style": "square caps, mostly orthogonal geometry with occasional circles",
+    "sizes_px": [14, 16, 20, 88, 110],
+    "grid": "Illustrative icons on roughly a 110x83 box; UI icons on 16px (inferred)",
+    "likely_set": "Custom line art for marketing; product UI glyphs resemble Lucide (low confidence)",
+    "colour_rules": "Strokes in {color.text.primary} or {color.text.muted}; exactly one segment, node or bar in {color.accent} per illustration. No fills except small dots. Integration or partner logos keep their own colours at 24 to 28px."
+  },
+
+  "imagery": {
+    "photography": { "style": "none used", "lighting": "n/a", "colour_grade": "n/a", "composition": "n/a", "depth_of_field": "n/a", "people_representation": "No people imagery. Humans appear only as initials or avatar circles inside product UI." },
+    "treatment": "Imagery is replaced by product UI mock-ups in dark window chrome, technical line diagrams and generative line patterns. There are no photos, gradient blobs or 3D renders.",
+    "aspect_ratios": ["16:10 (product window, approx 1061x648)", "4:3 (feature icons, approx 110x83)", "1:1 (emblems and radial diagrams)", "full-bleed bands"],
+    "illustration": { "style": "Technical schematic: circuit, chip, lens and document motifs drawn in thin strokes, plus radial and parallel line fields", "palette": "{color.text.primary}, {color.text.muted}, {color.border.default} with one {color.accent} highlight", "line_weight": "1 to 1.5px (observed)", "dimensionality": "flat" },
+    "data_visualisation": "Inside product UI: timeline or gantt rows with hairline row dividers, a vertical {color.accent} 'today' line with a pill label, small wave sparklines in {color.text.muted}, diamond milestones in {color.feedback.warning}, and count badges in {color.feedback.error}. No gridline clutter; labels in {text.ui.xs} muted."
+  },
+
+  "components": [
+    {
+      "name": "button",
+      "anatomy": "container, label (optional trailing icon not observed)",
+      "variants": ["primary (filled accent)", "secondary (1px ivory outline on base)", "nav-outline (1px accent outline, compact)", "block (full-width secondary or primary)", "ghost (nav text only)"],
+      "sizes": [
+        { "size": "lg", "height_px": 66, "padding": "{space.inset.button_lg}", "text_token": "{text.button.lg}" },
+        { "size": "md", "height_px": 48, "padding": "{space.inset.button_md}", "text_token": "{text.button.lg}" },
+        { "size": "sm", "height_px": 40, "padding": "{space.inset.button_sm}", "text_token": "{text.button.sm}" }
+      ],
+      "tokens_used": { "background": "{color.action.primary}", "text": "{color.text.primary}", "border": "{color.action.secondary}", "radius": "{radius.none}", "padding": "{space.inset.button_lg}", "shadow": "{elevation.flat}" },
+      "state_appearance": {
+        "default": "Primary: solid accent, ivory label. Secondary: transparent or base fill, 1px ivory border, ivory label.",
+        "hover": "Primary: {color.action.primary_hover}. Secondary: {color.action.secondary_hover} fill. (inferred; not captured)",
+        "focus": "2px outline in {color.border.focus} offset 2px (inferred)",
+        "active": "Primary a step darker than default; secondary fill {color.alpha.white_10} (inferred)",
+        "disabled": "{color.action.disabled} fill or border, {color.text.muted} label (inferred)",
+        "error": "n/a",
+        "selected": "n/a"
+      },
+      "state_note": "static appearance only, no timing or behaviour",
+      "rules": ["Always square.", "One filled primary per viewport; pair it with a secondary outline of equal width.", "Labels are Title Case, 2 to 3 words, display family weight 500.", "Nav CTA uses the compact accent-outline variant, never filled."],
+      "source": "code", "confidence": "high"
+    },
+    {
+      "name": "nav",
+      "anatomy": "logo lockup left, centred link group separated by dot markers, right cluster of ghost link and compact outline CTA, bottom hairline",
+      "variants": ["desktop", "mobile (collapsed menu, not inspected)"],
+      "sizes": [ { "size": "desktop", "height_px": 69, "padding": "{space.gutter.page_sm}", "text_token": "{text.button.sm}" } ],
+      "tokens_used": { "background": "{color.background.base}", "text": "{color.text.primary}", "border": "{color.border.strong}", "radius": "{radius.none}", "padding": "{space.gutter.page_sm}", "shadow": "{elevation.flat}" },
+      "state_appearance": { "default": "Ivory links; 14px filled circles in {color.border.default} between links", "hover": "Link colour shifts to {color.text.muted} or {color.accent} (source: code, link hover tokens)", "focus": "Focus outline {color.border.focus} (inferred)", "active": "n/a", "disabled": "n/a", "error": "n/a", "selected": "Current section in {color.accent} (inferred)" },
+      "state_note": "static appearance only, no timing or behaviour",
+      "rules": ["Fixed to top, opaque base background.", "Exactly one CTA button in the nav."],
+      "source": "code", "confidence": "high"
+    },
+    {
+      "name": "eyebrow",
+      "anatomy": "single line of monospace caps",
+      "variants": ["accent (default)", "muted"],
+      "sizes": [ { "size": "desktop", "height_px": 20, "padding": "0", "text_token": "{text.eyebrow}" }, { "size": "mobile", "height_px": 16, "padding": "0", "text_token": "{text.label.mono_strong}" } ],
+      "tokens_used": { "background": "none", "text": "{color.accent}", "border": "none", "radius": "{radius.none}", "padding": "none", "shadow": "{elevation.flat}" },
+      "state_appearance": { "default": "Accent blue mono caps", "hover": "n/a", "focus": "n/a", "active": "n/a", "disabled": "n/a", "error": "n/a", "selected": "n/a" },
+      "state_note": "static appearance only, no timing or behaviour",
+      "rules": ["2 to 4 words.", "Sits 16 to 24px above the heading it labels.", "Aligns to the heading's left edge, or centres with it."],
+      "source": "code", "confidence": "high"
+    },
+    {
+      "name": "feature_column",
+      "anatomy": "line-art illustration, heading, body; columns joined edge to edge with vertical hairlines",
+      "variants": ["4-up row", "2x2 on tablet", "stacked on mobile"],
+      "sizes": [ { "size": "default", "height_px": 0, "padding": "{space.inset.column}", "text_token": "{text.heading.sm}" } ],
+      "tokens_used": { "background": "{color.background.subtle}", "text": "{color.text.primary}", "border": "{color.border.default}", "radius": "{radius.none}", "padding": "{space.inset.column}", "shadow": "{elevation.flat}" },
+      "state_appearance": { "default": "Heading ivory, body {color.text.muted} in {text.body.md}", "hover": "n/a", "focus": "n/a", "active": "n/a", "disabled": "n/a", "error": "n/a", "selected": "n/a" },
+      "state_note": "static appearance only, no timing or behaviour",
+      "rules": ["No card fill or radius; separation by hairlines only.", "Heading max 2 lines, body max 4 lines."],
+      "source": "observed", "confidence": "medium"
+    },
+    {
+      "name": "numbered_row",
+      "anatomy": "mono index with slash, large label, eyebrow above a 2-line heading, body paragraph, trailing dot marker; bottom hairline",
+      "variants": ["default"],
+      "sizes": [ { "size": "default", "height_px": 0, "padding": "{space.inset.row}", "text_token": "{text.heading.lg}" } ],
+      "tokens_used": { "background": "{color.background.base}", "text": "{color.text.primary}", "border": "{color.border.default}", "radius": "{radius.none}", "padding": "{space.inset.row}", "shadow": "{elevation.flat}" },
+      "state_appearance": { "default": "Index in {color.text.muted}, label ivory, eyebrow accent, body sand or muted, dot {color.border.strong}", "hover": "n/a", "focus": "n/a", "active": "n/a", "disabled": "n/a", "error": "n/a", "selected": "Dot in {color.accent} (inferred)" },
+      "state_note": "static appearance only, no timing or behaviour",
+      "rules": ["Indices are zero-padded two digits followed by a slash."],
+      "source": "observed", "confidence": "medium"
+    },
+    {
+      "name": "stat_block",
+      "anatomy": "pixel numeral, mono caption beneath; optional hairline progress of vertical ticks; optional punched tag plate for the hero stat",
+      "variants": ["pixel-accent", "pixel-muted", "tag-plate (accent fill, 4 corner dots in {color.background.base}, numeral in {color.text.inverse})"],
+      "sizes": [ { "size": "lg", "height_px": 90, "padding": "0", "text_token": "{text.numeral.pixel.lg}" }, { "size": "md", "height_px": 72, "padding": "0", "text_token": "{text.numeral.pixel.md}" } ],
+      "tokens_used": { "background": "{color.accent}", "text": "{color.text.inverse}", "border": "none", "radius": "{radius.none}", "padding": "{space.inset.column}", "shadow": "{elevation.flat}" },
+      "state_appearance": { "default": "As variants", "hover": "n/a", "focus": "n/a", "active": "n/a", "disabled": "n/a", "error": "n/a", "selected": "n/a" },
+      "state_note": "static appearance only, no timing or behaviour",
+      "rules": ["One tag plate per page at most.", "Captions are mono caps, muted or accent."],
+      "source": "observed", "confidence": "medium"
+    },
+    {
+      "name": "spec_pair",
+      "anatomy": "mono label left, mono value right-aligned, hairline beneath",
+      "variants": ["default"],
+      "sizes": [ { "size": "default", "height_px": 32, "padding": "{space.inset.spec}", "text_token": "{text.label.mono_strong}" } ],
+      "tokens_used": { "background": "none", "text": "{color.text.secondary}", "border": "{color.border.strong}", "radius": "{radius.none}", "padding": "{space.inset.spec}", "shadow": "{elevation.flat}" },
+      "state_appearance": { "default": "Label ivory semibold, value sand", "hover": "n/a", "focus": "n/a", "active": "n/a", "disabled": "n/a", "error": "n/a", "selected": "n/a" },
+      "state_note": "static appearance only, no timing or behaviour",
+      "rules": ["Use for any numeric or factual claim instead of a card."],
+      "source": "observed", "confidence": "medium"
+    },
+    {
+      "name": "product_window",
+      "anatomy": "chrome bar with three small dot controls, left icon rail, main canvas, optional right side panel; Inter UI type inside",
+      "variants": ["full app", "cropped panel"],
+      "sizes": [ { "size": "hero", "height_px": 648, "padding": "{space.inset.panel}", "text_token": "{text.ui.md}" } ],
+      "tokens_used": { "background": "{color.surface.overlay}", "text": "{color.text.primary}", "border": "{color.border.subtle}", "radius": "{radius.none}", "padding": "{space.inset.panel}", "shadow": "{elevation.overlay}" },
+      "state_appearance": { "default": "Panels on {color.surface.raised}, rows divided by {color.border.subtle}", "hover": "Row fill {color.hover}", "focus": "n/a", "active": "n/a", "disabled": "n/a", "error": "Count badge on {color.feedback.error}", "selected": "Fill {color.selected}" },
+      "state_note": "static appearance only, no timing or behaviour",
+      "rules": ["UI type is Inter, 11 to 14px; never marketing fonts inside the window.", "Status colours are allowed only here."],
+      "source": "code", "confidence": "medium"
+    },
+    {
+      "name": "input",
+      "anatomy": "container with placeholder, toolbar row (attachment icon, toggle with pill label, select, submit circle)",
+      "variants": ["composer (glass)"],
+      "sizes": [ { "size": "composer", "height_px": 91, "padding": "{space.inset.panel}", "text_token": "{text.ui.md}" } ],
+      "tokens_used": { "background": "{gradient.glass_sheen}", "text": "{color.text.muted}", "border": "{color.border.subtle}", "radius": "{radius.md}", "padding": "{space.inset.panel}", "shadow": "{elevation.flat}" },
+      "state_appearance": { "default": "Muted placeholder, subtle border", "hover": "n/a", "focus": "Border {color.border.focus} (inferred)", "active": "n/a", "disabled": "Label {color.action.disabled} (inferred)", "error": "Border {color.feedback.error} (inferred)", "selected": "n/a" },
+      "state_note": "static appearance only, no timing or behaviour",
+      "rules": ["Only inside product UI contexts."],
+      "source": "code", "confidence": "medium"
+    },
+    {
+      "name": "tag",
+      "anatomy": "pill container, optional leading dot or icon, label",
+      "variants": ["accent tint", "violet tint", "success tint", "warning tint", "neutral outline (mono label, square, {radius.sm})"],
+      "sizes": [ { "size": "sm", "height_px": 20, "padding": "{space.inset.tag}", "text_token": "{text.ui.xs}" } ],
+      "tokens_used": { "background": "{color.selected}", "text": "{color.feedback.info}", "border": "none", "radius": "{radius.pill}", "padding": "{space.inset.tag}", "shadow": "{elevation.flat}" },
+      "state_appearance": { "default": "15 to 16 percent tint fill with full-strength hue text", "hover": "n/a", "focus": "n/a", "active": "n/a", "disabled": "n/a", "error": "Error tint variant", "selected": "n/a" },
+      "state_note": "static appearance only, no timing or behaviour",
+      "rules": ["Tint and text share one hue.", "Marketing surfaces use the square neutral outline variant only."],
+      "source": "code", "confidence": "medium"
+    },
+    {
+      "name": "footer",
+      "anatomy": "three hairline-divided columns: emblem pair and blurb; stacked large nav links with mono indices and row rules; mono utility links, contact, social circles",
+      "variants": ["default"],
+      "sizes": [ { "size": "desktop", "height_px": 380, "padding": "{space.section.footer}", "text_token": "{text.heading.md}" } ],
+      "tokens_used": { "background": "{color.background.base}", "text": "{color.text.primary}", "border": "{color.border.default}", "radius": "{radius.none}", "padding": "{space.section.footer}", "shadow": "{elevation.flat}" },
+      "state_appearance": { "default": "Blurb muted, indices muted mono, social icons in {color.border.strong} circles", "hover": "Links to {color.text.muted} (source: code)", "focus": "n/a", "active": "n/a", "disabled": "n/a", "error": "n/a", "selected": "n/a" },
+      "state_note": "static appearance only, no timing or behaviour",
+      "rules": ["Emblems are monochrome line versions of the logo symbol and any compliance seal."],
+      "source": "observed", "confidence": "medium"
+    }
+  ],
+
+  "dos_and_donts": {
+    "do": [
+      "Keep marketing corners square and let the typeface supply softness.",
+      "Open every section with a blue mono eyebrow, then a large display heading.",
+      "Draw structure with 1px hairlines and rails instead of filled cards.",
+      "Alternate graphite bands (#272727 and #303030) to separate sections.",
+      "Use ivory (#faf9f5) for primary text and sand (#dcd5ca) for lead text.",
+      "Use one line-art illustration per feature, with exactly one blue accent segment.",
+      "Use pixel numerals for the single most important number in a section.",
+      "Put product proof in a dark framed window with the deep overlay shadow.",
+      "Keep blue CTA labels at 24px medium or larger to preserve contrast."
+    ],
+    "dont": [
+      "Add a second brand accent colour or use status colours on marketing chrome.",
+      "Use pure black backgrounds or pure white body text.",
+      "Round the buttons or use pill CTAs.",
+      "Use gradients, glows or glassmorphism outside product UI inputs.",
+      "Use bold weights for display type; hierarchy is size-led at weight 500.",
+      "Set paragraphs in monospace, or use the pixel face for words longer than a short label.",
+      "Use photography or stock people imagery.",
+      "Set small blue or #7c7b77 text below 20px semibold on graphite; it fails AA.",
+      "Fill the screen: fewer, larger elements with more space always beat density."
+    ]
+  },
+
+  "implementation": {
+    "target_stack": "Tailwind v4 (CSS-first @theme) with CSS custom properties",
+    "css_variables": {
+      "--color-graphite-950": "#1b1b1b",
+      "--color-graphite-925": "#1f1f1f",
+      "--color-graphite-900": "#202020",
+      "--color-graphite-850": "#272727",
+      "--color-graphite-825": "#2a2a2a",
+      "--color-graphite-800": "#303030",
+      "--color-graphite-750": "#3f3f3e",
+      "--color-graphite-700": "#4f4f4d",
+      "--color-graphite-600": "#6b6b6b",
+      "--color-graphite-500": "#7c7b77",
+      "--color-graphite-400": "#9b9b9b",
+      "--color-ivory-50": "#faf9f5",
+      "--color-sand-200": "#e9e4da",
+      "--color-sand-300": "#dcd5ca",
+      "--color-blue-300": "#7b93ff",
+      "--color-blue-450": "#4b6bf5",
+      "--color-blue-500": "#3e77e8",
+      "--color-green-500": "#30a46c",
+      "--color-amber-500": "#f2b01e",
+      "--color-red-500": "#e5484d",
+      "--color-violet-300": "#a594ff",
+      "--color-bg-base": "var(--color-graphite-850)",
+      "--color-bg-subtle": "var(--color-graphite-800)",
+      "--color-surface-overlay": "var(--color-graphite-925)",
+      "--color-surface-sunken": "var(--color-graphite-900)",
+      "--color-text-primary": "var(--color-ivory-50)",
+      "--color-text-secondary": "var(--color-sand-300)",
+      "--color-text-muted": "var(--color-graphite-400)",
+      "--color-text-inverse": "var(--color-graphite-850)",
+      "--color-border-default": "var(--color-graphite-700)",
+      "--color-border-subtle": "rgba(255,255,255,0.14)",
+      "--color-border-strong": "var(--color-graphite-500)",
+      "--color-border-focus": "var(--color-blue-300)",
+      "--color-action-primary": "var(--color-blue-500)",
+      "--color-action-primary-hover": "var(--color-blue-450)",
+      "--color-action-secondary": "var(--color-ivory-50)",
+      "--color-action-secondary-hover": "rgba(255,255,255,0.06)",
+      "--color-action-disabled": "var(--color-graphite-600)",
+      "--color-hover": "rgba(255,255,255,0.04)",
+      "--color-selected": "rgba(75,107,245,0.16)",
+      "--color-accent": "var(--color-blue-500)",
+      "--font-display": "\"Restart Soft Medium\", \"Inter Tight\", \"Helvetica Neue\", Arial, sans-serif",
+      "--font-body": "\"Restart Soft Regular\", Inter, system-ui, sans-serif",
+      "--font-mono": "\"Proto Mono\", \"JetBrains Mono\", \"Geist Mono\", ui-monospace, monospace",
+      "--font-pixel": "\"Geist Pixel Line\", Silkscreen, ui-monospace, monospace",
+      "--font-ui": "Inter, system-ui, sans-serif",
+      "--radius-none": "0px",
+      "--radius-sm": "2px",
+      "--radius-md": "10px",
+      "--radius-lg": "14px",
+      "--radius-pill": "999px",
+      "--radius-full": "50%",
+      "--shadow-raised": "0 0 0 1px rgba(255,255,255,0.14)",
+      "--shadow-floating": "0 10px 28px 0 rgba(0,0,0,0.5), 0 1px 2px 0 rgba(0,0,0,0.4)",
+      "--shadow-overlay": "0 0 0 1px rgba(255,255,255,0.14), 0 24px 60px 0 rgba(0,0,0,0.35)",
+      "--gradient-glass-sheen": "linear-gradient(100deg, rgba(255,255,255,0.07), rgba(255,255,255,0.024) 60%)",
+      "--gutter-page": "40px",
+      "--gutter-page-mobile": "20px",
+      "--section-y": "160px",
+      "--section-y-mobile": "80px",
+      "--content-max": "1360px",
+      "--hero-max": "1160px"
+    },
+    "tailwind_theme": {
+      "colors": {
+        "graphite": { "950": "#1b1b1b", "925": "#1f1f1f", "900": "#202020", "850": "#272727", "825": "#2a2a2a", "800": "#303030", "750": "#3f3f3e", "700": "#4f4f4d", "600": "#6b6b6b", "500": "#7c7b77", "400": "#9b9b9b" },
+        "ivory": { "50": "#faf9f5" },
+        "sand": { "200": "#e9e4da", "300": "#dcd5ca" },
+        "blue": { "300": "#7b93ff", "450": "#4b6bf5", "500": "#3e77e8" },
+        "bg": { "base": "var(--color-bg-base)", "subtle": "var(--color-bg-subtle)" },
+        "surface": { "overlay": "var(--color-surface-overlay)", "sunken": "var(--color-surface-sunken)" },
+        "fg": { "DEFAULT": "var(--color-text-primary)", "secondary": "var(--color-text-secondary)", "muted": "var(--color-text-muted)", "inverse": "var(--color-text-inverse)" },
+        "line": { "DEFAULT": "var(--color-border-default)", "subtle": "var(--color-border-subtle)", "strong": "var(--color-border-strong)" },
+        "action": { "primary": "var(--color-action-primary)", "primary-hover": "var(--color-action-primary-hover)" },
+        "accent": "var(--color-accent)",
+        "success": "#30a46c",
+        "warning": "#f2b01e",
+        "danger": "#e5484d"
+      },
+      "fontFamily": { "display": "var(--font-display)", "body": "var(--font-body)", "mono": "var(--font-mono)", "pixel": "var(--font-pixel)", "ui": "var(--font-ui)" },
+      "fontSize": {
+        "display-xxl": ["130px", { "lineHeight": "1", "letterSpacing": "-0.03em" }],
+        "display-xl": ["100px", { "lineHeight": "0.9", "letterSpacing": "-0.03em" }],
+        "display-lg": ["72px", { "lineHeight": "0.9", "letterSpacing": "-0.03em" }],
+        "display-md": ["56px", { "lineHeight": "1", "letterSpacing": "-0.03em" }],
+        "heading-lg": ["40px", { "lineHeight": "0.9", "letterSpacing": "-0.03em" }],
+        "heading-md": ["32px", { "lineHeight": "1.1", "letterSpacing": "-0.02em" }],
+        "heading-sm": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.03em" }],
+        "lead": ["24px", { "lineHeight": "1.5", "letterSpacing": "-0.02em" }],
+        "body-lg": ["20px", { "lineHeight": "1.5", "letterSpacing": "-0.02em" }],
+        "body": ["16px", { "lineHeight": "1.5", "letterSpacing": "-0.02em" }],
+        "eyebrow": ["20px", { "lineHeight": "1", "letterSpacing": "-0.03em" }],
+        "label": ["16px", { "lineHeight": "1.1", "letterSpacing": "0.03em" }],
+        "micro": ["13px", { "lineHeight": "1.2", "letterSpacing": "-0.03em" }],
+        "ui": ["13px", { "lineHeight": "1.54" }],
+        "ui-sm": ["12.5px", { "lineHeight": "1.44" }],
+        "ui-xs": ["11px", { "lineHeight": "1.3" }]
+      },
+      "spacing": { "gutter": "40px", "gutter-sm": "20px", "section": "160px", "section-sm": "80px", "button-x": "94px", "button-y": "18px" },
+      "borderRadius": { "none": "0px", "sm": "2px", "md": "10px", "lg": "14px", "pill": "999px", "full": "50%" },
+      "boxShadow": { "raised": "var(--shadow-raised)", "floating": "var(--shadow-floating)", "overlay": "var(--shadow-overlay)" },
+      "screens": { "md": "810px", "lg": "1200px", "xl": "1440px" }
+    },
+    "design_tokens_json": null,
+    "font_loading": "@font-face { font-family: \"Restart Soft Medium\"; src: url(\"/fonts/restart-soft-medium.woff2\") format(\"woff2\"); font-weight: 500; font-display: swap; } @font-face { font-family: \"Restart Soft Regular\"; src: url(\"/fonts/restart-soft-regular.woff2\") format(\"woff2\"); font-weight: 400; font-display: swap; } @font-face { font-family: \"Proto Mono\"; src: url(\"/fonts/proto-mono-semibold.woff2\") format(\"woff2\"); font-weight: 600; font-display: swap; } @font-face { font-family: \"Geist Pixel Line\"; src: url(\"/fonts/geist-pixel-line.woff2\") format(\"woff2\"); font-weight: 400; font-display: swap; } /* Self-host licensed files only. Free substitutes: <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500&family=JetBrains+Mono:wght@400;600&family=Silkscreen&display=swap\" rel=\"stylesheet\"> */",
+    "recommended_libraries": ["Tailwind CSS v4 (theme maps cleanly to @theme)", "Lucide icons for product UI glyphs only (low-confidence match)"]
+  },
+
+  "ai_replication_prompt": "Build in a dark-only, engineered style called Graphite Blueprint Terminal. Canvas is {color.background.base} (#272727); alternate full-width section bands with {color.background.subtle} (#303030) and close the page with a {color.surface.sunken} band. Primary text is ivory {color.text.primary}, lead text is sand {color.text.secondary}, supporting text is {color.text.muted}. The only accent is {color.accent} (#3e77e8). Use it for the single filled primary button per viewport, for mono eyebrows, and for one highlight per section. Never introduce another brand colour. Type: headlines in {font.display} weight 500, very large ({text.display.lg} to {text.display.xxl}, 72 to 130px desktop, 50 to 60px mobile), tracking -0.03em, line-height 0.9 to 1.0, sentence case, usually ending in a full stop. Body in {font.body} at {text.body.lg} or {text.body.md}, line-height 1.5, narrow columns of about 50 characters. Every section opens with a {text.eyebrow}: 2 to 4 monospace caps words in {color.accent}. Labels, indices, captions and spec pairs use {font.mono}; one hero number per section may use {font.pixel}. Structure is drawn with 1px hairlines ({color.border.default}), not cards: rails framing the hero column, vertical dividers between feature columns, horizontal rules between list rows. Marketing corners are square ({radius.none}); only product UI mock-ups use {radius.md}, {radius.lg} and {radius.pill}. Buttons are square rectangles, Title Case 2 to 3 word labels in {text.button.lg}: primary filled {color.action.primary}; secondary is a 1px ivory outline of equal width beside it; the nav CTA is a compact accent outline. Layout: 40px page gutter (20px mobile), content capped at 1360px, section padding 140 to 160px desktop, and centred hero then left-aligned asymmetric splits. Signature devices: bands of thin vertical lines as dividers and textures; technical line-art icons in ivory strokes with one blue segment; datasheet micro-copy in tiny mono caps; product proof inside a dark window with three chrome dots and {elevation.overlay}. Status colours appear only inside product UI as 15 percent tints. For social posts and slides: graphite background, inset hairline frame, blue eyebrow top-left, one oversized display statement, one line diagram or pixel numeral, logo symbol bottom-left in ivory. Avoid photos, gradients, glows, rounded CTAs, bold display weights and pure black or white.",
+
+  "gaps": [
+    { "area": "Inputs", "issue": "Brand mode and target stack were left as placeholders; no screenshots or brand materials were supplied.", "suggested_approach": "Assumed abstract mode (safest when ownership isn't confirmed) and Tailwind v4 plus CSS variables. Re-run in own-brand mode with authorisation to capture logo files and naming." },
+    { "area": "Page coverage", "issue": "Only the home page was analysed. Article, pricing, docs or legal templates were not seen.", "suggested_approach": "Crawl secondary pages to confirm long-form typography, tables and form styling." },
+    { "area": "States", "issue": "Hover, focus, active and disabled appearances for buttons were not captured; values marked inferred.", "suggested_approach": "Inspect :hover and :focus-visible styles in DevTools, or confirm with the Motion and UX spec owner." },
+    { "area": "Fonts", "issue": "Restart Soft, Proto Mono and Geist Pixel Line are proprietary or unverified licences; the source hosts them on its own CDN.", "suggested_approach": "License the faces or use the listed substitutes (Inter Tight, JetBrains Mono, Silkscreen); don't hotlink the source files. A loaded 'Saans' face was not seen in rendered text." },
+    { "area": "Dark mode", "issue": "No light theme exists, so {color.background.inverse} and any light variants are inferred.", "suggested_approach": "If a light mode is needed, invert to ivory base, graphite text, and keep blue.500 as the accent, checking contrast." },
+    { "area": "Error red", "issue": "The red count badge colour was estimated from a screenshot.", "suggested_approach": "Sample the exact value from the product UI SVG before relying on it." },
+    { "area": "Deferred content", "issue": "Some mid-page sections render late and appeared blank in capture, so a few composition details are inferred.", "suggested_approach": "Capture with a longer settle time or full-page screenshot tooling." },
+    { "area": "Grid", "issue": "The source is built with Framer stacks rather than a declared column grid; the 12-column grid is a normalisation.", "suggested_approach": "Treat 12 columns, 40px gutters as the implementation grid and validate against key splits (50/50, 25x4)." }
+  ],
+
+  "extensions": {
+    "source_platform": "Framer (generator meta tag); tokens exposed as --token-<uuid> custom properties",
+    "assumptions": { "brand_mode": "abstract (placeholder unfilled)", "target_stack": "Tailwind v4 + CSS variables (placeholder unfilled)" },
+    "semantic_tokens_additional": {
+      "radius": { "none": "{radius.0}" },
+      "font": { "display": "Restart Soft Medium stack", "body": "Restart Soft Regular stack", "mono": "Proto Mono stack", "pixel": "Geist Pixel Line stack", "ui": "Inter stack" },
+      "gradient": { "glass_sheen": "linear-gradient(100deg, {color.alpha.white_07}, rgba(255,255,255,0.024) 60%)" },
+      "space": {
+        "gutter.page": "{space.10}",
+        "gutter.page_mobile": "{space.5}",
+        "gutter.page_sm": "{space.5}",
+        "section.lg": "{space.40}",
+        "section.md": "{space.25}",
+        "section.mobile": "{space.20}",
+        "section.footer": "{space.12}",
+        "inset.button_lg": "18px 94px (vertical {space.4} plus 2px, horizontal custom; source: code)",
+        "inset.button_md": "{space.2_5} {space.10}",
+        "inset.button_sm": "{space.2} {space.5}",
+        "inset.column": "{space.10} {space.7_5}",
+        "inset.row": "{space.8} {space.0}",
+        "inset.spec": "{space.2} {space.0}",
+        "inset.panel": "{space.4}",
+        "inset.tag": "{space.1} {space.2}"
+      },
+      "color": {
+        "accent_subtle": "{color.alpha.blue450_16}",
+        "tint.violet": "{color.alpha.violet300_16}",
+        "tint.success": "{color.alpha.green500_15}",
+        "tint.warning": "{color.alpha.amber500_30}"
+      }
+    },
+    "provenance_notes": {
+      "code": "Framer design tokens (#272727, #202020, #1b1b1b, #7c7b77, #dcd5ca, #faf9f5, #3e77e8, #fff), @font-face rules, computed font sizes, line heights, tracking, paddings, radii, shadows, borders and media queries were read live from the DOM at 1280px and 375px.",
+      "observed": "Composition, section order, illustration style and the red badge value came from screenshots taken during the session.",
+      "inferred": "Hover, focus, disabled, fluid clamp values, grid normalisation, archetype and sliders."
+    },
+    "output_file": "design-spec-graphite-blueprint.json"
+  }
+}
